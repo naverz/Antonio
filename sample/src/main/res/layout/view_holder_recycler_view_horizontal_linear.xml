@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+
+        <variable
+            name="parent"
+            type="io.github.naverz.antonio.sample.ViewHolderRecyclerViewHorizontalLinearModel"
+            />
+    </data>
+
+    <io.github.naverz.antonio.sample.NestedScrollableHost
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:setStateWithAutoBinding="@{parent.submittableRecyclerViewState}"
+            />
+    </io.github.naverz.antonio.sample.NestedScrollableHost>
+</layout>

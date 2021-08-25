@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+
+        <variable
+            name="model"
+            type="io.github.naverz.antonio.sample.ContentSmallModel"
+            />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:onClick="@{()->model.onClick.invoke(model.id)}"
+        android:onLongClick="@{(view)->model.onLongClick.invoke(model.id)}"
+        android:orientation="vertical"
+        android:padding="5dp"
+        >
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@{model.iconRes}"
+                tools:src="@drawable/ic_launcher_background"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
+                android:src="@drawable/ic_baseline_check_24"
+                app:tint="#ff00ff"
+                app:visibleOrGone="@{model.selectedIds.contains(model.id)}"
+                />
+        </FrameLayout>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="@{``+model.price}"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            tools:text="1,000"
+            />
+    </LinearLayout>
+</layout>

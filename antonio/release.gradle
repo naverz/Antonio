@@ -1,0 +1,24 @@
+apply plugin: 'maven-publish'
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+afterEvaluate {
+    publishing {
+        repositories {
+            maven {
+                credentials {
+                    username properties.getProperty("userIDForDeploy")
+                    password properties.getProperty("userPasswordForDeploy")
+                }
+                url = properties.getProperty("repositoryUrlForDeploy")
+            }
+        }
+        publications {
+            maven(MavenPublication) {
+                from components.release
+                groupId = project.groupId
+                artifactId = 'antonio'
+                version = project.versionName
+            }
+        }
+    }
+}

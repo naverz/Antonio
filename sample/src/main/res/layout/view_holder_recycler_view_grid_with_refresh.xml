@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+
+        <variable
+            name="parent"
+            type="io.github.naverz.antonio.sample.RecyclerViewGridWithRefresh"
+            />
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:setStateWithAutoBinding="@{parent.recyclerViewState}"
+            app:spanCount="4"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:onClick="@{()->parent.onRefreshRequested.invoke()}"
+            android:text="refresh"
+            app:visibleOrGone="@{parent.onRefreshRequested!=null}"
+            />
+    </LinearLayout>
+</layout>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+
+        <variable
+            name="itemPosition"
+            type="Integer"
+            />
+
+        <variable
+            name="model"
+            type="io.github.naverz.antonio.sample.SmallContainerModel"
+            />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        >
+
+        <include
+            layout="@layout/view_holder_content_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:model="@{model.contents.get(0)}"
+            />
+
+        <include
+            layout="@layout/view_holder_content_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:model="@{model.contents.get(1)}"
+            />
+
+        <include
+            layout="@layout/view_holder_content_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:model="@{model.contents.get(2)}"
+            />
+
+        <include
+            layout="@layout/view_holder_content_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:model="@{model.contents.get(3)}"
+            />
+
+    </LinearLayout>
+</layout>

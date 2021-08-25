@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+
+        <variable
+            name="model"
+            type="io.github.naverz.antonio.sample.ContentRankingModel"
+            />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{()->model.onClick.invoke()}"
+        android:orientation="horizontal"
+        >
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="20dp"
+            android:text="@{` `+model.ranking}"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            tools:text="1"
+            />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@{model.iconRes}"
+            tools:src="@drawable/ic_launcher_background"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            >
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.name}"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                tools:text="name"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.subContent}"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                tools:text="subContent"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

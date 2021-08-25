@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+
+        <variable
+            name="model"
+            type="io.github.naverz.antonio.sample.ContentHeaderModel"
+            />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="5dp"
+            android:text="@{model.title}"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            tools:text="Title"
+            />
+
+    </FrameLayout>
+</layout>
