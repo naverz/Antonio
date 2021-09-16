@@ -36,13 +36,16 @@ import io.github.naverz.antonio.adapter.AntonioAdapter
 import io.github.naverz.antonio.adapter.AntonioFragmentStateAdapter
 import io.github.naverz.antonio.adapter.AntonioListAdapter
 import io.github.naverz.antonio.adapter.AntonioPagerAdapter
+import io.github.naverz.antonio.core.container.FragmentContainer
+import io.github.naverz.antonio.core.container.ViewHolderContainer
+import io.github.naverz.antonio.core.container.ViewPagerContainer
 
 //region Make adapter
 fun <T : TypedModel> RecyclerViewState<T>.makeAdapter(
     lifecycleOwner: LifecycleOwner,
-    dependencyBuilderMap: Map<Int, ViewHolderBuilder> = AntonioSettings.globalViewHolderDependencyBuilderMap
+    viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer
 ): RecyclerView.Adapter<*> {
-    val adapter = AntonioAdapter<T>(dependencyBuilderMap)
+    val adapter = AntonioAdapter<T>(viewHolderContainer)
     setAdapterDependency(adapter)
     lifecycleOwner.onDestroy {
         setAdapterDependency(null)
@@ -52,9 +55,9 @@ fun <T : TypedModel> RecyclerViewState<T>.makeAdapter(
 
 fun <T : TypedModel> SubmittableRecyclerViewState<T>.makeAdapter(
     lifecycleOwner: LifecycleOwner,
-    dependencyBuilderMap: Map<Int, ViewHolderBuilder> = AntonioSettings.globalViewHolderDependencyBuilderMap
+    viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer
 ): RecyclerView.Adapter<*> {
-    val adapter = AntonioListAdapter(dependencyBuilderMap, itemCallback)
+    val adapter = AntonioListAdapter(viewHolderContainer, itemCallback)
     setAdapterDependency(adapter)
     lifecycleOwner.onDestroy {
         setAdapterDependency(null)
@@ -65,9 +68,9 @@ fun <T : TypedModel> SubmittableRecyclerViewState<T>.makeAdapter(
 
 fun <T : TypedModel> ViewPagerState<T>.makeAdapter(
     lifecycleOwner: LifecycleOwner,
-    dependencyBuilderMap: Map<Int, PagerViewDependencyBuilder> = AntonioSettings.globalViewPagerDependencyBuilderMap
+    viewPagerContainer: ViewPagerContainer = AntonioSettings.viewPagerContainer
 ): PagerAdapter {
-    val adapter = AntonioPagerAdapter<T>(dependencyBuilderMap)
+    val adapter = AntonioPagerAdapter<T>(viewPagerContainer)
     setAdapterDependency(adapter)
     lifecycleOwner.onDestroy {
         setAdapterDependency(null)
@@ -77,10 +80,10 @@ fun <T : TypedModel> ViewPagerState<T>.makeAdapter(
 
 fun <T : TypedModel> RecyclerViewState<T>.makeAdapter(
     fragment: Fragment,
-    dependencyBuilderMap: Map<Int, FragmentBuilder> = AntonioSettings.globalFragmentBuilderMap,
+    fragmentContainer: FragmentContainer = AntonioSettings.fragmentContainer,
     implementedItemID: Boolean = false
 ): FragmentStateAdapter {
-    val adapter = AntonioFragmentStateAdapter<T>(fragment, implementedItemID, dependencyBuilderMap)
+    val adapter = AntonioFragmentStateAdapter<T>(fragment, implementedItemID, fragmentContainer)
     setAdapterDependency(adapter)
     fragment.viewLifecycleOwner.onDestroy {
         setAdapterDependency(null)
@@ -90,11 +93,11 @@ fun <T : TypedModel> RecyclerViewState<T>.makeAdapter(
 
 fun <T : TypedModel> RecyclerViewState<T>.makeAdapter(
     activity: FragmentActivity,
-    dependencyBuilderMap: Map<Int, FragmentBuilder> = AntonioSettings.globalFragmentBuilderMap,
+    fragmentContainer: FragmentContainer = AntonioSettings.fragmentContainer,
     implementedItemID: Boolean = false
 ): FragmentStateAdapter {
     val adapter =
-        AntonioFragmentStateAdapter<T>(activity, implementedItemID, dependencyBuilderMap)
+        AntonioFragmentStateAdapter<T>(activity, implementedItemID, fragmentContainer)
     setAdapterDependency(adapter)
     activity.onDestroy {
         setAdapterDependency(null)
@@ -105,12 +108,12 @@ fun <T : TypedModel> RecyclerViewState<T>.makeAdapter(
 fun <T : TypedModel> RecyclerViewState<T>.makeAdapter(
     fragmentManager: FragmentManager,
     lifecycle: Lifecycle,
-    dependencyBuilderMap: Map<Int, FragmentBuilder> = AntonioSettings.globalFragmentBuilderMap,
+    fragmentContainer: FragmentContainer = AntonioSettings.fragmentContainer,
     implementedItemID: Boolean = false
 ): FragmentStateAdapter {
     val adapter =
         AntonioFragmentStateAdapter<T>(
-            fragmentManager, lifecycle, implementedItemID, dependencyBuilderMap,
+            fragmentManager, lifecycle, implementedItemID, fragmentContainer,
         )
     setAdapterDependency(adapter)
     lifecycle.onDestroy {
@@ -123,7 +126,7 @@ fun <T : TypedModel> RecyclerViewState<T>.makeAdapter(
 //region setState
 fun <T : TypedModel> RecyclerView.setState(
     viewState: RecyclerViewState<T>?,
-    dependencyBuilderMap: Map<Int, ViewHolderBuilder> = AntonioSettings.globalViewHolderDependencyBuilderMap,
+    viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer,
     hasStableId: Boolean = false
 ) {
     if (viewState == null) {
@@ -132,38 +135,38 @@ fun <T : TypedModel> RecyclerView.setState(
     }
     this.setState(
         viewState,
-        AntonioAdapter<T>(dependencyBuilderMap).apply { setHasStableIds(hasStableId) }
+        AntonioAdapter<T>(viewHolderContainer).apply { setHasStableIds(hasStableId) }
     )
 }
 
 fun <T : TypedModel> RecyclerView.setState(
     viewState: SubmittableRecyclerViewState<T>?,
-    dependencyBuilderMap: Map<Int, ViewHolderBuilder> = AntonioSettings.globalViewHolderDependencyBuilderMap,
+    viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer,
     hasStableId: Boolean = false
 ) {
     if (viewState == null) {
         adapter = null
         return
     }
-    val adapter = AntonioListAdapter(dependencyBuilderMap, viewState.itemCallback)
+    val adapter = AntonioListAdapter(viewHolderContainer, viewState.itemCallback)
         .apply { setHasStableIds(hasStableId) }
     this.setState(viewState, adapter)
 }
 
 fun <T : TypedModel> ViewPager.setState(
     viewState: ViewPagerState<T>?,
-    dependencyBuilderMap: Map<Int, PagerViewDependencyBuilder> = AntonioSettings.globalViewPagerDependencyBuilderMap,
+    viewPagerContainer: ViewPagerContainer = AntonioSettings.viewPagerContainer,
 ) {
     if (viewState == null) {
         adapter = null
         return
     }
-    this.setState(viewState, AntonioPagerAdapter(dependencyBuilderMap))
+    this.setState(viewState, AntonioPagerAdapter(viewPagerContainer))
 }
 
 fun <T : TypedModel> ViewPager2.setStateWithFragmentBuilder(
     viewState: RecyclerViewState<T>?,
-    dependencyBuilderMap: Map<Int, FragmentBuilder> = AntonioSettings.globalFragmentBuilderMap,
+    fragmentContainer: FragmentContainer = AntonioSettings.fragmentContainer,
     implementedItemID: Boolean = false
 ) {
     if (viewState == null) {
@@ -172,34 +175,34 @@ fun <T : TypedModel> ViewPager2.setStateWithFragmentBuilder(
     }
     val findFragment = findFragmentOrNull(this)
     val adapter = (if (findFragment != null) {
-        AntonioFragmentStateAdapter<T>(findFragment, implementedItemID, dependencyBuilderMap)
+        AntonioFragmentStateAdapter<T>(findFragment, implementedItemID, fragmentContainer)
     } else {
         val activity = findActivity<FragmentActivity>(this)
             ?: throw IllegalStateException(
                 "Set argument after attaching on the activity or fragment." +
                         " It's essential to prevent memory leak  "
             )
-        AntonioFragmentStateAdapter(activity, implementedItemID, dependencyBuilderMap)
+        AntonioFragmentStateAdapter(activity, implementedItemID, fragmentContainer)
     })
     this.setStateWithFragmentBuilder(viewState, adapter)
 }
 
 fun <T : TypedModel> ViewPager2.setStateWithViewHolderBuilder(
     viewState: RecyclerViewState<T>?,
-    dependencyBuilderMap: Map<Int, ViewHolderBuilder> = AntonioSettings.globalViewHolderDependencyBuilderMap,
+    viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer,
     hasStableId: Boolean = false
 ) {
     if (viewState == null) {
         adapter = null
         return
     }
-    val adapter = AntonioAdapter<T>(dependencyBuilderMap).apply { setHasStableIds(hasStableId) }
+    val adapter = AntonioAdapter<T>(viewHolderContainer).apply { setHasStableIds(hasStableId) }
     setStateWithViewHolderBuilder(viewState, adapter)
 }
 
 fun <T : TypedModel> ViewPager2.setStateWithViewHolderBuilder(
     viewState: SubmittableRecyclerViewState<T>?,
-    dependencyBuilderMap: Map<Int, ViewHolderBuilder> = AntonioSettings.globalViewHolderDependencyBuilderMap,
+    viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer,
     hasStableId: Boolean = false
 ) {
     if (viewState == null) {
@@ -207,7 +210,7 @@ fun <T : TypedModel> ViewPager2.setStateWithViewHolderBuilder(
         return
     }
     val adapter = AntonioListAdapter(
-        dependencyBuilderMap, viewState.itemCallback
+        viewHolderContainer, viewState.itemCallback
     ).apply {
         setHasStableIds(hasStableId)
     }

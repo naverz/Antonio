@@ -17,10 +17,10 @@
 
 package io.github.naverz.antonio.adapter
 
-import io.github.naverz.antonio.core.PagerViewDependencyBuilder
 import io.github.naverz.antonio.core.TypedModel
 import io.github.naverz.antonio.core.adapter.AntonioCorePagerAdapter
+import io.github.naverz.antonio.core.container.ViewPagerContainer
 
 open class AntonioPagerAdapter<ITEM : TypedModel>(
-    override val dependencyBuilderMap: Map<Int, PagerViewDependencyBuilder>,
-) : AntonioCorePagerAdapter<ITEM>(dependencyBuilderMap)
+    override val viewPagerContainer: ViewPagerContainer,
+) : AntonioCorePagerAdapter<ITEM>(viewPagerContainer)

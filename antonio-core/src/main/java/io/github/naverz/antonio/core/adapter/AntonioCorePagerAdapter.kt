@@ -22,12 +22,13 @@ import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import io.github.naverz.antonio.core.PagerViewDependencyBuilder
 import io.github.naverz.antonio.core.TypedModel
+import io.github.naverz.antonio.core.container.ViewPagerContainer
 import io.github.naverz.antonio.core.throwClassCastExceptionForBinding
 import io.github.naverz.antonio.core.view.PagerViewDependency
 import java.lang.ClassCastException
 
 abstract class AntonioCorePagerAdapter<ITEM : TypedModel>(
-    open val dependencyBuilderMap: Map<Int, PagerViewDependencyBuilder>,
+    open val viewPagerContainer: ViewPagerContainer,
 ) : PagerAdapter(), PagerAdapterDependency<ITEM> {
     protected val positionToDependency = mutableMapOf<Int, PagerViewDependency<ITEM>>()
     override var itemList: MutableList<ITEM> = mutableListOf()
@@ -49,7 +50,7 @@ abstract class AntonioCorePagerAdapter<ITEM : TypedModel>(
         val item = itemList[position]
         var dependency = positionToDependency[position]
         if (dependency == null) {
-            dependency = ((dependencyBuilderMap[item.viewType()]?.build()
+            dependency = ((viewPagerContainer.get(item.viewType())?.build()
                 ?: throw IllegalStateException(
                     "There is no related view holder dependency with the layout id[${
                         container.context.resources.getResourceName(item.viewType())

@@ -24,16 +24,17 @@ import androidx.recyclerview.widget.DiffUtil
 import io.github.naverz.antonio.core.TypedModel
 import io.github.naverz.antonio.core.ViewHolderBuilder
 import io.github.naverz.antonio.core.adapter.AntonioCoreListAdapter
+import io.github.naverz.antonio.core.container.ViewHolderContainer
 import io.github.naverz.antonio.core.holder.TypedViewHolder
 import io.github.naverz.antonio.databinding.AutoBindingModel
 import io.github.naverz.antonio.databinding.holder.AntonioAutoBindingViewHolder
 
 open class AntonioListAdapter<ITEM : TypedModel>(
-    override val dependencyBuilderMap: Map<Int, ViewHolderBuilder>,
+    override val viewHolderContainer: ViewHolderContainer,
     override val diffItemCallback: DiffUtil.ItemCallback<ITEM>,
     open val additionalVariables: Map<Int, Any>? = null,
     open val lifecycleOwner: LifecycleOwner? = null
-) : AntonioCoreListAdapter<ITEM>(dependencyBuilderMap, diffItemCallback) {
+) : AntonioCoreListAdapter<ITEM>(viewHolderContainer, diffItemCallback) {
     private val autoBindingViewTypeMap = hashMapOf<Int, AutoBindingModel>()
 
     @Suppress("UNCHECKED_CAST")

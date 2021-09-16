@@ -28,7 +28,7 @@ import io.github.naverz.antonio.core.holder.AntonioViewHolder
 import io.github.naverz.antonio.databinding.setState
 
 fun loadGlobalViewDependencyBuilders() {
-    AntonioSettings.globalViewHolderDependencyBuilderMap.putAll(mapOf(
+    AntonioSettings.viewHolderContainer.addAll(mapOf(
         R.layout.view_holder_view_pager_with_tab_layout
                 to ViewHolderBuilder { _, parent ->
             ViewHolderPagerWithTabLayout(parent)

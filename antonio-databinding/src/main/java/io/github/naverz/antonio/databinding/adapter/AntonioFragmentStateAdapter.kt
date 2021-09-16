@@ -25,6 +25,7 @@ import androidx.lifecycle.LifecycleOwner
 import io.github.naverz.antonio.core.FragmentBuilder
 import io.github.naverz.antonio.core.TypedModel
 import io.github.naverz.antonio.core.adapter.AntonioCoreFragmentStateAdapter
+import io.github.naverz.antonio.core.container.FragmentContainer
 import io.github.naverz.antonio.databinding.AutoBindingModel
 import io.github.naverz.antonio.databinding.fragment.AntonioAutoBindingFragment
 
@@ -36,9 +37,9 @@ open class AntonioFragmentStateAdapter<ITEM : TypedModel>
     constructor(
         fragmentActivity: FragmentActivity,
         implementedItemID: Boolean,
-        dependencyBuilderMap: Map<Int, FragmentBuilder>,
+        fragmentContainer: FragmentContainer,
         additionalVariables: Map<Int, Any>? = null
-    ) : super(fragmentActivity, implementedItemID, dependencyBuilderMap) {
+    ) : super(fragmentActivity, implementedItemID, fragmentContainer) {
         this.additionalVariables = additionalVariables
         this.lifecycleOwner = fragmentActivity
     }
@@ -46,9 +47,9 @@ open class AntonioFragmentStateAdapter<ITEM : TypedModel>
     constructor(
         fragment: Fragment,
         implementedItemID: Boolean,
-        dependencyBuilderMap: Map<Int, FragmentBuilder>,
+        fragmentContainer: FragmentContainer,
         additionalVariables: Map<Int, Any>? = null
-    ) : super(fragment, implementedItemID, dependencyBuilderMap) {
+    ) : super(fragment, implementedItemID, fragmentContainer) {
         this.additionalVariables = additionalVariables
         this.lifecycleOwner = fragment.viewLifecycleOwner
     }
@@ -57,9 +58,9 @@ open class AntonioFragmentStateAdapter<ITEM : TypedModel>
         fragmentManager: FragmentManager,
         lifecycle: Lifecycle,
         implementedItemID: Boolean,
-        dependencyBuilderMap: Map<Int, FragmentBuilder>,
+        fragmentContainer: FragmentContainer,
         additionalVariables: Map<Int, Any>? = null
-    ) : super(fragmentManager, lifecycle, implementedItemID, dependencyBuilderMap) {
+    ) : super(fragmentManager, lifecycle, implementedItemID, fragmentContainer) {
         this.additionalVariables = additionalVariables
         this.lifecycleOwner = null
     }

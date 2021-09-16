@@ -21,28 +21,28 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
-import io.github.naverz.antonio.core.FragmentBuilder
 import io.github.naverz.antonio.core.TypedModel
 import io.github.naverz.antonio.core.adapter.AntonioCoreFragmentStateAdapter
+import io.github.naverz.antonio.core.container.FragmentContainer
 
 open class AntonioFragmentStateAdapter<ITEM : TypedModel> :
     AntonioCoreFragmentStateAdapter<ITEM> {
     constructor(
         fragmentActivity: FragmentActivity,
         implementedItemID: Boolean,
-        dependencyBuilderMap: Map<Int, FragmentBuilder>
-    ) : super(fragmentActivity, implementedItemID, dependencyBuilderMap)
+        fragmentContainer: FragmentContainer
+    ) : super(fragmentActivity, implementedItemID, fragmentContainer)
 
     constructor(
         fragment: Fragment,
         implementedItemID: Boolean,
-        dependencyBuilderMap: Map<Int, FragmentBuilder>
-    ) : super(fragment, implementedItemID, dependencyBuilderMap)
+        fragmentContainer: FragmentContainer
+    ) : super(fragment, implementedItemID, fragmentContainer)
 
     constructor(
         fragmentManager: FragmentManager,
         lifecycle: Lifecycle,
         implementedItemID: Boolean,
-        dependencyBuilderMap: Map<Int, FragmentBuilder>
-    ) : super(fragmentManager, lifecycle, implementedItemID, dependencyBuilderMap)
+        fragmentContainer: FragmentContainer
+    ) : super(fragmentManager, lifecycle, implementedItemID, fragmentContainer)
 }

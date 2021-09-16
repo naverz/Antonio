@@ -17,8 +17,12 @@
 
 package io.github.naverz.antonio.core
 
+import io.github.naverz.antonio.core.container.FragmentContainer
+import io.github.naverz.antonio.core.container.ViewHolderContainer
+import io.github.naverz.antonio.core.container.ViewPagerContainer
+
 object AntonioSettings {
-    val globalViewHolderDependencyBuilderMap = hashMapOf<Int, ViewHolderBuilder>()
-    val globalViewPagerDependencyBuilderMap = hashMapOf<Int, PagerViewDependencyBuilder>()
-    val globalFragmentBuilderMap = hashMapOf<Int, FragmentBuilder>()
+    val viewHolderContainer = ViewHolderContainer()
+    val viewPagerContainer = ViewPagerContainer()
+    val fragmentContainer = FragmentContainer()
 }

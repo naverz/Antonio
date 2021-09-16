@@ -23,12 +23,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import io.github.naverz.antonio.core.TypedModel
 import io.github.naverz.antonio.core.ViewHolderBuilder
+import io.github.naverz.antonio.core.container.ViewHolderContainer
 import io.github.naverz.antonio.core.throwClassCastExceptionForBinding
 import io.github.naverz.antonio.core.holder.TypedViewHolder
 
 
 abstract class AntonioCoreListAdapter<ITEM : TypedModel>(
-    open val dependencyBuilderMap: Map<Int, ViewHolderBuilder>,
+    open val viewHolderContainer: ViewHolderContainer,
     open val diffItemCallback: DiffUtil.ItemCallback<ITEM>
 ) : ListAdapterDependency<ITEM>, ListAdapter<ITEM, TypedViewHolder<ITEM>>(diffItemCallback) {
 
@@ -73,14 +74,14 @@ abstract class AntonioCoreListAdapter<ITEM : TypedModel>(
         parent: ViewGroup,
         viewType: Int
     ): TypedViewHolder<ITEM> {
-        val dependency = dependencyBuilderMap[viewType] ?: throw IllegalStateException(
+        val dependency = viewHolderContainer.get(viewType) ?: throw IllegalStateException(
             "There is no related view holder dependency with the view type[${
                 try {
                     parent.context.resources.getResourceName(viewType)
                 } catch (e: Resources.NotFoundException) {
                     viewType.toString()
                 }
-            }] in your dependencyBuilderMap [${dependencyBuilderMap}]"
+            }] in your viewHolderContainer [${viewHolderContainer}]"
         )
         val uncheckedHolder = dependency.build(viewType, parent)
         return (uncheckedHolder as TypedViewHolder<ITEM>)

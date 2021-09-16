@@ -25,32 +25,33 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import io.github.naverz.antonio.core.FragmentBuilder
 import io.github.naverz.antonio.core.TypedModel
+import io.github.naverz.antonio.core.container.FragmentContainer
 import io.github.naverz.antonio.core.throwClassCastExceptionForBinding
 import io.github.naverz.antonio.core.fragment.AntonioFragment
 
 abstract class AntonioCoreFragmentStateAdapter<ITEM : TypedModel>
     : FragmentStateAdapter, AdapterDependency<ITEM> {
     protected val implementedItemID: Boolean
-    protected val dependencyBuilderMap: Map<Int, FragmentBuilder>
+    protected val fragmentContainer: FragmentContainer
     protected val fragmentManager: FragmentManager
 
     constructor(
         fragmentActivity: FragmentActivity,
         implementedItemID: Boolean,
-        dependencyBuilderMap: Map<Int, FragmentBuilder>
+        fragmentContainer: FragmentContainer
     ) : super(fragmentActivity) {
         this.implementedItemID = implementedItemID
-        this.dependencyBuilderMap = dependencyBuilderMap
+        this.fragmentContainer = fragmentContainer
         fragmentManager = fragmentActivity.supportFragmentManager
     }
 
     constructor(
         fragment: Fragment,
         implementedItemID: Boolean,
-        dependencyBuilderMap: Map<Int, FragmentBuilder>
+        fragmentContainer: FragmentContainer
     ) : super(fragment) {
         this.implementedItemID = implementedItemID
-        this.dependencyBuilderMap = dependencyBuilderMap
+        this.fragmentContainer = fragmentContainer
         fragmentManager = fragment.childFragmentManager
     }
 
@@ -58,10 +59,10 @@ abstract class AntonioCoreFragmentStateAdapter<ITEM : TypedModel>
         fragmentManager: FragmentManager,
         lifecycle: Lifecycle,
         implementedItemID: Boolean,
-        dependencyBuilderMap: Map<Int, FragmentBuilder>
+        fragmentContainer: FragmentContainer
     ) : super(fragmentManager, lifecycle) {
         this.implementedItemID = implementedItemID
-        this.dependencyBuilderMap = dependencyBuilderMap
+        this.fragmentContainer = fragmentContainer
         this.fragmentManager = fragmentManager
     }
 
@@ -96,7 +97,7 @@ abstract class AntonioCoreFragmentStateAdapter<ITEM : TypedModel>
     override fun createFragment(position: Int): Fragment {
         val data = currentList[position]
         val dependency =
-            dependencyBuilderMap[data.viewType()]?.build() ?: throw IllegalStateException(
+            fragmentContainer.get(data.viewType())?.build() ?: throw IllegalStateException(
                 "There is no related view holder dependency with the layout id[${currentList[position].viewType()}]"
             )
 

@@ -23,15 +23,16 @@ import androidx.lifecycle.LifecycleOwner
 import io.github.naverz.antonio.core.TypedModel
 import io.github.naverz.antonio.core.ViewHolderBuilder
 import io.github.naverz.antonio.core.adapter.AntonioCoreAdapter
+import io.github.naverz.antonio.core.container.ViewHolderContainer
 import io.github.naverz.antonio.core.holder.TypedViewHolder
 import io.github.naverz.antonio.databinding.AutoBindingModel
 import io.github.naverz.antonio.databinding.holder.AntonioAutoBindingViewHolder
 
 open class AntonioAdapter<ITEM : TypedModel>(
-    override val dependencyBuilderMap: Map<Int, ViewHolderBuilder>,
+    override val viewHolderContainer: ViewHolderContainer,
     open val additionalVariables: Map<Int, Any>? = null,
     open val lifecycleOwner: LifecycleOwner? = null,
-) : AntonioCoreAdapter<ITEM>(dependencyBuilderMap) {
+) : AntonioCoreAdapter<ITEM>(viewHolderContainer) {
     private val autoBindingViewTypeMap = hashMapOf<Int, AutoBindingModel>()
 
     @Suppress("UNCHECKED_CAST")

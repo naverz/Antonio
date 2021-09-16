@@ -22,15 +22,16 @@ import androidx.lifecycle.LifecycleOwner
 import io.github.naverz.antonio.core.PagerViewDependencyBuilder
 import io.github.naverz.antonio.core.TypedModel
 import io.github.naverz.antonio.core.adapter.AntonioCorePagerAdapter
+import io.github.naverz.antonio.core.container.ViewPagerContainer
 import io.github.naverz.antonio.core.view.PagerViewDependency
 import io.github.naverz.antonio.databinding.AutoBindingModel
 import io.github.naverz.antonio.databinding.view.AntonioAutoBindingPagerView
 
 open class AntonioPagerAdapter<ITEM : TypedModel>(
-    override val dependencyBuilderMap: Map<Int, PagerViewDependencyBuilder>,
+    override val viewPagerContainer: ViewPagerContainer,
     open val additionalVariables: Map<Int, Any>? = null,
     open val lifecycleOwner: LifecycleOwner? = null,
-) : AntonioCorePagerAdapter<ITEM>(dependencyBuilderMap) {
+) : AntonioCorePagerAdapter<ITEM>(viewPagerContainer) {
 
     @Suppress("UNCHECKED_CAST")
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
