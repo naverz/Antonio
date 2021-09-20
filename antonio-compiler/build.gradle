@@ -1,0 +1,19 @@
+import io.github.naverz.antonio.buildsrc.*
+
+plugins {
+    id 'java-library'
+}
+apply from: 'release.gradle'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+
+dependencies {
+    implementation project(path: ':antonio-annotations')
+    implementation Processor.AUTO_SERVICE
+    annotationProcessor Processor.AUTO_SERVICE
+    implementation Processor.JAVA_POET
+}

@@ -19,18 +19,11 @@ package io.github.naverz.antonio.core.holder
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import io.github.naverz.antonio.core.TypedModel
-import java.lang.reflect.ParameterizedType
+import io.github.naverz.antonio.GenericAntonioFindable
+import io.github.naverz.antonio.core.AntonioModel
 
-open class TypedViewHolder<ITEM : TypedModel>(itemView: View) :
-    RecyclerView.ViewHolder(itemView) {
-
-    @Suppress("UNCHECKED_CAST")
-    fun getDeclaredLayoutIdModelClass(): Class<ITEM>? = try {
-        (((javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as ParameterizedType).rawType as Class<ITEM>)
-    } catch (e: Exception) {
-        null
-    }
+open class TypedViewHolder<ITEM : AntonioModel>(itemView: View) :
+    RecyclerView.ViewHolder(itemView), GenericAntonioFindable {
 
     open fun onBindViewHolder(data: ITEM, position: Int, payloads: List<Any>?) {
     }

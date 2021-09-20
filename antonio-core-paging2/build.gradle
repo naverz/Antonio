@@ -1,0 +1,34 @@
+import io.github.naverz.antonio.buildsrc.*
+
+plugins {
+    id 'com.android.library'
+}
+apply from: 'release.gradle'
+
+android {
+    compileSdk 30
+
+    defaultConfig {
+        minSdk 16
+        targetSdk 30
+        versionCode Antonio.VERSION_CODE
+        versionName Antonio.VERSION_NAME
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    //noinspection GradleDependency
+    implementation Android.PAGING2
+    implementation Antonio.CORE
+    testImplementation Test.JUNIT
+    androidTestImplementation Test.EXT_JUNIT
+    androidTestImplementation Test.ESPRESSO
+}

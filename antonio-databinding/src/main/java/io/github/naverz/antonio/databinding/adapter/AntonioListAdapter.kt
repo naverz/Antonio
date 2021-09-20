@@ -17,52 +17,35 @@
 
 package io.github.naverz.antonio.databinding.adapter
 
-import android.view.InflateException
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
-import io.github.naverz.antonio.core.TypedModel
-import io.github.naverz.antonio.core.ViewHolderBuilder
+import io.github.naverz.antonio.AntonioSettings
+import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.adapter.AntonioCoreListAdapter
 import io.github.naverz.antonio.core.container.ViewHolderContainer
 import io.github.naverz.antonio.core.holder.TypedViewHolder
-import io.github.naverz.antonio.databinding.AutoBindingModel
-import io.github.naverz.antonio.databinding.holder.AntonioAutoBindingViewHolder
 
-open class AntonioListAdapter<ITEM : TypedModel>(
-    override val viewHolderContainer: ViewHolderContainer,
-    override val diffItemCallback: DiffUtil.ItemCallback<ITEM>,
+open class AntonioListAdapter<ITEM : AntonioModel>(
+    diffItemCallback: DiffUtil.ItemCallback<ITEM>,
+    viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer,
     open val additionalVariables: Map<Int, Any>? = null,
     open val lifecycleOwner: LifecycleOwner? = null
-) : AntonioCoreListAdapter<ITEM>(viewHolderContainer, diffItemCallback) {
-    private val autoBindingViewTypeMap = hashMapOf<Int, AutoBindingModel>()
+) : AntonioCoreListAdapter<ITEM>(diffItemCallback, viewHolderContainer) {
+    private val helper by lazy {
+        DataBindingAdapterHelper<ITEM, TypedViewHolder<ITEM>>(
+            this.additionalVariables, lifecycleOwner
+        )
+    }
 
     @Suppress("UNCHECKED_CAST")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TypedViewHolder<ITEM> {
-        val autoBindingModel = autoBindingViewTypeMap[viewType]
-        if (autoBindingModel != null) {
-            return try {
-                AntonioAutoBindingViewHolder(
-                    layoutId = autoBindingModel.viewType(),
-                    parent = parent,
-                    bindingVariableId = autoBindingModel.bindingVariableId(),
-                    additionalVariables = additionalVariables,
-                    lifecycleOwner = lifecycleOwner
-                ) as TypedViewHolder<ITEM>
-            } catch (e: InflateException) {
-                throw InflateException(
-                    "There is no related layout id with the view type you implemented, View type : ${autoBindingModel.viewType()}]"
-                )
-            }
-        }
-        return super.onCreateViewHolder(parent, viewType)
+        val holder = helper.createViewBindingIfIsAutoBindingModel(parent, viewType)
+        return holder ?: super.onCreateViewHolder(parent, viewType)
     }
 
     override fun getItemViewType(position: Int): Int {
         val item = currentList[position]
-        if (item is AutoBindingModel && !autoBindingViewTypeMap.containsKey(item.viewType())) {
-            autoBindingViewTypeMap[item.viewType()] = item
-        }
-        return super.getItemViewType(position)
+        return helper.findLayoutId(item) ?: super.getItemViewType(position)
     }
 }

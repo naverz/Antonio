@@ -23,12 +23,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import io.github.naverz.antonio.AntonioAnnotation
 import io.github.naverz.antonio.R
 import io.github.naverz.antonio.databinding.ActivityMainBinding
 import io.github.naverz.antonio.sample.fragmenthost.FragmentHostActivity
-import io.github.naverz.antonio.sample.loadGlobalViewDependencyBuilders
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel>()
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        loadGlobalViewDependencyBuilders()
+        AntonioAnnotation.init()
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         lifecycleScope.launch {

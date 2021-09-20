@@ -8,7 +8,7 @@
 
         <variable
             name="parent"
-            type="io.github.naverz.antonio.sample.RecyclerViewGridWithRefresh"
+            type="io.github.naverz.antonio.sample.antonio.RecyclerViewGridWithRefresh"
             />
     </data>
 
@@ -39,7 +39,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:onClick="@{()->parent.onRefreshRequested.invoke()}"
-            android:text="refresh"
+            android:text="@string/refresh"
             app:visibleOrGone="@{parent.onRefreshRequested!=null}"
             />
     </LinearLayout>

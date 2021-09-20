@@ -20,15 +20,15 @@ package io.github.naverz.antonio.core.adapter
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
-import io.github.naverz.antonio.core.PagerViewDependencyBuilder
-import io.github.naverz.antonio.core.TypedModel
-import io.github.naverz.antonio.core.container.ViewPagerContainer
-import io.github.naverz.antonio.core.throwClassCastExceptionForBinding
+import io.github.naverz.antonio.AntonioSettings
+import io.github.naverz.antonio.core.AntonioModel
+import io.github.naverz.antonio.core.Exceptions
+import io.github.naverz.antonio.core.container.ContainerType
+import io.github.naverz.antonio.core.container.PagerViewContainer
 import io.github.naverz.antonio.core.view.PagerViewDependency
-import java.lang.ClassCastException
 
-abstract class AntonioCorePagerAdapter<ITEM : TypedModel>(
-    open val viewPagerContainer: ViewPagerContainer,
+abstract class AntonioCorePagerAdapter<ITEM : AntonioModel>(
+    open val pagerViewContainer: PagerViewContainer = AntonioSettings.pagerViewContainer,
 ) : PagerAdapter(), PagerAdapterDependency<ITEM> {
     protected val positionToDependency = mutableMapOf<Int, PagerViewDependency<ITEM>>()
     override var itemList: MutableList<ITEM> = mutableListOf()
@@ -50,19 +50,21 @@ abstract class AntonioCorePagerAdapter<ITEM : TypedModel>(
         val item = itemList[position]
         var dependency = positionToDependency[position]
         if (dependency == null) {
-            dependency = ((viewPagerContainer.get(item.viewType())?.build()
+            val buildDependency = ((pagerViewContainer.get(item::class.java)?.build()
                 ?: throw IllegalStateException(
-                    "There is no related view holder dependency with the layout id[${
-                        container.context.resources.getResourceName(item.viewType())
-                    }]"
-                )) as PagerViewDependency<ITEM>).also { buildDependency ->
-                positionToDependency[position] = buildDependency
-            }
+                    Exceptions.errorRegisterFirst(item::class.java, ContainerType.PAGER_VIEW)
+                )) as PagerViewDependency<ITEM>)
+            dependency = buildDependency
+            positionToDependency[position] = buildDependency
         }
+        val viewType = pagerViewContainer.getViewType(item::class.java)
+            ?: throw IllegalStateException(Exceptions.ERROR_TEXT_UNKNOWN)
         return try {
-            dependency.instantiateItem(container, position, item)
+            dependency.instantiateItem(container, position, viewType, item)
         } catch (e: ClassCastException) {
-            dependency.throwClassCastExceptionForBinding(item)
+            throw IllegalStateException(
+                Exceptions.errorClassCast(item, dependency), e
+            )
         }
     }
 

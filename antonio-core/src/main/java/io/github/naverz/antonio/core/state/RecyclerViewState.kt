@@ -20,14 +20,14 @@ package io.github.naverz.antonio.core.state
 import androidx.annotation.RestrictTo
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import io.github.naverz.antonio.core.TypedModel
+import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.etc.MainThreadExecutor
 import io.github.naverz.antonio.core.etc.ThreadChecker
 import io.github.naverz.antonio.core.etc.ThreadCheckerImpl
 import io.github.naverz.antonio.core.adapter.AdapterDependency
 import java.util.concurrent.Executor
 
-open class RecyclerViewState<ITEM : TypedModel> {
+open class RecyclerViewState<ITEM : AntonioModel> {
 
     var currentList = mutableListOf<ITEM>()
 

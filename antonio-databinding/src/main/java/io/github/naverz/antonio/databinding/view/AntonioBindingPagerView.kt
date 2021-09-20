@@ -20,20 +20,20 @@ package io.github.naverz.antonio.databinding.view
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import io.github.naverz.antonio.core.TypedModel
+import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.view.AntonioPagerView
 
-abstract class AntonioBindingPagerView<T : ViewDataBinding, ITEM : TypedModel> :
+abstract class AntonioBindingPagerView<T : ViewDataBinding, ITEM : AntonioModel> :
     AntonioPagerView<ITEM>() {
     protected var binding: T? = null
 
-    override fun onViewCreated(view: View, position: Int, typedModel: ITEM) {
-        super.onViewCreated(view, position, typedModel)
+    override fun onViewCreated(view: View, position: Int, antonioModel: ITEM) {
+        super.onViewCreated(view, position, antonioModel)
         binding = DataBindingUtil.bind(view)
     }
 
-    override fun onDestroyedView(position: Int, typedModel: ITEM) {
-        super.onDestroyedView(position, typedModel)
+    override fun onDestroyedView(position: Int, antonioModel: ITEM) {
+        super.onDestroyedView(position, antonioModel)
         binding = null
     }
 

@@ -27,12 +27,13 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import io.github.naverz.antonio.core.*
+import io.github.naverz.antonio.*
+import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.adapter.AntonioCoreFragmentStateAdapter
 import io.github.naverz.antonio.core.adapter.AntonioCorePagerAdapter
 import io.github.naverz.antonio.core.container.FragmentContainer
 import io.github.naverz.antonio.core.container.ViewHolderContainer
-import io.github.naverz.antonio.core.container.ViewPagerContainer
+import io.github.naverz.antonio.core.container.PagerViewContainer
 import io.github.naverz.antonio.core.state.RecyclerViewState
 import io.github.naverz.antonio.core.state.SubmittableRecyclerViewState
 import io.github.naverz.antonio.core.state.ViewPagerState
@@ -42,7 +43,7 @@ import io.github.naverz.antonio.databinding.adapter.AntonioListAdapter
 import io.github.naverz.antonio.databinding.adapter.AntonioPagerAdapter
 
 //region Make adapter for the recycler view
-fun <T : TypedModel> RecyclerViewState<T>.makeAdapter(
+fun <T : AntonioModel> RecyclerViewState<T>.makeAdapter(
     lifecycleOwner: LifecycleOwner,
     viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer,
     additionalVariables: Map<Int, Any>? = null
@@ -59,7 +60,7 @@ fun <T : TypedModel> RecyclerViewState<T>.makeAdapter(
     return adapter
 }
 
-fun <T : TypedModel> SubmittableRecyclerViewState<T>.makeAdapter(
+fun <T : AntonioModel> SubmittableRecyclerViewState<T>.makeAdapter(
     lifecycleOwner: LifecycleOwner,
     viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer,
     additionalVariables: Map<Int, Any>? = null
@@ -79,7 +80,7 @@ fun <T : TypedModel> SubmittableRecyclerViewState<T>.makeAdapter(
 //endregion
 
 //region setState for the recycler view
-fun <T : TypedModel> RecyclerView.setState(
+fun <T : AntonioModel> RecyclerView.setState(
     viewState: RecyclerViewState<T>, adapter: AntonioAdapter<T>
 ) {
     val lifecycleOwner = findLifecycleOwner(this) ?: throw IllegalStateException(
@@ -94,7 +95,7 @@ fun <T : TypedModel> RecyclerView.setState(
     this.adapter = adapter
 }
 
-fun <T : TypedModel> RecyclerView.setState(
+fun <T : AntonioModel> RecyclerView.setState(
     viewState: SubmittableRecyclerViewState<T>, adapter: AntonioListAdapter<T>
 ) {
     val lifecycleOwner = findLifecycleOwner(this) ?: throw IllegalStateException(
@@ -109,7 +110,7 @@ fun <T : TypedModel> RecyclerView.setState(
     this.adapter = adapter
 }
 
-fun <T : TypedModel> RecyclerView.setState(
+fun <T : AntonioModel> RecyclerView.setState(
     viewState: RecyclerViewState<T>?,
     viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer,
     additionalVariables: Map<Int, Any>? = null,
@@ -133,7 +134,7 @@ fun <T : TypedModel> RecyclerView.setState(
     )
 }
 
-fun <T : TypedModel> RecyclerView.setState(
+fun <T : AntonioModel> RecyclerView.setState(
     viewState: SubmittableRecyclerViewState<T>?,
     viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer,
     additionalVariables: Map<Int, Any>? = null,
@@ -158,13 +159,13 @@ fun <T : TypedModel> RecyclerView.setState(
 //endregion
 
 //region Make adapter for the view pager
-fun <T : TypedModel> ViewPagerState<T>.makeAdapter(
+fun <T : AntonioModel> ViewPagerState<T>.makeAdapter(
     lifecycleOwner: LifecycleOwner,
-    viewPagerContainer: ViewPagerContainer = AntonioSettings.viewPagerContainer,
+    pagerViewContainer: PagerViewContainer = AntonioSettings.pagerViewContainer,
     additionalVariables: Map<Int, Any>? = null
 ): PagerAdapter {
     val adapter = AntonioPagerAdapter<T>(
-        viewPagerContainer = viewPagerContainer,
+        pagerViewContainer = pagerViewContainer,
         additionalVariables = additionalVariables
     )
     setAdapterDependency(adapter)
@@ -176,9 +177,9 @@ fun <T : TypedModel> ViewPagerState<T>.makeAdapter(
 //endregion
 
 //region setState for the view pager
-fun <T : TypedModel> ViewPager.setState(
+fun <T : AntonioModel> ViewPager.setState(
     viewState: ViewPagerState<T>?,
-    viewPagerContainer: ViewPagerContainer = AntonioSettings.viewPagerContainer,
+    pagerViewContainer: PagerViewContainer = AntonioSettings.pagerViewContainer,
     additionalVariables: Map<Int, Any>? = null
 ) {
     if (viewState == null) {
@@ -190,11 +191,11 @@ fun <T : TypedModel> ViewPager.setState(
                 " It's essential to prevent memory leak  "
     )
     this.setState(
-        viewState, AntonioPagerAdapter(viewPagerContainer, additionalVariables, lifecycleOwner)
+        viewState, AntonioPagerAdapter(pagerViewContainer, additionalVariables, lifecycleOwner)
     )
 }
 
-fun <T : TypedModel> ViewPager.setState(
+fun <T : AntonioModel> ViewPager.setState(
     viewState: ViewPagerState<T>,
     adapter: AntonioCorePagerAdapter<T>
 ) {
@@ -212,7 +213,7 @@ fun <T : TypedModel> ViewPager.setState(
 //endregion
 
 //region Make adapter for the view pager 2
-fun <T : TypedModel> RecyclerViewState<T>.makeAdapter(
+fun <T : AntonioModel> RecyclerViewState<T>.makeAdapter(
     fragment: Fragment,
     fragmentContainer: FragmentContainer = AntonioSettings.fragmentContainer,
     implementedItemID: Boolean = false,
@@ -225,13 +226,13 @@ fun <T : TypedModel> RecyclerViewState<T>.makeAdapter(
         additionalVariables = additionalVariables
     )
     setAdapterDependency(adapter)
-    fragment.viewLifecycleOwner.onDestroy {
+    fragment.lifecycle.onDestroy {
         setAdapterDependency(null)
     }
     return adapter
 }
 
-fun <T : TypedModel> RecyclerViewState<T>.makeAdapter(
+fun <T : AntonioModel> RecyclerViewState<T>.makeAdapter(
     activity: FragmentActivity,
     fragmentContainer: FragmentContainer = AntonioSettings.fragmentContainer,
     implementedItemID: Boolean = false,
@@ -251,7 +252,7 @@ fun <T : TypedModel> RecyclerViewState<T>.makeAdapter(
     return adapter
 }
 
-fun <T : TypedModel> RecyclerViewState<T>.makeAdapter(
+fun <T : AntonioModel> RecyclerViewState<T>.makeAdapter(
     fragmentManager: FragmentManager,
     lifecycle: Lifecycle,
     fragmentContainer: FragmentContainer = AntonioSettings.fragmentContainer,
@@ -275,7 +276,7 @@ fun <T : TypedModel> RecyclerViewState<T>.makeAdapter(
 //endregion
 
 //region setState for the view pager 2
-fun <T : TypedModel> ViewPager2.setStateWithFragmentBuilder(
+fun <T : AntonioModel> ViewPager2.setStateWithFragment(
     viewState: RecyclerViewState<T>?,
     fragmentContainer: FragmentContainer = AntonioSettings.fragmentContainer,
     implementedItemID: Boolean = false,
@@ -306,10 +307,10 @@ fun <T : TypedModel> ViewPager2.setStateWithFragmentBuilder(
             additionalVariables = additionalVariables
         )
     })
-    this.setStateWithFragmentBuilder(viewState, adapter)
+    this.setState(viewState, adapter)
 }
 
-fun <T : TypedModel> ViewPager2.setStateWithViewHolderBuilder(
+fun <T : AntonioModel> ViewPager2.setState(
     viewState: RecyclerViewState<T>?,
     viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer,
     hasStableId: Boolean = false,
@@ -330,10 +331,10 @@ fun <T : TypedModel> ViewPager2.setStateWithViewHolderBuilder(
     ).apply {
         setHasStableIds(hasStableId)
     }
-    setStateWithViewHolderBuilder(viewState, adapter)
+    setState(viewState, adapter)
 }
 
-fun <T : TypedModel> ViewPager2.setStateWithViewHolderBuilder(
+fun <T : AntonioModel> ViewPager2.setState(
     viewState: SubmittableRecyclerViewState<T>?,
     viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer,
     hasStableId: Boolean = false,
@@ -355,11 +356,11 @@ fun <T : TypedModel> ViewPager2.setStateWithViewHolderBuilder(
     ).apply {
         setHasStableIds(hasStableId)
     }
-    setStateWithViewHolderBuilder(viewState, adapter)
+    setState(viewState, adapter)
 }
 
 
-fun <T : TypedModel> ViewPager2.setStateWithFragmentBuilder(
+fun <T : AntonioModel> ViewPager2.setState(
     viewState: RecyclerViewState<T>,
     adapter: AntonioCoreFragmentStateAdapter<T>,
 ) {
@@ -370,7 +371,7 @@ fun <T : TypedModel> ViewPager2.setStateWithFragmentBuilder(
 
     val findFragment = findFragmentOrNull(this)
     if (findFragment != null) {
-        findFragment.viewLifecycleOwner.onDestroy(::clearAll)
+        findFragment.lifecycle.onDestroy(::clearAll)
     } else {
         val activity = findActivity<FragmentActivity>(this)
             ?: throw IllegalStateException(
@@ -383,7 +384,7 @@ fun <T : TypedModel> ViewPager2.setStateWithFragmentBuilder(
     this.adapter = adapter
 }
 
-fun <T : TypedModel> ViewPager2.setStateWithViewHolderBuilder(
+fun <T : AntonioModel> ViewPager2.setState(
     viewState: RecyclerViewState<T>, adapter: AntonioAdapter<T>
 ) {
     val lifecycleOwner = findLifecycleOwner(this) ?: throw IllegalStateException(
@@ -398,7 +399,7 @@ fun <T : TypedModel> ViewPager2.setStateWithViewHolderBuilder(
     this.adapter = adapter
 }
 
-fun <T : TypedModel> ViewPager2.setStateWithViewHolderBuilder(
+fun <T : AntonioModel> ViewPager2.setState(
     viewState: SubmittableRecyclerViewState<T>, adapter: AntonioListAdapter<T>
 ) {
     val lifecycleOwner = findLifecycleOwner(this) ?: throw IllegalStateException(

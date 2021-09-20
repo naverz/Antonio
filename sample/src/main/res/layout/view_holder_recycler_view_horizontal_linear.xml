@@ -8,11 +8,11 @@
 
         <variable
             name="parent"
-            type="io.github.naverz.antonio.sample.ViewHolderRecyclerViewHorizontalLinearModel"
+            type="io.github.naverz.antonio.sample.antonio.ViewHolderRecyclerViewHorizontal"
             />
     </data>
 
-    <io.github.naverz.antonio.sample.NestedScrollableHost
+    <io.github.naverz.antonio.sample.etc.NestedScrollableHost
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
@@ -28,5 +28,5 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:setStateWithAutoBinding="@{parent.submittableRecyclerViewState}"
             />
-    </io.github.naverz.antonio.sample.NestedScrollableHost>
+    </io.github.naverz.antonio.sample.etc.NestedScrollableHost>
 </layout>

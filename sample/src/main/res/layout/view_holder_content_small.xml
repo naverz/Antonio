@@ -9,7 +9,7 @@
 
         <variable
             name="model"
-            type="io.github.naverz.antonio.sample.ContentSmallModel"
+            type="io.github.naverz.antonio.sample.antonio.SmallContent"
             />
 
     </data>

@@ -23,7 +23,7 @@ import io.github.naverz.antonio.core.view.PagerViewDependency
 import io.github.naverz.antonio.core.fragment.AntonioFragment
 
 fun interface ViewHolderBuilder {
-    fun build(viewType: Int, parent: ViewGroup): TypedViewHolder<*>
+    fun build(parent: ViewGroup): TypedViewHolder<*>
 }
 
 fun interface PagerViewDependencyBuilder {

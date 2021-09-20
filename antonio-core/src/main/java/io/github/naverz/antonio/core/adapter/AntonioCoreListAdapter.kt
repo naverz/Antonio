@@ -21,24 +21,30 @@ import android.content.res.Resources
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import io.github.naverz.antonio.core.TypedModel
-import io.github.naverz.antonio.core.ViewHolderBuilder
+import io.github.naverz.antonio.AntonioSettings
+import io.github.naverz.antonio.core.AntonioModel
+import io.github.naverz.antonio.core.Exceptions
+import io.github.naverz.antonio.core.container.ContainerType
 import io.github.naverz.antonio.core.container.ViewHolderContainer
-import io.github.naverz.antonio.core.throwClassCastExceptionForBinding
 import io.github.naverz.antonio.core.holder.TypedViewHolder
 
 
-abstract class AntonioCoreListAdapter<ITEM : TypedModel>(
-    open val viewHolderContainer: ViewHolderContainer,
-    open val diffItemCallback: DiffUtil.ItemCallback<ITEM>
+abstract class AntonioCoreListAdapter<ITEM : AntonioModel>(
+    diffItemCallback: DiffUtil.ItemCallback<ITEM>,
+    open val viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer
 ) : ListAdapterDependency<ITEM>, ListAdapter<ITEM, TypedViewHolder<ITEM>>(diffItemCallback) {
 
     override fun getItemViewType(position: Int): Int {
-        return currentList[position].viewType()
+        return viewHolderContainer.getViewType(currentList[position]::class.java)
+            ?: throw IllegalStateException(
+                Exceptions.errorRegisterFirst(
+                    currentList[position]::class.java, ContainerType.VIEW_HOLDER
+                )
+            )
     }
 
     override fun getItemId(position: Int): Long {
-        return currentList[position].itemId ?: super.getItemId(position)
+        return currentList[position].modelId ?: super.getItemId(position)
     }
 
     override fun onViewRecycled(holder: TypedViewHolder<ITEM>) {
@@ -65,7 +71,9 @@ abstract class AntonioCoreListAdapter<ITEM : TypedModel>(
         try {
             holder.onBindViewHolder(currentList[position], position, payloads)
         } catch (e: ClassCastException) {
-            holder.throwClassCastExceptionForBinding(currentList[position])
+            throw IllegalStateException(
+                Exceptions.errorClassCast(currentList[position], holder), e
+            )
         }
     }
 
@@ -83,7 +91,7 @@ abstract class AntonioCoreListAdapter<ITEM : TypedModel>(
                 }
             }] in your viewHolderContainer [${viewHolderContainer}]"
         )
-        val uncheckedHolder = dependency.build(viewType, parent)
+        val uncheckedHolder = dependency.build(parent)
         return (uncheckedHolder as TypedViewHolder<ITEM>)
     }
 
@@ -91,7 +99,9 @@ abstract class AntonioCoreListAdapter<ITEM : TypedModel>(
         try {
             holder.onBindViewHolder(currentList[position], position, null)
         } catch (e: ClassCastException) {
-            holder.throwClassCastExceptionForBinding(currentList[position])
+            throw IllegalStateException(
+                Exceptions.errorClassCast(currentList[position], holder), e
+            )
         }
     }
 

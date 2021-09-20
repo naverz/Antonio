@@ -13,7 +13,7 @@
         />
     <fragment
         android:id="@+id/secondFragment"
-        android:name="io.github.naverz.antonio.sample.fragmenthost.SecondFragment"
+        android:name="io.github.naverz.antonio.sample.fragmenthost.paging3.PagingFragment"
         android:label="SecondFragment"
         />
 

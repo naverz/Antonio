@@ -16,35 +16,34 @@
  */
 package io.github.naverz.antonio.databinding.view
 
-import android.view.InflateException
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
-import io.github.naverz.antonio.core.TypedModel
-import io.github.naverz.antonio.databinding.findLifecycleOwner
-import java.lang.IllegalStateException
+import io.github.naverz.antonio.core.AntonioModel
+import io.github.naverz.antonio.core.Exceptions
+import io.github.naverz.antonio.databinding.AntonioBindingModel
+import io.github.naverz.antonio.findLifecycleOwner
 
 open class AntonioAutoBindingPagerView(
     private val bindingVariableId: Int?,
     private val additionalVariables: Map<Int, Any>? = null,
     private val lifecycleOwner: LifecycleOwner? = null,
-) : AntonioBindingPagerView<ViewDataBinding, TypedModel>() {
+) : AntonioBindingPagerView<ViewDataBinding, AntonioModel>() {
 
     private var mLifeCycleOwner: LifecycleOwner? = null
-
-    override fun instantiateItem(container: ViewGroup, position: Int, typedModel: TypedModel): Any {
-        try {
-            return super.instantiateItem(container, position, typedModel)
-        } catch (e: InflateException) {
-            throw InflateException(
-                "There is no related layout id with the view type you implemented, View type : ${typedModel.viewType()}]"
-            )
-        }
+    override fun getView(
+        container: ViewGroup,
+        position: Int,
+        viewType: Int,
+        antonioModel: AntonioModel
+    ): View {
+        return LayoutInflater.from(container.context).inflate(viewType, container, false)
     }
 
-    override fun onViewCreated(view: View, position: Int, typedModel: TypedModel) {
-        super.onViewCreated(view, position, typedModel)
+    override fun onViewCreated(view: View, position: Int, antonioModel: AntonioModel) {
+        super.onViewCreated(view, position, antonioModel)
         mLifeCycleOwner = this.lifecycleOwner ?: findLifecycleOwner(view)
         additionalVariables?.let {
             for (entry in additionalVariables) {
@@ -53,16 +52,19 @@ open class AntonioAutoBindingPagerView(
         }
         binding?.lifecycleOwner = mLifeCycleOwner
         if (bindingVariableId != null) {
-            if (binding?.setVariable(bindingVariableId, typedModel) == false) {
-                //TODO Complete an exception message
-                throw IllegalStateException()
+            if (binding?.setVariable(bindingVariableId, antonioModel) == false) {
+                val layoutIdStr =
+                    view.context.resources.getResourceName((antonioModel as AntonioBindingModel).layoutId())
+                throw IllegalStateException(
+                    Exceptions.errorIllegalBinding(layoutIdStr, antonioModel)
+                )
             }
         }
         binding?.executePendingBindings()
     }
 
-    override fun onDestroyedView(position: Int, typedModel: TypedModel) {
-        super.onDestroyedView(position, typedModel)
+    override fun onDestroyedView(position: Int, antonioModel: AntonioModel) {
+        super.onDestroyedView(position, antonioModel)
         binding?.lifecycleOwner = null
     }
 }

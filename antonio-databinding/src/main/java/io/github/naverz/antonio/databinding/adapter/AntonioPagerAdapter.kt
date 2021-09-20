@@ -19,26 +19,25 @@ package io.github.naverz.antonio.databinding.adapter
 
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
-import io.github.naverz.antonio.core.PagerViewDependencyBuilder
-import io.github.naverz.antonio.core.TypedModel
+import io.github.naverz.antonio.AntonioSettings
+import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.adapter.AntonioCorePagerAdapter
-import io.github.naverz.antonio.core.container.ViewPagerContainer
+import io.github.naverz.antonio.core.container.PagerViewContainer
 import io.github.naverz.antonio.core.view.PagerViewDependency
-import io.github.naverz.antonio.databinding.AutoBindingModel
+import io.github.naverz.antonio.databinding.AntonioBindingModel
 import io.github.naverz.antonio.databinding.view.AntonioAutoBindingPagerView
 
-open class AntonioPagerAdapter<ITEM : TypedModel>(
-    override val viewPagerContainer: ViewPagerContainer,
+open class AntonioPagerAdapter<ITEM : AntonioModel>(
+    pagerViewContainer: PagerViewContainer = AntonioSettings.pagerViewContainer,
     open val additionalVariables: Map<Int, Any>? = null,
     open val lifecycleOwner: LifecycleOwner? = null,
-) : AntonioCorePagerAdapter<ITEM>(viewPagerContainer) {
+) : AntonioCorePagerAdapter<ITEM>(pagerViewContainer) {
 
     @Suppress("UNCHECKED_CAST")
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val item = itemList[position]
-        if (item !is AutoBindingModel)
+        if (item !is AntonioBindingModel)
             return super.instantiateItem(container, position)
-
         var dependency = positionToDependency[position]
         if (dependency == null) {
             dependency = (AntonioAutoBindingPagerView(
@@ -49,6 +48,6 @@ open class AntonioPagerAdapter<ITEM : TypedModel>(
                 positionToDependency[position] = this
             }
         }
-        return dependency.instantiateItem(container, position, item)
+        return dependency.instantiateItem(container, position, item.layoutId(), item)
     }
 }

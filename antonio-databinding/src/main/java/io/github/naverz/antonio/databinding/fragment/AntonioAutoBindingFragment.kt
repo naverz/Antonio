@@ -18,29 +18,14 @@
 package io.github.naverz.antonio.databinding.fragment
 
 import android.os.Bundle
-import android.view.InflateException
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
-import io.github.naverz.antonio.core.TypedModel
-import java.lang.IllegalStateException
+import io.github.naverz.antonio.core.AntonioModel
+import io.github.naverz.antonio.core.Exceptions
+import io.github.naverz.antonio.databinding.AntonioBindingModel
 
-abstract class AntonioAutoBindingFragment : AntonioBindingFragment<ViewDataBinding, TypedModel>() {
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        try {
-            return super.onCreateView(inflater, container, savedInstanceState)
-        } catch (e: InflateException) {
-            throw InflateException(
-                "There is no related layout id with the view type you implemented, View type : ${layoutId()}]"
-            )
-        }
-    }
+abstract class AntonioAutoBindingFragment :
+    AntonioBindingFragment<ViewDataBinding, AntonioModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,9 +35,11 @@ abstract class AntonioAutoBindingFragment : AntonioBindingFragment<ViewDataBindi
             }
         }
         bindingVariableId()?.let {
-            if (binding?.setVariable(it, requireModel()) == false) {
-                //TODO Complete an exception message
-                throw IllegalStateException()
+            val model = requireModel()
+            if (binding?.setVariable(it, model) == false) {
+                val layoutIdStr =
+                    view.context.resources.getResourceName((model as AntonioBindingModel).layoutId())
+                throw IllegalStateException(Exceptions.errorIllegalBinding(layoutIdStr, model))
             }
         }
         binding?.executePendingBindings()

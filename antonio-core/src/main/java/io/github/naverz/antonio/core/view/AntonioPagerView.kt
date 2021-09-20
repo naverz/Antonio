@@ -17,39 +17,37 @@
 
 package io.github.naverz.antonio.core.view
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import io.github.naverz.antonio.core.TypedModel
+import io.github.naverz.antonio.core.AntonioModel
 
-abstract class AntonioPagerView<ITEM : TypedModel> : PagerViewDependency<ITEM> {
+abstract class AntonioPagerView<ITEM : AntonioModel> : PagerViewDependency<ITEM> {
 
     override fun instantiateItem(
-        container: ViewGroup, position: Int, typedModel: ITEM
+        container: ViewGroup, position: Int, viewType: Int, antonioModel: ITEM
     ): Any {
-        return LayoutInflater.from(container.context)
-            .inflate(typedModel.viewType(), container, false).apply {
-                container.addView(this)
-                onViewCreated(this, position, typedModel)
-            }
+        return getView(container, position, viewType, antonioModel).apply {
+            container.addView(this)
+            onViewCreated(this, position, antonioModel)
+        }
     }
 
     override fun destroyItem(
-        container: ViewGroup, position: Int, typedModel: ITEM, any: Any
+        container: ViewGroup, position: Int, antonioModel: ITEM, any: Any
     ) {
         container.removeView(any as View)
-        onDestroyedView(position, typedModel)
+        onDestroyedView(position, antonioModel)
     }
 
-    override fun getPageWidth(position: Int, typedModel: ITEM): Float {
+    override fun getPageWidth(position: Int, antonioModel: ITEM): Float {
         return 1.0f
     }
 
-    open fun onViewCreated(view: View, position: Int, typedModel: ITEM) {
+    open fun onViewCreated(view: View, position: Int, antonioModel: ITEM) {
 
     }
 
-    open fun onDestroyedView(position: Int, typedModel: ITEM) {
+    open fun onDestroyedView(position: Int, antonioModel: ITEM) {
 
     }
 

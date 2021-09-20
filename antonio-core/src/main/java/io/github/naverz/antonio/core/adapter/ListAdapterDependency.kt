@@ -19,9 +19,9 @@
 package io.github.naverz.antonio.core.adapter
 
 import androidx.recyclerview.widget.RecyclerView
-import io.github.naverz.antonio.core.TypedModel
+import io.github.naverz.antonio.core.AntonioModel
 
-interface ListAdapterDependency<ITEM : TypedModel> {
+interface ListAdapterDependency<ITEM : AntonioModel> {
     fun getCurrentList(): List<ITEM>
     fun setStateRestorationPolicy(strategy: RecyclerView.Adapter.StateRestorationPolicy)
     fun notifyDataSetChanged()

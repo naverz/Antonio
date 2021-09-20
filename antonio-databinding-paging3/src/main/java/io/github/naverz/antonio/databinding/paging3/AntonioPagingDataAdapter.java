@@ -17,7 +17,7 @@
 
 package io.github.naverz.antonio.databinding.paging3;
 
-import android.view.InflateException;
+import android.annotation.SuppressLint;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -25,140 +25,213 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.DiffUtil;
 
-import com.github.lakelab.antonio.paging3.core.AntonioCorePagingDataAdapter;
+import io.github.lakelab.antonio.core.paging3.AntonioCorePagingDataAdapter;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import io.github.naverz.antonio.core.TypedModel;
-import io.github.naverz.antonio.core.ViewHolderBuilder;
+import io.github.naverz.antonio.AntonioSettings;
+import io.github.naverz.antonio.core.AntonioModel;
+import io.github.naverz.antonio.core.container.ViewHolderContainer;
 import io.github.naverz.antonio.core.holder.TypedViewHolder;
-import io.github.naverz.antonio.databinding.AutoBindingModel;
-import io.github.naverz.antonio.databinding.holder.AntonioAutoBindingViewHolder;
+import io.github.naverz.antonio.databinding.adapter.DataBindingAdapterHelper;
 import kotlinx.coroutines.CoroutineDispatcher;
 
-public class AntonioPagingDataAdapter<ITEM extends TypedModel, VH extends TypedViewHolder<ITEM>>
-        extends AntonioCorePagingDataAdapter<ITEM, VH> {
+@SuppressLint("RestrictedApi")
+public class AntonioPagingDataAdapter<ITEM extends AntonioModel>
+        extends AntonioCorePagingDataAdapter<ITEM, TypedViewHolder<ITEM>> {
 
-    private final Map<Integer, AutoBindingModel> autoBindingViewTypeMap = new HashMap<>();
-    @Nullable
-    private final Map<Integer, Object> additionalVariables;
-    @Nullable
-    private final LifecycleOwner lifecycleOwner;
+    private final DataBindingAdapterHelper<ITEM, TypedViewHolder<ITEM>> helper;
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback) {
+        super(diffCallback, AntonioSettings.viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(null, null);
+
+    }
 
     public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
-                                    @NonNull Map<Integer, ViewHolderBuilder> viewHolderBuilderMap) {
-        super(diffCallback, viewHolderBuilderMap);
-        this.additionalVariables = null;
-        this.lifecycleOwner = null;
+                                    @NonNull CoroutineDispatcher mainDispatcher,
+                                    @NonNull CoroutineDispatcher workerDispatcher) {
+        super(diffCallback, mainDispatcher, workerDispatcher, AntonioSettings.viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(null, null);
+
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull CoroutineDispatcher mainDispatcher) {
+        super(diffCallback, mainDispatcher, AntonioSettings.viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(null, null);
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @Nullable Map<Integer, Object> additionalVariables) {
+        super(diffCallback, AntonioSettings.viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(additionalVariables, null);
     }
 
     public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
                                     @NonNull CoroutineDispatcher mainDispatcher,
                                     @NonNull CoroutineDispatcher workerDispatcher,
-                                    @NonNull Map<Integer, ViewHolderBuilder> viewHolderBuilderMap) {
-        super(diffCallback, mainDispatcher, workerDispatcher, viewHolderBuilderMap);
-        this.additionalVariables = null;
-        this.lifecycleOwner = null;
-    }
-
-    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
-                                    @NonNull CoroutineDispatcher mainDispatcher,
-                                    @NonNull Map<Integer, ViewHolderBuilder> viewHolderBuilderMap) {
-        super(diffCallback, mainDispatcher, viewHolderBuilderMap);
-        this.additionalVariables = null;
-        this.lifecycleOwner = null;
-    }
-
-    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
-                                    @NonNull Map<Integer, ViewHolderBuilder> viewHolderBuilderMap,
                                     @Nullable Map<Integer, Object> additionalVariables) {
-        super(diffCallback, viewHolderBuilderMap);
-        this.additionalVariables = additionalVariables;
-        this.lifecycleOwner = null;
+        super(diffCallback, mainDispatcher, workerDispatcher, AntonioSettings.viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(additionalVariables, null);
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @Nullable LifecycleOwner lifecycleOwner) {
+        super(diffCallback, AntonioSettings.viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(null, lifecycleOwner);
     }
 
     public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
                                     @NonNull CoroutineDispatcher mainDispatcher,
                                     @NonNull CoroutineDispatcher workerDispatcher,
-                                    @NonNull Map<Integer, ViewHolderBuilder> viewHolderBuilderMap,
+                                    @Nullable LifecycleOwner lifecycleOwner) {
+        super(diffCallback, mainDispatcher, workerDispatcher, AntonioSettings.viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(null, lifecycleOwner);
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull CoroutineDispatcher mainDispatcher,
+                                    @Nullable LifecycleOwner lifecycleOwner) {
+        super(diffCallback, mainDispatcher, AntonioSettings.viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(null, lifecycleOwner);
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull CoroutineDispatcher mainDispatcher,
                                     @Nullable Map<Integer, Object> additionalVariables) {
-        super(diffCallback, mainDispatcher, workerDispatcher, viewHolderBuilderMap);
-        this.additionalVariables = additionalVariables;
-        this.lifecycleOwner = null;
-    }
-
-    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
-                                    @NonNull Map<Integer, ViewHolderBuilder> viewHolderBuilderMap,
-                                    @Nullable LifecycleOwner lifecycleOwner) {
-        super(diffCallback, viewHolderBuilderMap);
-        this.additionalVariables = null;
-        this.lifecycleOwner = lifecycleOwner;
-    }
-
-    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
-                                    @NonNull CoroutineDispatcher mainDispatcher,
-                                    @NonNull CoroutineDispatcher workerDispatcher,
-                                    @NonNull Map<Integer, ViewHolderBuilder> viewHolderBuilderMap,
-                                    @Nullable LifecycleOwner lifecycleOwner) {
-        super(diffCallback, mainDispatcher, workerDispatcher, viewHolderBuilderMap);
-        this.additionalVariables = null;
-        this.lifecycleOwner = lifecycleOwner;
-    }
-
-    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
-                                    @NonNull CoroutineDispatcher mainDispatcher,
-                                    @NonNull Map<Integer, ViewHolderBuilder> viewHolderBuilderMap,
-                                    @Nullable LifecycleOwner lifecycleOwner) {
-        super(diffCallback, mainDispatcher, viewHolderBuilderMap);
-        this.additionalVariables = null;
-        this.lifecycleOwner = lifecycleOwner;
-    }
-
-    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
-                                    @NonNull CoroutineDispatcher mainDispatcher,
-                                    @NonNull Map<Integer, ViewHolderBuilder> viewHolderBuilderMap,
-                                    @Nullable Map<Integer, Object> additionalVariables) {
-        super(diffCallback, mainDispatcher, viewHolderBuilderMap);
-        this.additionalVariables = additionalVariables;
-        this.lifecycleOwner = null;
+        super(diffCallback, mainDispatcher, AntonioSettings.viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(additionalVariables, null);
 
     }
 
     public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
-                                    @NonNull Map<Integer, ViewHolderBuilder> viewHolderBuilderMap,
                                     @Nullable Map<Integer, Object> additionalVariables,
                                     @Nullable LifecycleOwner lifecycleOwner) {
-        super(diffCallback, viewHolderBuilderMap);
-        this.additionalVariables = additionalVariables;
-        this.lifecycleOwner = lifecycleOwner;
+        super(diffCallback, AntonioSettings.viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(additionalVariables, lifecycleOwner);
     }
 
     public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
                                     @NonNull CoroutineDispatcher mainDispatcher,
                                     @NonNull CoroutineDispatcher workerDispatcher,
-                                    @NonNull Map<Integer, ViewHolderBuilder> viewHolderBuilderMap,
                                     @Nullable Map<Integer, Object> additionalVariables,
                                     @Nullable LifecycleOwner lifecycleOwner) {
-        super(diffCallback, mainDispatcher, workerDispatcher, viewHolderBuilderMap);
-        this.additionalVariables = additionalVariables;
-        this.lifecycleOwner = lifecycleOwner;
+        super(diffCallback, mainDispatcher, workerDispatcher, AntonioSettings.viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(additionalVariables, lifecycleOwner);
     }
 
     public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
                                     @NonNull CoroutineDispatcher mainDispatcher,
-                                    @NonNull Map<Integer, ViewHolderBuilder> viewHolderBuilderMap,
                                     @Nullable Map<Integer, Object> additionalVariables,
                                     @Nullable LifecycleOwner lifecycleOwner) {
-        super(diffCallback, mainDispatcher, viewHolderBuilderMap);
-        this.additionalVariables = additionalVariables;
-        this.lifecycleOwner = lifecycleOwner;
+        super(diffCallback, mainDispatcher, AntonioSettings.viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(additionalVariables, lifecycleOwner);
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull ViewHolderContainer viewHolderContainer) {
+        super(diffCallback, viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(null, null);
+
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull CoroutineDispatcher mainDispatcher,
+                                    @NonNull CoroutineDispatcher workerDispatcher,
+                                    @NonNull ViewHolderContainer viewHolderContainer) {
+        super(diffCallback, mainDispatcher, workerDispatcher, viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(null, null);
+
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull CoroutineDispatcher mainDispatcher,
+                                    @NonNull ViewHolderContainer viewHolderContainer) {
+        super(diffCallback, mainDispatcher, viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(null, null);
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull ViewHolderContainer viewHolderContainer,
+                                    @Nullable Map<Integer, Object> additionalVariables) {
+        super(diffCallback, viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(additionalVariables, null);
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull CoroutineDispatcher mainDispatcher,
+                                    @NonNull CoroutineDispatcher workerDispatcher,
+                                    @NonNull ViewHolderContainer viewHolderContainer,
+                                    @Nullable Map<Integer, Object> additionalVariables) {
+        super(diffCallback, mainDispatcher, workerDispatcher, viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(additionalVariables, null);
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull ViewHolderContainer viewHolderContainer,
+                                    @Nullable LifecycleOwner lifecycleOwner) {
+        super(diffCallback, viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(null, lifecycleOwner);
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull CoroutineDispatcher mainDispatcher,
+                                    @NonNull CoroutineDispatcher workerDispatcher,
+                                    @NonNull ViewHolderContainer viewHolderContainer,
+                                    @Nullable LifecycleOwner lifecycleOwner) {
+        super(diffCallback, mainDispatcher, workerDispatcher, viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(null, lifecycleOwner);
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull CoroutineDispatcher mainDispatcher,
+                                    @NonNull ViewHolderContainer viewHolderContainer,
+                                    @Nullable LifecycleOwner lifecycleOwner) {
+        super(diffCallback, mainDispatcher, viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(null, lifecycleOwner);
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull CoroutineDispatcher mainDispatcher,
+                                    @NonNull ViewHolderContainer viewHolderContainer,
+                                    @Nullable Map<Integer, Object> additionalVariables) {
+        super(diffCallback, mainDispatcher, viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(additionalVariables, null);
+
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull ViewHolderContainer viewHolderContainer,
+                                    @Nullable Map<Integer, Object> additionalVariables,
+                                    @Nullable LifecycleOwner lifecycleOwner) {
+        super(diffCallback, viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(additionalVariables, lifecycleOwner);
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull CoroutineDispatcher mainDispatcher,
+                                    @NonNull CoroutineDispatcher workerDispatcher,
+                                    @NonNull ViewHolderContainer viewHolderContainer,
+                                    @Nullable Map<Integer, Object> additionalVariables,
+                                    @Nullable LifecycleOwner lifecycleOwner) {
+        super(diffCallback, mainDispatcher, workerDispatcher, viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(additionalVariables, lifecycleOwner);
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull CoroutineDispatcher mainDispatcher,
+                                    @NonNull ViewHolderContainer viewHolderContainer,
+                                    @Nullable Map<Integer, Object> additionalVariables,
+                                    @Nullable LifecycleOwner lifecycleOwner) {
+        super(diffCallback, mainDispatcher, viewHolderContainer);
+        helper = new DataBindingAdapterHelper<>(additionalVariables, lifecycleOwner);
     }
 
     @NonNull
     @Override
-    public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        VH createdBinding = createViewBindingIfIsAutoBindingModel(parent, viewType);
+    public TypedViewHolder<ITEM> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        TypedViewHolder<ITEM> createdBinding = helper.createViewBindingIfIsAutoBindingModel(parent, viewType);
         if (createdBinding != null) return createdBinding;
         return super.onCreateViewHolder(parent, viewType);
     }
@@ -166,31 +239,10 @@ public class AntonioPagingDataAdapter<ITEM extends TypedModel, VH extends TypedV
     @Override
     public int getItemViewType(int position) {
         ITEM item = getItem(position);
-        if (item instanceof AutoBindingModel && !autoBindingViewTypeMap.containsKey(item.viewType())) {
-            autoBindingViewTypeMap.put(item.viewType(), (AutoBindingModel) item);
+        Integer layoutId = helper.findLayoutId(item);
+        if (layoutId == null) {
+            return super.getItemViewType(position);
         }
-        if (item == null) return super.getItemViewType(position);
-        return item.viewType();
+        return layoutId;
     }
-
-    @Nullable
-    @SuppressWarnings("unchecked")
-    private VH createViewBindingIfIsAutoBindingModel(ViewGroup parent, int viewType) {
-        AutoBindingModel model = autoBindingViewTypeMap.get(viewType);
-        if (model == null) return null;
-        try {
-            return (VH) new AntonioAutoBindingViewHolder(
-                    model.viewType(),
-                    parent,
-                    model.bindingVariableId(),
-                    additionalVariables,
-                    lifecycleOwner
-            );
-        } catch (InflateException e) {
-            throw new InflateException(
-                    String.format("There is no related layout id with the view type you implemented, View type : [%d]", model.viewType())
-            );
-        }
-    }
-
 }

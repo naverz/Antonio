@@ -18,26 +18,19 @@
 package io.github.naverz.antonio.databinding.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import io.github.naverz.antonio.core.TypedModel
+import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.fragment.AntonioFragment
 
-abstract class AntonioBindingFragment<T : ViewDataBinding, ITEM : TypedModel> :
+abstract class AntonioBindingFragment<T : ViewDataBinding, ITEM : AntonioModel> :
     AntonioFragment<ITEM>() {
     protected var binding: T? = null
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return super.onCreateView(inflater, container, savedInstanceState).apply {
-            binding = DataBindingUtil.bind<T>(this)?.also { binding ->
-                binding.lifecycleOwner = this@AntonioBindingFragment.viewLifecycleOwner
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = DataBindingUtil.bind<T>(view)?.also { binding ->
+            binding.lifecycleOwner = this@AntonioBindingFragment.viewLifecycleOwner
         }
     }
 

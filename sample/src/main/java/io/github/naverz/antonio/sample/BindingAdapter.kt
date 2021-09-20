@@ -21,7 +21,7 @@ import android.view.View
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
-import io.github.naverz.antonio.core.TypedModel
+import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.state.RecyclerViewState
 import io.github.naverz.antonio.core.state.SubmittableRecyclerViewState
 import io.github.naverz.antonio.core.state.ViewPagerState
@@ -29,18 +29,18 @@ import io.github.naverz.antonio.databinding.setState
 
 
 @BindingAdapter("setStateWithAutoBinding")
-fun <T : TypedModel> RecyclerView.setRecyclerState(submittableRecyclerViewState: SubmittableRecyclerViewState<T>?) {
+fun <T : AntonioModel> RecyclerView.setRecyclerState(submittableRecyclerViewState: SubmittableRecyclerViewState<T>?) {
     this.setState(submittableRecyclerViewState)
 }
 
 
 @BindingAdapter("setStateWithAutoBinding")
-fun <T : TypedModel> RecyclerView.setRecyclerState(recyclerViewState: RecyclerViewState<T>?) {
+fun <T : AntonioModel> RecyclerView.setRecyclerState(recyclerViewState: RecyclerViewState<T>?) {
     this.setState(recyclerViewState)
 }
 
 @BindingAdapter("setState")
-fun <T : TypedModel> ViewPager.setPagerState(pagerState: ViewPagerState<T>?) {
+fun <T : AntonioModel> ViewPager.setPagerState(pagerState: ViewPagerState<T>?) {
     this.setState(pagerState)
 }
 

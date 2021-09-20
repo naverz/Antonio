@@ -18,7 +18,7 @@ package io.github.naverz.antonio.core.state
 
 import android.view.View
 import androidx.annotation.RestrictTo
-import io.github.naverz.antonio.core.TypedModel
+import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.adapter.PagerAdapterDependency
 import io.github.naverz.antonio.core.etc.MainThreadExecutor
 import io.github.naverz.antonio.core.etc.ThreadChecker
@@ -26,7 +26,7 @@ import io.github.naverz.antonio.core.etc.ThreadCheckerImpl
 import java.util.concurrent.Executor
 
 
-open class ViewPagerState<ITEM : TypedModel> {
+open class ViewPagerState<ITEM : AntonioModel> {
     var currentList = mutableListOf<ITEM>()
 
     @RestrictTo(RestrictTo.Scope.TESTS)

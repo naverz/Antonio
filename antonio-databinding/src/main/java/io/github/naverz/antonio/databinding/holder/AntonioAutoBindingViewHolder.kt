@@ -21,10 +21,10 @@ import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
-import io.github.naverz.antonio.core.TypedModel
+import io.github.naverz.antonio.core.AntonioModel
+import io.github.naverz.antonio.core.Exceptions
 import io.github.naverz.antonio.databinding.BR
-import io.github.naverz.antonio.databinding.findLifecycleOwner
-import java.lang.IllegalStateException
+import io.github.naverz.antonio.findLifecycleOwner
 
 open class AntonioAutoBindingViewHolder(
     override val layoutId: Int,
@@ -32,7 +32,7 @@ open class AntonioAutoBindingViewHolder(
     private val bindingVariableId: Int?,
     private val additionalVariables: Map<Int, Any>? = null,
     private val lifecycleOwner: LifecycleOwner? = null,
-) : AntonioBindingViewHolder<ViewDataBinding, TypedModel>(layoutId, parent) {
+) : AntonioBindingViewHolder<ViewDataBinding, AntonioModel>(layoutId, parent) {
     @Suppress("LeakingThis")
     private val mLifeCycleOwner: LifecycleOwner? =
         this.lifecycleOwner ?: findLifecycleOwner(parent)
@@ -47,11 +47,12 @@ open class AntonioAutoBindingViewHolder(
         }
     }
 
-    override fun onBindViewHolder(data: TypedModel, position: Int, payloads: List<Any>?) {
+    override fun onBindViewHolder(data: AntonioModel, position: Int, payloads: List<Any>?) {
         bindingVariableId?.let {
             if (!binding.setVariable(it, data)) {
-                //TODO Complete an exception message
-                throw IllegalStateException()
+                val layoutIdStr =
+                    itemView.context.resources.getResourceName(layoutId)
+                throw IllegalStateException(Exceptions.errorIllegalBinding(layoutIdStr, data))
             }
         }
         binding.setVariable(BR.absoluteAdapterPosition, absoluteAdapterPosition)

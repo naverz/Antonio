@@ -1,0 +1,74 @@
+import io.github.naverz.antonio.buildsrc.*
+
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+afterEvaluate {
+    publishing {
+        repositories {
+            maven {
+
+                credentials {
+                    username properties.getProperty("ossrhUserName")
+                    password properties.getProperty("ossrhPassword")
+                }
+                def releasesRepoUrl = Maven.REPOSITORY_URL
+                def snapshotsRepoUrl = Maven.SNAP_SHOP_REPOSITORY_URL
+                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+            }
+        }
+        task javadocJar(type: Jar) {
+            classifier = 'javadoc'
+            from javadoc
+        }
+
+        task sourcesJar(type: Jar) {
+            classifier = 'sources'
+            from sourceSets.main.allSource
+        }
+        artifacts {
+            archives javadocJar, sourcesJar
+        }
+        publications {
+            maven(MavenPublication) {
+                from components.java
+                groupId = Antonio.GROUP_ID
+                artifactId = 'antonio-annotation'
+                version = AntonioAnnotation.VERSION_NAME
+                artifact javadocJar
+                artifact sourcesJar
+
+                pom {
+                    signing {
+                        sign publishing.publications.maven
+                        sign configurations.archives
+                    }
+                    name = Antonio.NAME
+                    description = Antonio.DESCRIPTION
+                    url = Antonio.REPOSITORY_HTTP_URL
+
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = properties.getProperty("ossrhUserName")
+                            name = properties.getProperty("ossrhUserName")
+                            email = properties.getProperty("ossrhEmail")
+                        }
+                    }
+                    scm {
+                        connection = Antonio.REPOSITORY_SCM_GIT_URL
+                        developerConnection = Antonio.REPOSITORY_SCM_GIT_URL
+                        url = Antonio.REPOSITORY_HTTP_URL
+                    }
+                }
+            }
+        }
+    }
+}

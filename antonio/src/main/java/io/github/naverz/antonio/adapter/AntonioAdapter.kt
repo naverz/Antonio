@@ -17,10 +17,11 @@
 
 package io.github.naverz.antonio.adapter
 
-import io.github.naverz.antonio.core.TypedModel
+import io.github.naverz.antonio.AntonioSettings
+import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.adapter.AntonioCoreAdapter
 import io.github.naverz.antonio.core.container.ViewHolderContainer
 
-open class AntonioAdapter<ITEM : TypedModel>(
-    override val viewHolderContainer: ViewHolderContainer,
+open class AntonioAdapter<ITEM : AntonioModel>(
+    override val viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer,
 ) : AntonioCoreAdapter<ITEM>(viewHolderContainer)

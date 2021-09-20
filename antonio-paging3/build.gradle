@@ -1,6 +1,9 @@
+import io.github.naverz.antonio.buildsrc.*
+
 plugins {
     id 'com.android.library'
 }
+apply from: 'release.gradle'
 
 android {
     compileSdk 30
@@ -8,19 +11,13 @@ android {
     defaultConfig {
         minSdk 16
         targetSdk 30
-        versionCode project.versionCode
-        versionName project.versionName
+        versionCode Antonio.VERSION_CODE
+        versionName Antonio.VERSION_NAME
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -28,10 +25,10 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':antonio-paging3-core')
-    compileOnly "androidx.paging:paging-runtime:3.0.1"
-    compileOnly project(path: ':antonio')
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    api Antonio.PAGING3_CORE
+    implementation Antonio.NORMAL
+    implementation Android.PAGING3
+    testImplementation Test.JUNIT
+    androidTestImplementation Test.EXT_JUNIT
+    androidTestImplementation Test.ESPRESSO
 }

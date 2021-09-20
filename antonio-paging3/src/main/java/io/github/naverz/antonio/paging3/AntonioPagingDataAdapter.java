@@ -20,26 +20,46 @@ package io.github.naverz.antonio.paging3;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 
-import com.github.lakelab.antonio.paging3.core.AntonioCorePagingDataAdapter;
+import io.github.lakelab.antonio.core.paging3.AntonioCorePagingDataAdapter;
 
-import java.util.Map;
-
-import io.github.naverz.antonio.core.TypedModel;
-import io.github.naverz.antonio.core.ViewHolderBuilder;
+import io.github.naverz.antonio.AntonioSettings;
+import io.github.naverz.antonio.core.AntonioModel;
+import io.github.naverz.antonio.core.container.ViewHolderContainer;
 import io.github.naverz.antonio.core.holder.TypedViewHolder;
 import kotlinx.coroutines.CoroutineDispatcher;
 
-public class AntonioPagingDataAdapter<ITEM extends TypedModel, VH extends TypedViewHolder<ITEM>>
-        extends AntonioCorePagingDataAdapter<ITEM, VH> {
-    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback, Map<Integer, ViewHolderBuilder> viewHolderBuilderMap) {
-        super(diffCallback, viewHolderBuilderMap);
+public class AntonioPagingDataAdapter<ITEM extends AntonioModel>
+        extends AntonioCorePagingDataAdapter<ITEM, TypedViewHolder<ITEM>> {
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback) {
+        super(diffCallback, AntonioSettings.viewHolderContainer);
     }
 
-    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback, @NonNull CoroutineDispatcher mainDispatcher, @NonNull CoroutineDispatcher workerDispatcher, Map<Integer, ViewHolderBuilder> viewHolderBuilderMap) {
-        super(diffCallback, mainDispatcher, workerDispatcher, viewHolderBuilderMap);
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull CoroutineDispatcher mainDispatcher,
+                                    @NonNull CoroutineDispatcher workerDispatcher) {
+        super(diffCallback, mainDispatcher, workerDispatcher, AntonioSettings.viewHolderContainer);
     }
 
-    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback, @NonNull CoroutineDispatcher mainDispatcher, Map<Integer, ViewHolderBuilder> viewHolderBuilderMap) {
-        super(diffCallback, mainDispatcher, viewHolderBuilderMap);
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull CoroutineDispatcher mainDispatcher) {
+        super(diffCallback, mainDispatcher, AntonioSettings.viewHolderContainer);
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull ViewHolderContainer viewHolderContainer) {
+        super(diffCallback, viewHolderContainer);
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull CoroutineDispatcher mainDispatcher,
+                                    @NonNull CoroutineDispatcher workerDispatcher,
+                                    @NonNull ViewHolderContainer viewHolderContainer) {
+        super(diffCallback, mainDispatcher, workerDispatcher, viewHolderContainer);
+    }
+
+    public AntonioPagingDataAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
+                                    @NonNull CoroutineDispatcher mainDispatcher,
+                                    @NonNull ViewHolderContainer viewHolderContainer) {
+        super(diffCallback, mainDispatcher, viewHolderContainer);
     }
 }

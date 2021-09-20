@@ -2,19 +2,30 @@ package io.github.naverz.antonio.core.container
 
 import io.github.naverz.antonio.core.FragmentBuilder
 
-class FragmentContainer : ViewContainer<FragmentBuilder> {
+open class FragmentContainer : ViewContainer<FragmentBuilder> {
 
+    private var viewTypeIndex = 0
     private val fragmentBuilderMap = hashMapOf<Int, FragmentBuilder>()
+    private val classWithViewType = hashMapOf<Class<*>, Int>()
 
-    override fun add(key: Int, value: FragmentBuilder) {
-        fragmentBuilderMap[key] = value
+    override fun getViewType(modelClass: Class<*>): Int? {
+        return classWithViewType[modelClass]
     }
 
-    override fun addAll(from: Map<Int, FragmentBuilder>) {
-        fragmentBuilderMap.putAll(from)
+    override fun get(viewType: Int): FragmentBuilder? {
+        return fragmentBuilderMap[viewType]
     }
 
-    override fun get(key: Int): FragmentBuilder? {
-        return fragmentBuilderMap[key]
+    override fun add(modelClass: Class<*>, value: FragmentBuilder): ViewContainer<FragmentBuilder> {
+        synchronized(this) {
+            classWithViewType[modelClass] = viewTypeIndex
+            fragmentBuilderMap[viewTypeIndex] = value
+            viewTypeIndex += 1
+            return this
+        }
+    }
+
+    override fun get(modelClass: Class<*>): FragmentBuilder? {
+        return classWithViewType[modelClass]?.let { viewType -> fragmentBuilderMap[viewType] }
     }
 }

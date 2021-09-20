@@ -26,11 +26,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import io.github.naverz.antonio.R
 import io.github.naverz.antonio.databinding.MainFragmentBinding
-import io.github.naverz.antonio.databinding.setStateWithFragmentBuilder
+import io.github.naverz.antonio.databinding.setStateWithFragment
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class MainFragment : Fragment() {
     private val viewModel by viewModels<MainFragmentViewModel>()
@@ -62,7 +62,7 @@ class MainFragment : Fragment() {
     private fun setPagerAndTabLayout() {
         val viewPager2 = binding?.viewPager2 ?: return
         val tabLayout = binding?.tabLayout ?: return
-        viewPager2.setStateWithFragmentBuilder(viewModel.viewPager2State)
+        viewPager2.setStateWithFragment(viewModel.viewPager2State)
         mediator =
             TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
                 tab.text = viewModel.headTitles[position]

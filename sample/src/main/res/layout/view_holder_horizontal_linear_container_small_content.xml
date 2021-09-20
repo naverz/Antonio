@@ -13,7 +13,7 @@
 
         <variable
             name="model"
-            type="io.github.naverz.antonio.sample.SmallContainerModel"
+            type="io.github.naverz.antonio.sample.antonio.ContainerForSmallContents"
             />
     </data>
 

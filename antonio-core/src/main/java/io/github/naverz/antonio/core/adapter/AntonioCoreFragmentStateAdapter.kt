@@ -23,18 +23,24 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import io.github.naverz.antonio.core.FragmentBuilder
-import io.github.naverz.antonio.core.TypedModel
+import io.github.naverz.antonio.AntonioSettings
+import io.github.naverz.antonio.core.AntonioModel
+import io.github.naverz.antonio.core.Exceptions
+import io.github.naverz.antonio.core.container.ContainerType
 import io.github.naverz.antonio.core.container.FragmentContainer
-import io.github.naverz.antonio.core.throwClassCastExceptionForBinding
 import io.github.naverz.antonio.core.fragment.AntonioFragment
 
-abstract class AntonioCoreFragmentStateAdapter<ITEM : TypedModel>
+abstract class AntonioCoreFragmentStateAdapter<ITEM : AntonioModel>
     : FragmentStateAdapter, AdapterDependency<ITEM> {
     protected val implementedItemID: Boolean
     protected val fragmentContainer: FragmentContainer
     protected val fragmentManager: FragmentManager
 
+    /**
+     * @param fragmentActivity if the ViewPager2 lives directly in a FragmentActivity subclass.
+     * @param implementedItemID If it's true, AntonioModel.modelId will be used when it's `io.github.naverz.antonio.core.adapter.AntonioCoreFragmentStateAdapter.getItemId` and `io.github.naverz.antonio.core.adapter.AntonioCoreFragmentStateAdapter.containsItem`
+     * @param fragmentContainer It's for the custom container. you don need to use the custom container, if you use the container in AntonioSettings.
+     */
     constructor(
         fragmentActivity: FragmentActivity,
         implementedItemID: Boolean,
@@ -45,6 +51,11 @@ abstract class AntonioCoreFragmentStateAdapter<ITEM : TypedModel>
         fragmentManager = fragmentActivity.supportFragmentManager
     }
 
+    /**
+     * @param fragment if the ViewPager2 lives directly in a Fragment subclass.
+     * @param implementedItemID If it's true, AntonioModel.modelId will be used when it's `io.github.naverz.antonio.core.adapter.AntonioCoreFragmentStateAdapter.getItemId` and `io.github.naverz.antonio.core.adapter.AntonioCoreFragmentStateAdapter.containsItem`
+     * @param fragmentContainer It's for the custom container. you don need to use the custom container, if you use the container in AntonioSettings.
+     */
     constructor(
         fragment: Fragment,
         implementedItemID: Boolean,
@@ -55,6 +66,12 @@ abstract class AntonioCoreFragmentStateAdapter<ITEM : TypedModel>
         fragmentManager = fragment.childFragmentManager
     }
 
+    /**
+     * @param fragmentManager of ViewPager2's host
+     * @param lifecycle of ViewPager2's host
+     * @param implementedItemID If it's true, AntonioModel.modelId will be used when it's `io.github.naverz.antonio.core.adapter.AntonioCoreFragmentStateAdapter.getItemId` and `io.github.naverz.antonio.core.adapter.AntonioCoreFragmentStateAdapter.containsItem`
+     * @param fragmentContainer It's for the custom container. you don need to use the custom container, if you use the container in AntonioSettings.
+     */
     constructor(
         fragmentManager: FragmentManager,
         lifecycle: Lifecycle,
@@ -63,6 +80,47 @@ abstract class AntonioCoreFragmentStateAdapter<ITEM : TypedModel>
     ) : super(fragmentManager, lifecycle) {
         this.implementedItemID = implementedItemID
         this.fragmentContainer = fragmentContainer
+        this.fragmentManager = fragmentManager
+    }
+
+    /**
+     * @param fragmentActivity if the ViewPager2 lives directly in a FragmentActivity subclass.
+     * @param implementedItemID If it's true, AntonioModel.modelId will be used when it's `io.github.naverz.antonio.core.adapter.AntonioCoreFragmentStateAdapter.getItemId` and `io.github.naverz.antonio.core.adapter.AntonioCoreFragmentStateAdapter.containsItem`
+     */
+    constructor(
+        fragmentActivity: FragmentActivity,
+        implementedItemID: Boolean,
+    ) : super(fragmentActivity) {
+        this.implementedItemID = implementedItemID
+        this.fragmentContainer = AntonioSettings.fragmentContainer
+        fragmentManager = fragmentActivity.supportFragmentManager
+    }
+
+    /**
+     * @param fragment if the ViewPager2 lives directly in a Fragment subclass.
+     * @param implementedItemID If it's true, AntonioModel.modelId will be used when it's `io.github.naverz.antonio.core.adapter.AntonioCoreFragmentStateAdapter.getItemId` and `io.github.naverz.antonio.core.adapter.AntonioCoreFragmentStateAdapter.containsItem`
+     */
+    constructor(
+        fragment: Fragment,
+        implementedItemID: Boolean,
+    ) : super(fragment) {
+        this.implementedItemID = implementedItemID
+        this.fragmentContainer = AntonioSettings.fragmentContainer
+        fragmentManager = fragment.childFragmentManager
+    }
+
+    /**
+     * @param fragmentManager of ViewPager2's host
+     * @param lifecycle of ViewPager2's host
+     * @param implementedItemID If it's true, AntonioModel.modelId will be used when it's `io.github.naverz.antonio.core.adapter.AntonioCoreFragmentStateAdapter.getItemId` and `io.github.naverz.antonio.core.adapter.AntonioCoreFragmentStateAdapter.containsItem`
+     */
+    constructor(
+        fragmentManager: FragmentManager,
+        lifecycle: Lifecycle,
+        implementedItemID: Boolean,
+    ) : super(fragmentManager, lifecycle) {
+        this.implementedItemID = implementedItemID
+        this.fragmentContainer = AntonioSettings.fragmentContainer
         this.fragmentManager = fragmentManager
     }
 
@@ -75,8 +133,8 @@ abstract class AntonioCoreFragmentStateAdapter<ITEM : TypedModel>
 
     override fun getItemId(position: Int): Long {
         return if (implementedItemID)
-            currentList[position].itemId
-                ?: throw IllegalStateException("If you set the implementedItemID flag true, You must implement the itemId in your all of LayoutIdModels")
+            currentList[position].modelId
+                ?: throw IllegalStateException("If you set the implementedItemID flag true, You must implement itemId in your all of AntonioModel")
         else {
             super.getItemId(position)
         }
@@ -85,27 +143,27 @@ abstract class AntonioCoreFragmentStateAdapter<ITEM : TypedModel>
 
     override fun containsItem(itemId: Long): Boolean {
         return if (implementedItemID) {
-            currentList.any { it.itemId == itemId }
+            currentList.any { it.modelId == itemId }
         } else {
             super.containsItem(itemId)
         }
     }
 
-    override fun getItemCount(): Int = 2
+    override fun getItemCount(): Int = currentList.size
 
     @Suppress("UNCHECKED_CAST")
     override fun createFragment(position: Int): Fragment {
         val data = currentList[position]
         val dependency =
-            fragmentContainer.get(data.viewType())?.build() ?: throw IllegalStateException(
-                "There is no related view holder dependency with the layout id[${currentList[position].viewType()}]"
+            fragmentContainer.get(data::class.java)?.build() ?: throw IllegalStateException(
+                Exceptions.errorRegisterFirst(data::class.java, ContainerType.FRAGMENT)
             )
 
         return (dependency as AntonioFragment<ITEM>).apply {
             try {
                 this.setData(position, data)
             } catch (e: ClassCastException) {
-                this.throwClassCastExceptionForBinding(data)
+                throw IllegalStateException(Exceptions.errorClassCast(data, this), e)
             }
         }
     }

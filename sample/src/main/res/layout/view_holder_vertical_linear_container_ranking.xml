@@ -8,7 +8,7 @@
 
         <variable
             name="model"
-            type="io.github.naverz.antonio.sample.RankingContainerModel"
+            type="io.github.naverz.antonio.sample.antonio.RankingContainer"
             />
     </data>
 

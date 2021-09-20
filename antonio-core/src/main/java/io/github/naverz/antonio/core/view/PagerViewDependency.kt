@@ -17,20 +17,15 @@
 
 package io.github.naverz.antonio.core.view
 
+import android.view.View
 import android.view.ViewGroup
-import io.github.naverz.antonio.core.TypedModel
-import java.lang.reflect.ParameterizedType
+import io.github.naverz.antonio.GenericAntonioFindable
+import io.github.naverz.antonio.core.AntonioModel
 
-interface PagerViewDependency<ITEM : TypedModel> {
-    fun instantiateItem(container: ViewGroup, position: Int, typedModel: ITEM): Any
-    fun destroyItem(container: ViewGroup, position: Int, typedModel: ITEM, any: Any)
-    fun getPageWidth(position: Int, typedModel: ITEM): Float
-
-    @Suppress("UNCHECKED_CAST")
-    fun getDeclaredLayoutIdModelClass(): Class<ITEM>? = try {
-        ((javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<ITEM>)
-    } catch (e: Exception) {
-        null
-    }
+interface PagerViewDependency<ITEM : AntonioModel> : GenericAntonioFindable {
+    fun getView(container: ViewGroup, position: Int, viewType: Int, antonioModel: ITEM): View
+    fun instantiateItem(container: ViewGroup, position: Int, viewType: Int, antonioModel: ITEM): Any
+    fun destroyItem(container: ViewGroup, position: Int, antonioModel: ITEM, any: Any)
+    fun getPageWidth(position: Int, antonioModel: ITEM): Float
 }
 

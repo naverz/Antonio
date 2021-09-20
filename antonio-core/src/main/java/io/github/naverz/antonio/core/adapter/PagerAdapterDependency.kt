@@ -18,9 +18,9 @@
 package io.github.naverz.antonio.core.adapter
 
 import android.view.View
-import io.github.naverz.antonio.core.TypedModel
+import io.github.naverz.antonio.core.AntonioModel
 
-interface PagerAdapterDependency<ITEM : TypedModel> {
+interface PagerAdapterDependency<ITEM : AntonioModel> {
     var itemList: MutableList<ITEM>
     var isViewFromObject: (view: View, any: Any) -> Boolean
     var titles: List<CharSequence>?

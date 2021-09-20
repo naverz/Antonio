@@ -8,7 +8,7 @@
 /build
 /captures
 .cxx
-
+/deploy
 # Created by https://www.toptal.com/developers/gitignore/api/androidstudio,android,gradle
 # Edit at https://www.toptal.com/developers/gitignore?templates=androidstudio,android,gradle
 
@@ -53,6 +53,7 @@ captures/
 
 # IntelliJ
 *.iml
+.idea
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/gradle.xml

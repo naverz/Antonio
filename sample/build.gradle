@@ -1,3 +1,5 @@
+import io.github.naverz.antonio.buildsrc.*
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
@@ -20,7 +22,7 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -35,24 +37,28 @@ android {
 }
 
 dependencies {
+    kapt AntonioAnnotation.COMPILER
+    implementation AntonioAnnotation.ANNOTATION
+    implementation Antonio.DATA_BINDING
+    // For paging3
+    implementation Android.PAGING3
+    implementation Antonio.DATA_BINDING_PAGING3
 
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.activity:activity-ktx:1.3.1'
-    implementation 'androidx.fragment:fragment-ktx:1.3.6'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
-    def lifecycle_version = "2.4.0-alpha03"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-    implementation "androidx.viewpager2:viewpager2:1.0.0"
-    implementation "androidx.recyclerview:recyclerview:1.2.1"
-    implementation project(path: ':antonio-databinding')
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    kapt "com.android.databinding:compiler:$data_binding_compiler_version"
-    def nav_version = "2.3.5"
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation Android.CORE_KTX
+    implementation Android.APP_COMPAT
+    implementation Android.MATERIAL
+    implementation Android.ACTIVITY_KTX
+    implementation Android.FRAGMENT
+    implementation Android.CONSTRAINT_LAYOUT
+    implementation Android.LIFECYCLE_VIEW_MODEL_KTX
+    implementation Android.LIFECYCLE_LIVE_DATA_KTX
+    implementation Android.VIEW_PAGER2
+    implementation Android.RECYCLER_VIEW
+
+    testImplementation Test.JUNIT
+    androidTestImplementation Test.EXT_JUNIT
+    androidTestImplementation Test.ESPRESSO
+    kapt DataBinding.COMPILER
+    implementation Nav.FRAGMENT_KTX
+    implementation Nav.UI_KTX
 }

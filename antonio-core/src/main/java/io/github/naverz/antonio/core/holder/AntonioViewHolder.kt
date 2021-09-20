@@ -19,10 +19,10 @@ package io.github.naverz.antonio.core.holder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import io.github.naverz.antonio.core.TypedModel
+import io.github.naverz.antonio.core.AntonioModel
 
 
-open class AntonioViewHolder<ITEM : TypedModel>(
+open class AntonioViewHolder<ITEM : AntonioModel>(
     open val layoutId: Int,
     protected open val parent: ViewGroup
 ) : TypedViewHolder<ITEM>(LayoutInflater.from(parent.context).inflate(layoutId, parent, false))

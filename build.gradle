@@ -1,20 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+import io.github.naverz.antonio.buildsrc.*
+
 buildscript {
     repositories {
         google()
         mavenCentral()
     }
-    ext {
-        kotlin_version = '1.5.21'
-        data_binding_compiler_version = '3.5.0'
-    }
-    project.ext.set("versionCode", 1)
-    project.ext.set("versionName", "0.0.5-beta")
-    project.ext.set("groupId", "io.github.naverz.antonio")
 
     dependencies {
-        classpath "com.android.tools.build:gradle:7.0.1"
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.30'
+        classpath Gradle.BUILD_GRADLE
+        classpath Gradle.GRADLE_PLUGIN
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

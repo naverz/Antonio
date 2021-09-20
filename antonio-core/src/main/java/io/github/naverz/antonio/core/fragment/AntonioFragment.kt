@@ -23,11 +23,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import io.github.naverz.antonio.core.TypedModel
+import io.github.naverz.antonio.GenericAntonioFindable
+import io.github.naverz.antonio.core.AntonioModel
 import java.io.Serializable
-import java.lang.reflect.ParameterizedType
 
-abstract class AntonioFragment<ITEM : TypedModel> : Fragment() {
+abstract class AntonioFragment<ITEM : AntonioModel> : Fragment(), GenericAntonioFindable {
     companion object {
         private const val POSITION_BUNDLE_KEY = "POSITION_BUNDLE_KEY"
         private const val MODEL_BUNDLE_KEY = "MODEL_BUNDLE_KEY"
@@ -49,17 +49,14 @@ abstract class AntonioFragment<ITEM : TypedModel> : Fragment() {
             "Model is null. " +
                     "You might need to implement Parcelable or Serializable for your LayoutIdModel " +
                     "to saving your LayoutIdModel's state when it's needed. " +
-                    "For example, when the screen is changed."
+                    "For example, when the screen orientation is changed."
         )
 
-    abstract fun layoutId(): Int
-
-    @Suppress("UNCHECKED_CAST")
-    fun getDeclaredLayoutIdModelClass(): Class<ITEM>? = try {
-        ((javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<ITEM>)
-    } catch (e: Exception) {
-        null
-    }
+    abstract override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View?
 
     fun setData(position: Int, model: ITEM) {
         this.position = position
@@ -78,16 +75,12 @@ abstract class AntonioFragment<ITEM : TypedModel> : Fragment() {
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         if (savedInstanceState != null) {
             this.position = requireArguments().getInt(POSITION_BUNDLE_KEY)
             this.model = requireArguments().getParcelable(MODEL_BUNDLE_KEY)
                 ?: (requireArguments().getSerializable(MODEL_BUNDLE_KEY) as? ITEM)
         }
-        return inflater.inflate(layoutId(), container, false)
     }
 }

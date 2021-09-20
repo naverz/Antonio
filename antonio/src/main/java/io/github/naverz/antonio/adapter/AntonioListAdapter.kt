@@ -18,11 +18,12 @@
 package io.github.naverz.antonio.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import io.github.naverz.antonio.core.TypedModel
+import io.github.naverz.antonio.AntonioSettings
+import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.adapter.AntonioCoreListAdapter
 import io.github.naverz.antonio.core.container.ViewHolderContainer
 
-open class AntonioListAdapter<ITEM : TypedModel>(
-    override val viewHolderContainer: ViewHolderContainer,
-    override val diffItemCallback: DiffUtil.ItemCallback<ITEM>,
-) : AntonioCoreListAdapter<ITEM>(viewHolderContainer, diffItemCallback)
+open class AntonioListAdapter<ITEM : AntonioModel>(
+    diffItemCallback: DiffUtil.ItemCallback<ITEM>,
+    override val viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer,
+) : AntonioCoreListAdapter<ITEM>(diffItemCallback, viewHolderContainer)

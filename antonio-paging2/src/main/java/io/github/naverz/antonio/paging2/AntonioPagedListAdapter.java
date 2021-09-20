@@ -22,24 +22,31 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.DiffUtil;
 
-import com.github.lakelab.antonio.paging2.core.AntonioCorePagedListAdapter;
+import io.github.lakelab.antonio.core.paging2.AntonioCorePagedListAdapter;
 
-import java.util.Map;
-
-import io.github.naverz.antonio.core.TypedModel;
-import io.github.naverz.antonio.core.ViewHolderBuilder;
+import io.github.naverz.antonio.AntonioSettings;
+import io.github.naverz.antonio.core.AntonioModel;
+import io.github.naverz.antonio.core.container.ViewHolderContainer;
 import io.github.naverz.antonio.core.holder.TypedViewHolder;
 
-public class AntonioPagedListAdapter<ITEM extends TypedModel, VH extends TypedViewHolder<ITEM>>
-        extends AntonioCorePagedListAdapter<ITEM, VH> {
+public class AntonioPagedListAdapter<ITEM extends AntonioModel>
+        extends AntonioCorePagedListAdapter<ITEM, TypedViewHolder<ITEM>> {
+
+    public AntonioPagedListAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback) {
+        super(diffCallback, AntonioSettings.viewHolderContainer);
+    }
+
+    public AntonioPagedListAdapter(@NonNull AsyncDifferConfig<ITEM> config) {
+        super(config, AntonioSettings.viewHolderContainer);
+    }
 
     public AntonioPagedListAdapter(@NonNull DiffUtil.ItemCallback<ITEM> diffCallback,
-                                   @NonNull Map<Integer, ViewHolderBuilder> viewHolderBuilderMap) {
-        super(diffCallback, viewHolderBuilderMap);
+                                   @NonNull ViewHolderContainer viewHolderContainer) {
+        super(diffCallback, viewHolderContainer);
     }
 
     public AntonioPagedListAdapter(@NonNull AsyncDifferConfig<ITEM> config,
-                                   @NonNull Map<Integer, ViewHolderBuilder> viewHolderBuilderMap) {
-        super(config, viewHolderBuilderMap);
+                                   @NonNull ViewHolderContainer viewHolderContainer) {
+        super(config, viewHolderContainer);
     }
 }

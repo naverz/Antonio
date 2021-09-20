@@ -21,10 +21,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import io.github.naverz.antonio.core.TypedModel
+import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.holder.AntonioViewHolder
 
-abstract class AntonioBindingViewHolder<T : ViewDataBinding, ITEM : TypedModel>(
+abstract class AntonioBindingViewHolder<T : ViewDataBinding, ITEM : AntonioModel>(
     override val layoutId: Int,
     override val parent: ViewGroup
 ) : AntonioViewHolder<ITEM>(layoutId, parent) {
