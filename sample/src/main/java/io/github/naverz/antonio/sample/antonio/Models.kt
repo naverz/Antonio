@@ -50,6 +50,12 @@ data class ViewHolderRecyclerViewHorizontal<ITEM : AntonioModel>(
     override fun bindingVariableId(): Int = BR.parent
 }
 
+data class ViewHolderRecyclerViewFlexHorizontal<ITEM : AntonioModel>(
+    val submittableRecyclerViewState: SubmittableRecyclerViewState<ITEM>
+) : AntonioBindingModel {
+    override fun layoutId(): Int = R.layout.view_holder_recycler_view_flex_horizontal_linear
+    override fun bindingVariableId(): Int = BR.parent
+}
 
 data class ContentHeader(val title: String) : AntonioBindingModel {
     override fun layoutId(): Int = R.layout.view_holder_content_header
@@ -83,6 +89,11 @@ data class SmallContent(
     val selectedIds: LiveData<Set<String>>?
 ) : AntonioBindingModel {
     override fun layoutId(): Int = R.layout.view_holder_content_small
+    override fun bindingVariableId(): Int = BR.model
+}
+
+data class FlexWidthContent(val id: String, val content: String) : AntonioBindingModel {
+    override fun layoutId(): Int = R.layout.view_holder_content_flex_width
     override fun bindingVariableId(): Int = BR.model
 }
 

@@ -50,6 +50,7 @@ object Android {
     const val FRAGMENT = "androidx.fragment:fragment-ktx:1.3.6"
     const val LIFECYCLE_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
     const val RECYCLER_VIEW = "androidx.recyclerview:recyclerview:1.2.1"
+    const val FLEX_BOX = "com.google.android.flexbox:flexbox:3.0.0"
     const val VIEW_PAGER2 = "androidx.viewpager2:viewpager2:1.0.0"
 
     // For sample module

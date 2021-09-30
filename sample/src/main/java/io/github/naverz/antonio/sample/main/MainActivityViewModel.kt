@@ -20,9 +20,6 @@ package io.github.naverz.antonio.sample.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.launch
 import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.state.RecyclerViewState
 import io.github.naverz.antonio.core.state.SubmittableRecyclerViewState
@@ -30,6 +27,9 @@ import io.github.naverz.antonio.core.state.ViewPagerState
 import io.github.naverz.antonio.sample.ContentBuilder
 import io.github.naverz.antonio.sample.antonio.*
 import io.github.naverz.antonio.sample.etc.HashDiffItemCallback
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
     private val subItemTitles = listOf("All", "Hair", "Dress", "Eyes", "Bottom", "Top", "Face")
@@ -50,9 +50,17 @@ class MainViewModel : ViewModel() {
                 )
             )
         }
+
+    private val flexHorizontalState =
+        SubmittableRecyclerViewState<FlexWidthContent>(HashDiffItemCallback()).apply {
+            submitList(contentBuilder.makeFlexWidthContents())
+        }
+
     private val fashionPageState = RecyclerViewState<AntonioModel>().apply {
         currentList.add(ContentHeader("New items"))
         currentList.add(ViewHolderRecyclerViewHorizontal(horizontalState))
+        currentList.add(ContentHeader("Flex Width Items"))
+        currentList.add(ViewHolderRecyclerViewFlexHorizontal(flexHorizontalState))
         currentList.add(ContentHeader("Hot Items"))
         currentList.addAll(
             contentBuilder.makeDummyContainersForSmallContents(
