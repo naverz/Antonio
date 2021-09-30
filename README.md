@@ -20,39 +20,47 @@ Android library for the adapter view (RecyclerView, ViewPager, ViewPager2)
 ## Without data binding
 ```groovy
 dependencies {
-    //For java
-    annotationProcessor 'io.github.naverz:antonio-compiler:0.0.1-alpha'
-    //For kotlin 
-    kapt 'io.github.naverz:antonio-annotation:0.0.1-alpha'
+    def antonioVersion = '1.0.0-alpha'
+    def antonioAnnotationVersion = '0.0.1-alpha'
   
-    implementation 'io.github.naverz:antonio:1.0.0-alpha'
+    implementation "io.github.naverz:antonio:$antonioVersion"
 
-    implementation 'io.github.naverz:antonio-annotation:1.0.0-alpha'
+    implementation "io.github.naverz:antonio-annotation:$antonioAnnotationVersion"
+
+    //For java
+    annotationProcessor "io.github.naverz:antonio-compiler:$antonioAnnotationVersion"
+
+    //For kotlin
+    kapt 'io.github.naverz:antonio-annotation:$antonioAnnotationVersion'
 
     //For paging2
-    implementation 'io.github.naverz:antonio-paging2:1.0.0-alpha'
+    implementation "io.github.naverz:antonio-paging2:$antonioVersion"
 
     //For paging3
-    implementation 'io.github.naverz:antonio-paging3:1.0.0-alpha'
+    implementation "io.github.naverz:antonio-paging3:$antonioVersion"
 }
 ```
 ## With data binding
 ```groovy
 dependencies {
-    //For java
-    annotationProcessor 'io.github.naverz:antonio-compiler:0.0.1-alpha'
-    //For kotlin 
-    kapt 'io.github.naverz:antonio-annotation:0.0.1-alpha'
+    def antonioVersion = '1.0.0-alpha'
+    def antonioAnnotationVersion = '0.0.1-alpha'
   
-    implementation 'io.github.naverz:antonio-databinding:1.0.0-alpha'
+    implementation "io.github.naverz:antonio-databinding:$antonioVersion"
 
-    implementation 'io.github.naverz:antonio-annotation:1.0.0-alpha'
+    implementation "io.github.naverz:antonio-annotation:$antonioAnnotationVersion"
+
+    //For java
+    annotationProcessor "io.github.naverz:antonio-compiler:$antonioAnnotationVersion"
+
+    //For kotlin
+    kapt "io.github.naverz:antonio-annotation:$antonioAnnotationVersion"
 
     //For paging2
-    implementation 'io.github.naverz:antonio-databinding-paging2:1.0.0-alpha'
+    implementation "io.github.naverz:antonio-databinding-paging2:$antonioVersion"
 
     //For paging3
-    implementation 'io.github.naverz:antonio-databinding-paging3:1.0.0-alpha'
+    implementation "io.github.naverz:antonio-databinding-paging3:$antonioVersion'
 }
 ```
 
