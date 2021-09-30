@@ -31,7 +31,7 @@ dependencies {
     annotationProcessor "io.github.naverz:antonio-compiler:$antonioAnnotationVersion"
 
     //For kotlin
-    kapt 'io.github.naverz:antonio-annotation:$antonioAnnotationVersion'
+    kapt "io.github.naverz:antonio-annotation:$antonioAnnotationVersion"
 
     //For paging2
     implementation "io.github.naverz:antonio-paging2:$antonioVersion"
