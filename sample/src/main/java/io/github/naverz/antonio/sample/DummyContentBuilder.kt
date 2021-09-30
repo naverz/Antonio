@@ -2,9 +2,11 @@ package io.github.naverz.antonio.sample
 
 import androidx.lifecycle.LiveData
 import io.github.naverz.antonio.R
+import io.github.naverz.antonio.sample.antonio.FlexWidthContent
 import io.github.naverz.antonio.sample.antonio.SmallContent
 import io.github.naverz.antonio.sample.antonio.RankingContainer
 import io.github.naverz.antonio.sample.antonio.ContainerForSmallContents
+import java.util.*
 import kotlin.random.Random
 
 private const val ICON = R.drawable.ic_launcher_background
@@ -75,4 +77,20 @@ class ContentBuilder {
             selectedIds
         )
     }
+
+    fun makeFlexWidthContents(): List<FlexWidthContent> {
+        val random = Random(System.currentTimeMillis())
+        return (1..15).map { index ->
+            makeFlexWidthContent(
+                index.toString(),
+                UUID.randomUUID().toString().replace("-", "")
+                    .substring(0, random.nextInt(2, 20)),
+            )
+        }
+    }
+
+    private fun makeFlexWidthContent(id: String, content: String): FlexWidthContent {
+        return FlexWidthContent(id, content)
+    }
+
 }

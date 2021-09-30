@@ -54,6 +54,7 @@ dependencies {
     implementation Android.LIFECYCLE_LIVE_DATA_KTX
     implementation Android.VIEW_PAGER2
     implementation Android.RECYCLER_VIEW
+    implementation Android.FLEX_BOX
 
     testImplementation Test.JUNIT
     androidTestImplementation Test.EXT_JUNIT

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+
+        <variable
+            name="parent"
+            type="io.github.naverz.antonio.sample.antonio.ViewHolderRecyclerViewFlexHorizontal"
+            />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
+            app:setStateWithAutoBinding="@{parent.submittableRecyclerViewState}"
+            tools:listitem="@layout/view_holder_content_flex_width"
+            />
+    </FrameLayout>
+</layout>
