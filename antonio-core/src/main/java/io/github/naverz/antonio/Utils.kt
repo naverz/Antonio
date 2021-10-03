@@ -13,12 +13,12 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 fun findLifecycleOwner(view: View): LifecycleOwner? {
     return findFragmentOrNull(view)?.viewLifecycleOwner ?: findActivity(view)
 }
 
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 fun findFragmentOrNull(view: View): Fragment? {
     return try {
         view.findFragment()
@@ -34,7 +34,7 @@ fun findFragmentOrNull(view: View): Fragment? {
  * @param view The view that will be the basis for finding an Activity
  * @return The parent activity for your view.
  */
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 inline fun <reified T : ComponentActivity> findActivity(view: View): T? {
     var context: Context? = view.context
     while (context is ContextWrapper) {
@@ -49,12 +49,12 @@ inline fun <reified T : ComponentActivity> findActivity(view: View): T? {
     return null
 }
 
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 fun LifecycleOwner.onDestroy(runnable: () -> Unit) {
     this.lifecycle.onDestroy(runnable)
 }
 
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 fun Lifecycle.onDestroy(runnable: () -> Unit) {
     this.addObserver(object : LifecycleObserver {
         @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)

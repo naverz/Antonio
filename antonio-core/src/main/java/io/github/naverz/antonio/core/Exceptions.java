@@ -29,12 +29,12 @@ import io.github.naverz.antonio.core.container.FragmentContainer;
 import io.github.naverz.antonio.core.container.PagerViewContainer;
 import io.github.naverz.antonio.core.container.ViewHolderContainer;
 
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 public class Exceptions {
     private Exceptions() {
     }
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
     public static final String ERROR_TEXT_UNKNOWN = "An unknown error is found. Please, Issue up on Github (https://github.com/naverz/Antonio).";
 
     public static String errorIllegalBinding(@Nullable String layoutIdStr, @Nullable AntonioModel model) {
@@ -44,7 +44,7 @@ public class Exceptions {
         return String.format("There is no variable for [%s] in [%s.xml]. Did you declare the variable in your layout xml?", model.getClass().getSimpleName(), layoutIdStr);
     }
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
     public static String errorClassCast(Object model, GenericAntonioFindable findable) {
         final Class<?> modelClass = model.getClass();
         Pair<Class<?>, Class<?>> viewClassWithAntonioGeneric = findable.findAntonioClass();
@@ -56,7 +56,7 @@ public class Exceptions {
                 modelClass.getName(), viewClass.getName(), viewClass.getSimpleName(), antonioClass.getSimpleName(), modelClass.getSimpleName(), antonioClass.getSimpleName());
     }
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
     public static String errorRegisterFirst(@NonNull Class<?> clazz, @NonNull ContainerType type) {
         return String.format("There is no [%s] in [%s]. Please, Add [%s] to [%s]",
                 clazz.getName(), getContainerName(type), clazz.getName(), getContainerName(type));
