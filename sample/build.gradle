@@ -22,6 +22,9 @@ android {
     }
 
     buildTypes {
+        release {
+            signingConfig signingConfigs.debug
+        }
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -37,12 +40,17 @@ android {
 }
 
 dependencies {
-    kapt AntonioAnnotation.COMPILER
-    implementation AntonioAnnotation.ANNOTATION
-    implementation Antonio.DATA_BINDING
+    kaptRelease AntonioAnnotation.COMPILER
+    kaptDebug project(path: ":antonio-compiler")
+    releaseImplementation AntonioAnnotation.ANNOTATION
+    debugImplementation project(path: ":antonio-annotations")
+    releaseImplementation Antonio.DATA_BINDING
+    debugImplementation project(path: ":antonio-databinding")
+
     // For paging3
     implementation Android.PAGING3
-    implementation Antonio.DATA_BINDING_PAGING3
+    releaseImplementation Antonio.DATA_BINDING_PAGING3
+    debugImplementation project(path: ":antonio-databinding-paging3")
 
     implementation Android.CORE_KTX
     implementation Android.APP_COMPAT

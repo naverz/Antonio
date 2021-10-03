@@ -29,6 +29,11 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.debug
+        }
+    }
 }
 
 dependencies {
@@ -36,7 +41,8 @@ dependencies {
     implementation Android.LIFECYCLE_KTX
     implementation Android.RECYCLER_VIEW
     implementation Android.VIEW_PAGER2
-    api Antonio.CORE
+    releaseApi Antonio.CORE
+    debugApi project(path : ":antonio-core")
     testImplementation Test.JUNIT
     androidTestImplementation Test.EXT_JUNIT
     androidTestImplementation Test.ESPRESSO
