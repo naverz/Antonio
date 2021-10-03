@@ -17,7 +17,6 @@
 
 package io.github.naverz.antonio.databinding.paging3;
 
-import android.annotation.SuppressLint;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -25,10 +24,9 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.DiffUtil;
 
-import io.github.lakelab.antonio.core.paging3.AntonioCorePagingDataAdapter;
-
 import java.util.Map;
 
+import io.github.lakelab.antonio.core.paging3.AntonioCorePagingDataAdapter;
 import io.github.naverz.antonio.AntonioSettings;
 import io.github.naverz.antonio.core.AntonioModel;
 import io.github.naverz.antonio.core.container.ViewHolderContainer;
@@ -36,7 +34,6 @@ import io.github.naverz.antonio.core.holder.TypedViewHolder;
 import io.github.naverz.antonio.databinding.adapter.DataBindingAdapterHelper;
 import kotlinx.coroutines.CoroutineDispatcher;
 
-@SuppressLint("RestrictedApi")
 public class AntonioPagingDataAdapter<ITEM extends AntonioModel>
         extends AntonioCorePagingDataAdapter<ITEM, TypedViewHolder<ITEM>> {
 

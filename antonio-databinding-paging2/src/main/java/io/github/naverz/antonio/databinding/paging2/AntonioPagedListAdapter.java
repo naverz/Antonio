@@ -17,7 +17,6 @@
 
 package io.github.naverz.antonio.databinding.paging2;
 
-import android.annotation.SuppressLint;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -35,7 +34,6 @@ import io.github.naverz.antonio.core.container.ViewHolderContainer;
 import io.github.naverz.antonio.core.holder.TypedViewHolder;
 import io.github.naverz.antonio.databinding.adapter.DataBindingAdapterHelper;
 
-@SuppressLint("RestrictedApi")
 public class AntonioPagedListAdapter<ITEM extends AntonioModel>
         extends AntonioCorePagedListAdapter<ITEM, TypedViewHolder<ITEM>> {
     private final DataBindingAdapterHelper<ITEM, TypedViewHolder<ITEM>> helper;

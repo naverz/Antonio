@@ -15,7 +15,7 @@ import io.github.naverz.antonio.core.holder.TypedViewHolder;
 import io.github.naverz.antonio.databinding.AntonioBindingModel;
 import io.github.naverz.antonio.databinding.holder.AntonioAutoBindingViewHolder;
 
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 public class DataBindingAdapterHelper<
         ITEM extends AntonioModel, VH extends TypedViewHolder<ITEM>> {
     @NonNull
@@ -32,7 +32,7 @@ public class DataBindingAdapterHelper<
         this.lifecycleOwner = lifecycleOwner;
     }
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
     @Nullable
     @SuppressWarnings("unchecked")
     public VH createViewBindingIfIsAutoBindingModel(
@@ -48,7 +48,7 @@ public class DataBindingAdapterHelper<
         );
     }
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
     @Nullable
     public Integer findLayoutId(@Nullable ITEM item) {
         if (!(item instanceof AntonioBindingModel)) {

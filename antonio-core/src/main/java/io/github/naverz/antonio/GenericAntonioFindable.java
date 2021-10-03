@@ -13,7 +13,7 @@ import java.util.Objects;
 import io.github.naverz.antonio.core.AntonioModel;
 
 public interface GenericAntonioFindable {
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
     @Nullable
     default Pair<Class<?>, Class<?>> findAntonioClass() {
         try {
@@ -31,7 +31,7 @@ public interface GenericAntonioFindable {
         }
     }
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
     @Nullable
     static Class<?> findOnGeneric(Class<?> target, Class<?> toFind) {
         try {
@@ -51,7 +51,7 @@ public interface GenericAntonioFindable {
         }
     }
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
     static Boolean isInParent(Class<?> target, Class<?> toFind) {
         HashSet<String> parentClassNames = new HashSet<>();
         Class<?> cls = target;
@@ -63,7 +63,7 @@ public interface GenericAntonioFindable {
         return parentClassNames.contains(toFind.getName());
     }
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
     static void recursiveFindInterfaceAndAdd(HashSet<String> to, Class<?>[] interfaces) {
         for (Class<?> anInterface : interfaces) {
             to.add(anInterface.getName());
