@@ -22,11 +22,18 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.debug
+        }
+    }
 }
 
 dependencies {
-    api Antonio.PAGING3_CORE
-    implementation Antonio.NORMAL
+    releaseApi Antonio.PAGING3_CORE
+    debugApi project(path: ":antonio-core-paging3")
+    releaseImplementation Antonio.NORMAL
+    debugImplementation project(path: ":antonio")
     implementation Android.PAGING3
     testImplementation Test.JUNIT
     androidTestImplementation Test.EXT_JUNIT
