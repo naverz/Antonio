@@ -7,6 +7,9 @@ plugins {
 }
 
 android {
+    lintOptions {
+        abortOnError false
+    }
     compileSdk 30
     buildFeatures {
         dataBinding true

@@ -7,6 +7,9 @@ plugins {
 apply from: 'release.gradle'
 
 android {
+    lintOptions {
+        abortOnError false
+    }
     compileSdk 30
 
     defaultConfig {
