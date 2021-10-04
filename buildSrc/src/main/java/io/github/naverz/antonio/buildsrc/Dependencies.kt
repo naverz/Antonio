@@ -19,25 +19,25 @@ package io.github.naverz.antonio.buildsrc
 
 object Antonio {
     const val NAME = "Antonio"
-    const val DESCRIPTION =
-        "Android library for the adapter view (RecyclerView, ViewPager, ViewPager2)"
-    const val VERSION_CODE = 1
     const val VERSION_NAME = "1.0.0-alpha"
-    const val GROUP_ID = "io.github.naverz"
-    const val REPOSITORY_HTTP_URL = "https://github.com/naverz/Antonio/"
-    const val REPOSITORY_SCM_GIT_URL = "scm:git@github.com:naverz/Antonio.git"
     const val CORE = "io.github.naverz:antonio-core:$VERSION_NAME"
     const val PAGING2_CORE = "io.github.naverz:antonio-core-paging2:$VERSION_NAME"
     const val PAGING3_CORE = "io.github.naverz:antonio-core-paging3:$VERSION_NAME"
     const val DATA_BINDING = "io.github.naverz:antonio-databinding:$VERSION_NAME"
     const val DATA_BINDING_PAGING3 = "io.github.naverz:antonio-databinding-paging3:$VERSION_NAME"
     const val NORMAL = "io.github.naverz:antonio:$VERSION_NAME"
+    fun getVersionName(moduleName: String): String {
+        return VERSION_NAME
+    }
 }
 
 object AntonioAnnotation {
     const val VERSION_NAME = "0.0.1-alpha"
     const val COMPILER = "io.github.naverz:antonio-compiler:${VERSION_NAME}"
     const val ANNOTATION = "io.github.naverz:antonio-annotation:${VERSION_NAME}"
+    fun getVersionName(moduleName: String): String {
+        return VERSION_NAME
+    }
 }
 
 object Version {
@@ -87,10 +87,4 @@ object Test {
 object Processor {
     const val AUTO_SERVICE = "com.google.auto.service:auto-service:1.0"
     const val JAVA_POET = "com.squareup:javapoet:1.13.0"
-}
-
-object Maven {
-    const val REPOSITORY_URL = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-    const val SNAP_SHOP_REPOSITORY_URL =
-        "https://s01.oss.sonatype.org/content/repositories/snapshots/"
 }

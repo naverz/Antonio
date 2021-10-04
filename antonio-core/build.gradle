@@ -4,7 +4,7 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
 }
-apply from: 'release.gradle'
+apply from: '../gradle/release/release-android-lib.gradle'
 
 android {
     lintOptions {
@@ -15,8 +15,6 @@ android {
     defaultConfig {
         minSdk 16
         targetSdk 30
-        versionCode Antonio.VERSION_CODE
-        versionName Antonio.VERSION_NAME
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"

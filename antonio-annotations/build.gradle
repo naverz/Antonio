@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
 }
-apply from: 'release.gradle'
+apply from: '../gradle/release/release-java-lib.gradle'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_7

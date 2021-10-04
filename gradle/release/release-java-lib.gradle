@@ -7,12 +7,13 @@ afterEvaluate {
     publishing {
         repositories {
             maven {
+
                 credentials {
                     username findProperty("OSSRH_USER_NAME") ?: System.getenv("OSSRH_USER_NAME")
                     password findProperty("OSSRH_PASSWORD") ?: System.getenv("OSSRH_PASSWORD")
                 }
-                def releasesRepoUrl = Maven.REPOSITORY_URL
-                def snapshotsRepoUrl = Maven.SNAP_SHOP_REPOSITORY_URL
+                def releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                def snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
                 url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
             }
         }
@@ -31,11 +32,12 @@ afterEvaluate {
         publications {
             maven(MavenPublication) {
                 from components.java
-                groupId = Antonio.GROUP_ID
-                artifactId = 'antonio-compiler'
-                version = AntonioAnnotation.VERSION_NAME
+                groupId = "io.github.naverz"
+                artifactId = project.name
+                version = AntonioAnnotation.INSTANCE.getVersionName(project.name)
                 artifact javadocJar
                 artifact sourcesJar
+
                 pom {
                     signing {
                         def signingKey = findProperty("SIGNING_KEY") ?: System.getenv("SIGNING_KEY")
@@ -47,8 +49,8 @@ afterEvaluate {
                         sign configurations.archives
                     }
                     name = Antonio.NAME
-                    description = Antonio.DESCRIPTION
-                    url = Antonio.REPOSITORY_HTTP_URL
+                    description = "Android library for the adapter view (RecyclerView, ViewPager, ViewPager2)"
+                    url = "https://github.com/naverz/Antonio/"
 
                     licenses {
                         license {
@@ -64,9 +66,9 @@ afterEvaluate {
                         }
                     }
                     scm {
-                        connection = Antonio.REPOSITORY_SCM_GIT_URL
-                        developerConnection = Antonio.REPOSITORY_SCM_GIT_URL
-                        url = Antonio.REPOSITORY_HTTP_URL
+                        connection = "scm:git@github.com:naverz/Antonio.git"
+                        developerConnection = "scm:git@github.com:naverz/Antonio.git"
+                        url = "https://github.com/naverz/Antonio/"
                     }
                 }
             }
