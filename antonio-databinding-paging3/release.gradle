@@ -9,8 +9,8 @@ afterEvaluate {
             maven {
 
                 credentials {
-                    username ossrhUserName
-                    password ossrhPassword
+                    username findProperty("OSSRH_USER_NAME") ?: System.getenv("OSSRH_USER_NAME")
+                    password findProperty("OSSRH_PASSWORD") ?: System.getenv("OSSRH_PASSWORD")
                 }
                 def releasesRepoUrl = Maven.REPOSITORY_URL
                 def snapshotsRepoUrl = Maven.SNAP_SHOP_REPOSITORY_URL
@@ -20,6 +20,11 @@ afterEvaluate {
         publications {
             maven(MavenPublication) {
                 signing {
+                    def signingKey = findProperty("SIGNING_KEY") ?: System.getenv("SIGNING_KEY")
+                    def signingPassword = findProperty("SIGNING_PASSWORD") ?: System.getenv("SIGNING_PASSWORD")
+                    if (signingKey != null && signingPassword != null) {
+                        useInMemoryPgpKeys(signingKey, signingPassword)
+                    }
                     sign publishing.publications.maven
                     sign configurations.archives
                 }
@@ -41,9 +46,9 @@ afterEvaluate {
                     }
                     developers {
                         developer {
-                            id = ossrhUserName
-                            name = ossrhUserName
-                            email = ossrhEmail
+                            id = findProperty("OSSRH_USER_NAME") ?: System.getenv("OSSRH_USER_NAME")
+                            name = findProperty("OSSRH_USER_NAME") ?: System.getenv("OSSRH_USER_NAME")
+                            email = findProperty("OSSRH_EMAIL") ?: System.getenv("OSSRH_EMAIL")
                         }
                     }
                     scm {
