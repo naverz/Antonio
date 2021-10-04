@@ -3,16 +3,13 @@ import io.github.naverz.antonio.buildsrc.*
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
 afterEvaluate {
     publishing {
         repositories {
             maven {
                 credentials {
-                    username properties.getProperty("ossrhUserName")
-                    password properties.getProperty("ossrhPassword")
+                    username ossrhUserName
+                    password ossrhPassword
                 }
                 def releasesRepoUrl = Maven.REPOSITORY_URL
                 def snapshotsRepoUrl = Maven.SNAP_SHOP_REPOSITORY_URL
@@ -44,9 +41,9 @@ afterEvaluate {
                     }
                     developers {
                         developer {
-                            id = properties.getProperty("ossrhUserName")
-                            name = properties.getProperty("ossrhUserName")
-                            email = properties.getProperty("ossrhEmail")
+                            id = ossrhUserName
+                            name = ossrhUserName
+                            email = ossrhEmail
                         }
                     }
                     scm {
