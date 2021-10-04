@@ -40,8 +40,8 @@ afterEvaluate {
 
                 pom {
                     signing {
-                        def signingKey = findProperty("SIGNING_KEY") ?: System.getenv("SIGNING_KEY")
-                        def signingPassword = findProperty("SIGNING_PASSWORD") ?: System.getenv("SIGNING_PASSWORD")
+                        def signingKey = findProperty("signingKey") ?: System.getenv("ORG_GRADLE_PROJECT_signingKey")
+                        def signingPassword = findProperty("signingPassword") ?: System.getenv("ORG_GRADLE_PROJECT_signingPassword")
                         if (signingKey != null && signingPassword != null) {
                             useInMemoryPgpKeys(signingKey, signingPassword)
                         }
