@@ -19,7 +19,7 @@ package io.github.naverz.antonio.buildsrc
 
 object Antonio {
     const val NAME = "Antonio"
-    const val VERSION_NAME = "1.0.0-alpha"
+    const val VERSION_NAME = "1.0.1-alpha"
     const val CORE = "io.github.naverz:antonio-core:$VERSION_NAME"
     const val PAGING2_CORE = "io.github.naverz:antonio-core-paging2:$VERSION_NAME"
     const val PAGING3_CORE = "io.github.naverz:antonio-core-paging3:$VERSION_NAME"
