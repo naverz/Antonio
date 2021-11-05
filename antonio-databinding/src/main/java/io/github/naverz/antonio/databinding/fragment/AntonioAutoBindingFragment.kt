@@ -18,33 +18,39 @@
 package io.github.naverz.antonio.databinding.fragment
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.Exceptions
 import io.github.naverz.antonio.databinding.AntonioBindingModel
 
-abstract class AntonioAutoBindingFragment :
+class AntonioAutoBindingFragment :
     AntonioBindingFragment<ViewDataBinding, AntonioModel>() {
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(
+            (requireModel() as AntonioBindingModel).layoutId(), container, false
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        additionalVariables()?.let {
-            for (entry in it) {
-                binding?.setVariable(entry.key, entry.value)
-            }
-        }
-        bindingVariableId()?.let {
-            val model = requireModel()
-            if (binding?.setVariable(it, model) == false) {
+        binding?.lifecycleOwner = viewLifecycleOwner
+        val model = requireModel() as AntonioBindingModel
+        model.bindingVariableId()?.let { bindingVariableId ->
+            if (binding?.setVariable(bindingVariableId, model) == false) {
                 val layoutIdStr =
-                    view.context.resources.getResourceName((model as AntonioBindingModel).layoutId())
+                    view.context.resources.getResourceName(model.layoutId())
                 throw IllegalStateException(Exceptions.errorIllegalBinding(layoutIdStr, model))
             }
+            binding?.executePendingBindings()
         }
-        binding?.executePendingBindings()
     }
 
-    open fun bindingVariableId(): Int? = null
-    open fun additionalVariables(): Map<Int, Any>? = null
 }

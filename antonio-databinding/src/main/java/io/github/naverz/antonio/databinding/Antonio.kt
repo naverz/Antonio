@@ -216,14 +216,12 @@ fun <T : AntonioModel> ViewPager.setState(
 fun <T : AntonioModel> RecyclerViewState<T>.makeAdapter(
     fragment: Fragment,
     fragmentContainer: FragmentContainer = AntonioSettings.fragmentContainer,
-    implementedItemID: Boolean = false,
-    additionalVariables: Map<Int, Any>? = null
+    implementedItemID: Boolean = false
 ): FragmentStateAdapter {
     val adapter = AntonioFragmentStateAdapter<T>(
         fragment = fragment,
         implementedItemID = implementedItemID,
-        fragmentContainer = fragmentContainer,
-        additionalVariables = additionalVariables
+        fragmentContainer = fragmentContainer
     )
     setAdapterDependency(adapter)
     fragment.lifecycle.onDestroy {
@@ -235,15 +233,13 @@ fun <T : AntonioModel> RecyclerViewState<T>.makeAdapter(
 fun <T : AntonioModel> RecyclerViewState<T>.makeAdapter(
     activity: FragmentActivity,
     fragmentContainer: FragmentContainer = AntonioSettings.fragmentContainer,
-    implementedItemID: Boolean = false,
-    additionalVariables: Map<Int, Any>? = null
+    implementedItemID: Boolean = false
 ): FragmentStateAdapter {
     val adapter =
         AntonioFragmentStateAdapter<T>(
             fragmentActivity = activity,
             implementedItemID = implementedItemID,
-            fragmentContainer = fragmentContainer,
-            additionalVariables = additionalVariables
+            fragmentContainer = fragmentContainer
         )
     setAdapterDependency(adapter)
     activity.onDestroy {
@@ -256,16 +252,14 @@ fun <T : AntonioModel> RecyclerViewState<T>.makeAdapter(
     fragmentManager: FragmentManager,
     lifecycle: Lifecycle,
     fragmentContainer: FragmentContainer = AntonioSettings.fragmentContainer,
-    implementedItemID: Boolean = false,
-    additionalVariables: Map<Int, Any>? = null
+    implementedItemID: Boolean = false
 ): FragmentStateAdapter {
     val adapter =
         AntonioFragmentStateAdapter<T>(
             fragmentManager = fragmentManager,
             lifecycle = lifecycle,
             implementedItemID = implementedItemID,
-            fragmentContainer = fragmentContainer,
-            additionalVariables = additionalVariables
+            fragmentContainer = fragmentContainer
         )
     setAdapterDependency(adapter)
     lifecycle.onDestroy {
@@ -279,8 +273,7 @@ fun <T : AntonioModel> RecyclerViewState<T>.makeAdapter(
 fun <T : AntonioModel> ViewPager2.setStateWithFragment(
     viewState: RecyclerViewState<T>?,
     fragmentContainer: FragmentContainer = AntonioSettings.fragmentContainer,
-    implementedItemID: Boolean = false,
-    additionalVariables: Map<Int, Any>? = null
+    implementedItemID: Boolean = false
 ) {
     if (viewState == null) {
         adapter = null
@@ -291,8 +284,7 @@ fun <T : AntonioModel> ViewPager2.setStateWithFragment(
         AntonioFragmentStateAdapter<T>(
             fragment = findFragment,
             implementedItemID = implementedItemID,
-            fragmentContainer = fragmentContainer,
-            additionalVariables = additionalVariables
+            fragmentContainer = fragmentContainer
         )
     } else {
         val activity = findActivity<FragmentActivity>(this)
@@ -303,8 +295,7 @@ fun <T : AntonioModel> ViewPager2.setStateWithFragment(
         AntonioFragmentStateAdapter(
             fragmentActivity = activity,
             implementedItemID = implementedItemID,
-            fragmentContainer = fragmentContainer,
-            additionalVariables = additionalVariables
+            fragmentContainer = fragmentContainer
         )
     })
     this.setState(viewState, adapter)
