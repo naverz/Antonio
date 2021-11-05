@@ -47,8 +47,8 @@ abstract class AntonioFragment<ITEM : AntonioModel> : Fragment(), GenericAntonio
     protected fun requireModel() = model
         ?: throw NullPointerException(
             "Model is null. " +
-                    "You might need to implement Parcelable or Serializable for your LayoutIdModel " +
-                    "to saving your LayoutIdModel's state when it's needed. " +
+                    "You might need to implement Parcelable or Serializable for your AntonioModel " +
+                    "to saving your AntonioModel's state when it's needed. " +
                     "For example, when the screen orientation is changed."
         )
 
