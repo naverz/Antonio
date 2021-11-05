@@ -27,8 +27,8 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
+            app:antonio_recycler_view_state="@{parent.recyclerViewState}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:setStateWithAutoBinding="@{parent.recyclerViewState}"
             app:spanCount="4"
             />
 

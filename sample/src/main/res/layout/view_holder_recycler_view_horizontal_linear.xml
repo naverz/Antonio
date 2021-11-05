@@ -25,8 +25,8 @@
             android:orientation="horizontal"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
+            app:antonio_submittable_recycler_view_state="@{parent.submittableRecyclerViewState}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:setStateWithAutoBinding="@{parent.submittableRecyclerViewState}"
             />
     </io.github.naverz.antonio.sample.etc.NestedScrollableHost>
 </layout>

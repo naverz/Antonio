@@ -26,8 +26,8 @@
             android:orientation="horizontal"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
+            app:antonio_submittable_recycler_view_state="@{parent.submittableRecyclerViewState}"
             app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
-            app:setStateWithAutoBinding="@{parent.submittableRecyclerViewState}"
             tools:listitem="@layout/view_holder_content_flex_width"
             />
     </FrameLayout>

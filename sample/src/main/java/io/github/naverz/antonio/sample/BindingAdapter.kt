@@ -19,30 +19,6 @@ package io.github.naverz.antonio.sample
 
 import android.view.View
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
-import io.github.naverz.antonio.core.AntonioModel
-import io.github.naverz.antonio.core.state.RecyclerViewState
-import io.github.naverz.antonio.core.state.SubmittableRecyclerViewState
-import io.github.naverz.antonio.core.state.ViewPagerState
-import io.github.naverz.antonio.databinding.setState
-
-
-@BindingAdapter("setStateWithAutoBinding")
-fun <T : AntonioModel> RecyclerView.setRecyclerState(submittableRecyclerViewState: SubmittableRecyclerViewState<T>?) {
-    this.setState(submittableRecyclerViewState)
-}
-
-
-@BindingAdapter("setStateWithAutoBinding")
-fun <T : AntonioModel> RecyclerView.setRecyclerState(recyclerViewState: RecyclerViewState<T>?) {
-    this.setState(recyclerViewState)
-}
-
-@BindingAdapter("setState")
-fun <T : AntonioModel> ViewPager.setPagerState(pagerState: ViewPagerState<T>?) {
-    this.setState(pagerState)
-}
 
 
 @BindingAdapter("visibleOrGone")
