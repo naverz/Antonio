@@ -23,7 +23,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
-        run: ./gradlew build --scan --stacktrace
+        run: ./gradlew assembleDebug --scan --stacktrace
         env:
           OSSRH_USER_NAME: ${{ secrets.OSSRH_USER_NAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
