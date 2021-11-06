@@ -24,18 +24,17 @@ import androidx.recyclerview.widget.RecyclerView
 import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.Exceptions
 import io.github.naverz.antonio.databinding.BR
-import io.github.naverz.antonio.findLifecycleOwner
 
 open class AntonioAutoBindingViewHolder(
-    override val layoutId: Int,
-    override val parent: ViewGroup,
+    layoutId: Int,
+    parent: ViewGroup,
     private val bindingVariableId: Int?,
     private val additionalVariables: Map<Int, Any>? = null,
     private val lifecycleOwner: LifecycleOwner? = null,
 ) : AntonioBindingViewHolder<ViewDataBinding, AntonioModel>(layoutId, parent) {
     @Suppress("LeakingThis")
     private val mLifeCycleOwner: LifecycleOwner? =
-        this.lifecycleOwner ?: findLifecycleOwner(parent)
+        this.lifecycleOwner ?: fragment?.viewLifecycleOwner ?: activity
 
     init {
         binding.setVariable(BR.itemView, itemView)

@@ -19,14 +19,34 @@ package io.github.naverz.antonio.core.view
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.ComponentActivity
+import androidx.fragment.app.Fragment
 import io.github.naverz.antonio.core.AntonioModel
+import io.github.naverz.antonio.findActivity
+import io.github.naverz.antonio.findFragmentOrNull
 
 abstract class AntonioPagerView<ITEM : AntonioModel> : PagerViewDependency<ITEM> {
+
+    /**
+     * Fragment which has this view.
+     * It can be null if it's not in fragment or it's not instantiated.
+     */
+    protected var fragment: Fragment? = null
+        private set
+
+    /**
+     * Activity which has this view.
+     * It can be null, if the activity which has this view doesn't inherit [ComponentActivity] or it's not instantiated.
+     */
+    protected var activity: ComponentActivity? = null
+        private set
 
     override fun instantiateItem(
         container: ViewGroup, position: Int, viewType: Int, antonioModel: ITEM
     ): Any {
         return getView(container, position, viewType, antonioModel).apply {
+            activity = findActivity(container)
+            fragment = findFragmentOrNull(container)
             container.addView(this)
             onViewCreated(this, position, antonioModel)
         }
@@ -35,6 +55,8 @@ abstract class AntonioPagerView<ITEM : AntonioModel> : PagerViewDependency<ITEM>
     override fun destroyItem(
         container: ViewGroup, position: Int, antonioModel: ITEM, any: Any
     ) {
+        activity = null
+        fragment = null
         container.removeView(any as View)
         onDestroyedView(position, antonioModel)
     }

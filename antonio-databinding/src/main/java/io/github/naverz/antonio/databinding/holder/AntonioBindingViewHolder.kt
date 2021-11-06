@@ -25,8 +25,7 @@ import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.holder.AntonioViewHolder
 
 abstract class AntonioBindingViewHolder<T : ViewDataBinding, ITEM : AntonioModel>(
-    override val layoutId: Int,
-    override val parent: ViewGroup
+    layoutId: Int, parent: ViewGroup
 ) : AntonioViewHolder<ITEM>(layoutId, parent) {
     protected val binding: T = DataBindingUtil.bind(itemView)!!
 

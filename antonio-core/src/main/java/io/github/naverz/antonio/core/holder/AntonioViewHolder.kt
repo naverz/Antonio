@@ -19,10 +19,25 @@ package io.github.naverz.antonio.core.holder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.ComponentActivity
+import androidx.fragment.app.Fragment
 import io.github.naverz.antonio.core.AntonioModel
+import io.github.naverz.antonio.findActivity
+import io.github.naverz.antonio.findFragmentOrNull
 
 
-open class AntonioViewHolder<ITEM : AntonioModel>(
-    open val layoutId: Int,
-    protected open val parent: ViewGroup
-) : TypedViewHolder<ITEM>(LayoutInflater.from(parent.context).inflate(layoutId, parent, false))
+open class AntonioViewHolder<ITEM : AntonioModel>(val layoutId: Int, val parent: ViewGroup) :
+    TypedViewHolder<ITEM>(LayoutInflater.from(parent.context).inflate(layoutId, parent, false)) {
+
+    /**
+     * Fragment which has this view.
+     * It can be null if it's not in fragment.
+     */
+    protected val fragment: Fragment? = findFragmentOrNull(parent)
+
+    /**
+     * Activity which has this view.
+     * It can be null, if the activity which has this view doesn't inherit [ComponentActivity].
+     */
+    protected val activity: ComponentActivity? = findActivity(parent)
+}
