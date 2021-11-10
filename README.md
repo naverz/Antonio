@@ -35,7 +35,7 @@ dependencies {
 ## With data binding
 ```groovy
 dependencies {
-    def antonioVersion = '1.0.2-alpha'
+    def antonioVersion = '1.0.3-alpha'
     def antonioAnnotationVersion = '0.0.1-alpha'
   
     implementation "io.github.naverz:antonio-databinding:$antonioVersion"
@@ -148,6 +148,11 @@ LifecycleOwner, which is nearest from the view, will be automatically injected o
     - [ViewPager2](https://github.com/naverz/Antonio/wiki/Plug-in#viewpager2)
     - [Paging 2](https://github.com/naverz/Antonio/wiki/Plug-in#paging2)
     - [Paging-3](https://github.com/naverz/Antonio/wiki/Plug-in#paging3)
+- [AdapterView state (RecyclerView, ViewPager)](https://github.com/naverz/Antonio/wiki/AdapterView-state-(RecyclerView,-ViewPager))
+    -  [How to use](https://github.com/naverz/Antonio/wiki/AdapterView-state-(RecyclerView,-ViewPager)#how-to-use)
+    -  [Why AdapterView cannot be expressed as a state in your view model.](https://github.com/naverz/Antonio/wiki/AdapterView-state-(RecyclerView,-ViewPager)#why-adapterview-cannot-be-expressed-as-a-state-in-your-view-model)
+    -  [Dependency injection](https://github.com/naverz/Antonio/wiki/AdapterView-state-(RecyclerView,-ViewPager)#dependency-injection)
+    -  [For test code](https://github.com/naverz/Antonio/wiki/AdapterView-state-(RecyclerView,-ViewPager)#for-test-code)
 
 # Sample
 [The sample module](./sample) is available!
