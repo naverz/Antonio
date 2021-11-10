@@ -20,10 +20,8 @@ package io.github.naverz.antonio.core.state
 import androidx.annotation.RestrictTo
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import io.github.naverz.antonio.AntonioSettings
 import io.github.naverz.antonio.core.AntonioModel
-import io.github.naverz.antonio.core.etc.MainThreadExecutor
-import io.github.naverz.antonio.core.etc.ThreadChecker
-import io.github.naverz.antonio.core.etc.ThreadCheckerImpl
 import io.github.naverz.antonio.core.adapter.ListAdapterDependency
 import java.util.concurrent.Executor
 
@@ -35,10 +33,7 @@ open class SubmittableRecyclerViewState<ITEM : AntonioModel>(val itemCallback: D
     private var hasStableIdLastState: Boolean? = null
 
     @RestrictTo(RestrictTo.Scope.TESTS)
-    var mainThreadExecutor: Executor = MainThreadExecutor()
-
-    @RestrictTo(RestrictTo.Scope.TESTS)
-    var threadChecker: ThreadChecker = ThreadCheckerImpl()
+    var mainThreadExecutor: Executor = AntonioSettings.getExecutorBuilder().call()
 
     private var listAdapterDependency: ListAdapterDependency<ITEM>? = null
 
@@ -47,8 +42,7 @@ open class SubmittableRecyclerViewState<ITEM : AntonioModel>(val itemCallback: D
             this.strategyForStore = strategy
             this.listAdapterDependency?.setStateRestorationPolicy(strategy)
         }
-        if (threadChecker.isMainThread()) runnable.run()
-        else mainThreadExecutor.execute(runnable)
+        mainThreadExecutor.execute(runnable)
     }
 
     fun setAdapterDependency(listAdapterDependency: ListAdapterDependency<ITEM>?) {
@@ -71,78 +65,68 @@ open class SubmittableRecyclerViewState<ITEM : AntonioModel>(val itemCallback: D
             hasStableIdLastState = enable
             listAdapterDependency?.setHasStableIds(enable)
         }
-        if (threadChecker.isMainThread()) runnable.run()
-        else mainThreadExecutor.execute(runnable)
+        mainThreadExecutor.execute(runnable)
     }
 
     fun notifyDataSetChanged() {
         val runnable = Runnable {
             listAdapterDependency?.notifyDataSetChanged()
         }
-        if (threadChecker.isMainThread()) runnable.run()
-        else mainThreadExecutor.execute(runnable)
+        mainThreadExecutor.execute(runnable)
     }
 
     fun notifyItemChanged(position: Int, payload: Any? = null) {
         val runnable = Runnable {
             listAdapterDependency?.notifyItemChanged(position, payload)
         }
-        if (threadChecker.isMainThread()) runnable.run()
-        else mainThreadExecutor.execute(runnable)
+        mainThreadExecutor.execute(runnable)
     }
 
     fun notifyItemInserted(position: Int) {
         val runnable = Runnable {
             listAdapterDependency?.notifyItemInserted(position)
         }
-        if (threadChecker.isMainThread()) runnable.run()
-        else mainThreadExecutor.execute(runnable)
+        mainThreadExecutor.execute(runnable)
     }
 
     fun notifyItemMoved(fromPosition: Int, toPosition: Int) {
         val runnable = Runnable {
             listAdapterDependency?.notifyItemMoved(fromPosition, toPosition)
         }
-        if (threadChecker.isMainThread()) runnable.run()
-        else mainThreadExecutor.execute(runnable)
+        mainThreadExecutor.execute(runnable)
     }
 
     fun notifyItemRangeChanged(positionStart: Int, itemCount: Int, payloads: Any? = null) {
         val runnable = Runnable {
             listAdapterDependency?.notifyItemRangeChanged(positionStart, itemCount, payloads)
         }
-        if (threadChecker.isMainThread()) runnable.run()
-        else mainThreadExecutor.execute(runnable)
+        mainThreadExecutor.execute(runnable)
     }
 
     fun notifyItemRangeInserted(positionStart: Int, itemCount: Int) {
         val runnable = Runnable {
             listAdapterDependency?.notifyItemRangeInserted(positionStart, itemCount)
         }
-        if (threadChecker.isMainThread()) runnable.run()
-        else mainThreadExecutor.execute(runnable)
+        mainThreadExecutor.execute(runnable)
     }
 
     fun notifyItemRangeRemoved(positionStart: Int, itemCount: Int) {
         val runnable = Runnable {
             listAdapterDependency?.notifyItemRangeRemoved(positionStart, itemCount)
         }
-        if (threadChecker.isMainThread()) runnable.run()
-        else mainThreadExecutor.execute(runnable)
+        mainThreadExecutor.execute(runnable)
     }
 
     fun notifyItemRemoved(position: Int) {
         val runnable = Runnable {
             listAdapterDependency?.notifyItemRemoved(position)
         }
-        if (threadChecker.isMainThread()) runnable.run()
-        else mainThreadExecutor.execute(runnable)
+        mainThreadExecutor.execute(runnable)
     }
 
     fun submitList(list: List<ITEM>?, commitCallback: Runnable? = null) {
         listForStore = list
         val runnable = Runnable { listAdapterDependency?.submitList(list, commitCallback) }
-        if (threadChecker.isMainThread()) runnable.run()
-        else mainThreadExecutor.execute(runnable)
+        mainThreadExecutor.execute(runnable)
     }
 }

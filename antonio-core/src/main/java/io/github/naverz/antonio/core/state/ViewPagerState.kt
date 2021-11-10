@@ -18,11 +18,9 @@ package io.github.naverz.antonio.core.state
 
 import android.view.View
 import androidx.annotation.RestrictTo
+import io.github.naverz.antonio.AntonioSettings
 import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.adapter.PagerAdapterDependency
-import io.github.naverz.antonio.core.etc.MainThreadExecutor
-import io.github.naverz.antonio.core.etc.ThreadChecker
-import io.github.naverz.antonio.core.etc.ThreadCheckerImpl
 import java.util.concurrent.Executor
 
 
@@ -30,10 +28,8 @@ open class ViewPagerState<ITEM : AntonioModel> {
     var currentList = mutableListOf<ITEM>()
 
     @RestrictTo(RestrictTo.Scope.TESTS)
-    var mainThreadExecutor: Executor = MainThreadExecutor()
+    var mainThreadExecutor: Executor = AntonioSettings.getExecutorBuilder().call()
 
-    @RestrictTo(RestrictTo.Scope.TESTS)
-    var threadChecker: ThreadChecker = ThreadCheckerImpl()
     var titles: List<CharSequence>? = null
         set(value) {
             pagerAdapterDependency?.titles = titles
@@ -60,9 +56,7 @@ open class ViewPagerState<ITEM : AntonioModel> {
     }
 
     fun notifyDataSetChanged() {
-        val runnable = Runnable { pagerAdapterDependency?.notifyDataSetChanged() }
-        if (threadChecker.isMainThread()) runnable.run()
-        else mainThreadExecutor.execute(runnable)
+        mainThreadExecutor.execute { pagerAdapterDependency?.notifyDataSetChanged() }
     }
 
 }

@@ -24,6 +24,7 @@ import java.util.concurrent.Executor
 internal class MainThreadExecutor : Executor {
     private val mHandler = Handler(Looper.getMainLooper())
     override fun execute(command: Runnable) {
-        mHandler.post(command)
+        if (Looper.myLooper() == Looper.getMainLooper()) command.run()
+        else mHandler.post(command)
     }
 }

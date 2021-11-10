@@ -20,10 +20,8 @@ package io.github.naverz.antonio.core.state
 import androidx.annotation.RestrictTo
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import io.github.naverz.antonio.AntonioSettings
 import io.github.naverz.antonio.core.AntonioModel
-import io.github.naverz.antonio.core.etc.MainThreadExecutor
-import io.github.naverz.antonio.core.etc.ThreadChecker
-import io.github.naverz.antonio.core.etc.ThreadCheckerImpl
 import io.github.naverz.antonio.core.adapter.AdapterDependency
 import java.util.concurrent.Executor
 
@@ -32,10 +30,8 @@ open class RecyclerViewState<ITEM : AntonioModel> {
     var currentList = mutableListOf<ITEM>()
 
     @RestrictTo(RestrictTo.Scope.TESTS)
-    var mainThreadExecutor: Executor = MainThreadExecutor()
+    var mainThreadExecutor: Executor = AntonioSettings.getExecutorBuilder().call()
 
-    @RestrictTo(RestrictTo.Scope.TESTS)
-    var threadChecker: ThreadChecker = ThreadCheckerImpl()
     private var adapterDependency: AdapterDependency<ITEM>? = null
     private var strategyForStore: RecyclerView.Adapter.StateRestorationPolicy? = null
 
@@ -45,11 +41,7 @@ open class RecyclerViewState<ITEM : AntonioModel> {
             this.strategyForStore = strategy
             this.adapterDependency?.setStateRestorationPolicy(strategy)
         }
-        if (threadChecker.isMainThread()) {
-            runnable.run()
-        } else {
-            mainThreadExecutor.execute(runnable)
-        }
+        mainThreadExecutor.execute(runnable)
     }
 
     fun setAdapterDependency(adapterDependency: AdapterDependency<ITEM>?) {
@@ -68,11 +60,7 @@ open class RecyclerViewState<ITEM : AntonioModel> {
             diffAdapterDependency.currentList = currentList
             diffAdapterDependency.notifyDataSetChanged()
         }
-        if (threadChecker.isMainThread()) {
-            runnable.run()
-        } else {
-            mainThreadExecutor.execute(runnable)
-        }
+        mainThreadExecutor.execute(runnable)
     }
 
     fun notifyItemChanged(position: Int, payload: Any? = null) {
@@ -81,11 +69,7 @@ open class RecyclerViewState<ITEM : AntonioModel> {
             diffAdapterDependency.currentList = currentList
             diffAdapterDependency.notifyItemChanged(position, payload)
         }
-        if (threadChecker.isMainThread()) {
-            runnable.run()
-        } else {
-            mainThreadExecutor.execute(runnable)
-        }
+        mainThreadExecutor.execute(runnable)
     }
 
     fun notifyItemInserted(position: Int) {
@@ -94,11 +78,7 @@ open class RecyclerViewState<ITEM : AntonioModel> {
             diffAdapterDependency.currentList = currentList
             diffAdapterDependency.notifyItemInserted(position)
         }
-        if (threadChecker.isMainThread()) {
-            runnable.run()
-        } else {
-            mainThreadExecutor.execute(runnable)
-        }
+        mainThreadExecutor.execute(runnable)
     }
 
     fun notifyItemMoved(fromPosition: Int, toPosition: Int) {
@@ -107,11 +87,7 @@ open class RecyclerViewState<ITEM : AntonioModel> {
             diffAdapterDependency.currentList = currentList
             diffAdapterDependency.notifyItemMoved(fromPosition, toPosition)
         }
-        if (threadChecker.isMainThread()) {
-            runnable.run()
-        } else {
-            mainThreadExecutor.execute(runnable)
-        }
+        mainThreadExecutor.execute(runnable)
     }
 
     fun notifyItemRangeChanged(positionStart: Int, itemCount: Int, payloads: Any? = null) {
@@ -120,11 +96,7 @@ open class RecyclerViewState<ITEM : AntonioModel> {
             diffAdapterDependency.currentList = currentList
             diffAdapterDependency.notifyItemRangeChanged(positionStart, itemCount, payloads)
         }
-        if (threadChecker.isMainThread()) {
-            runnable.run()
-        } else {
-            mainThreadExecutor.execute(runnable)
-        }
+        mainThreadExecutor.execute(runnable)
     }
 
     fun notifyItemRangeInserted(positionStart: Int, itemCount: Int) {
@@ -133,11 +105,7 @@ open class RecyclerViewState<ITEM : AntonioModel> {
             diffAdapterDependency.currentList = currentList
             diffAdapterDependency.notifyItemRangeInserted(positionStart, itemCount)
         }
-        if (threadChecker.isMainThread()) {
-            runnable.run()
-        } else {
-            mainThreadExecutor.execute(runnable)
-        }
+        mainThreadExecutor.execute(runnable)
     }
 
     fun notifyItemRangeRemoved(positionStart: Int, itemCount: Int) {
@@ -146,11 +114,7 @@ open class RecyclerViewState<ITEM : AntonioModel> {
             diffAdapterDependency.currentList = currentList
             diffAdapterDependency.notifyItemRangeRemoved(positionStart, itemCount)
         }
-        if (threadChecker.isMainThread()) {
-            runnable.run()
-        } else {
-            mainThreadExecutor.execute(runnable)
-        }
+        mainThreadExecutor.execute(runnable)
     }
 
     fun notifyItemRemoved(position: Int) {
@@ -159,11 +123,7 @@ open class RecyclerViewState<ITEM : AntonioModel> {
             diffAdapterDependency.currentList = currentList
             diffAdapterDependency.notifyItemRemoved(position)
         }
-        if (threadChecker.isMainThread()) {
-            runnable.run()
-        } else {
-            mainThreadExecutor.execute(runnable)
-        }
+        mainThreadExecutor.execute(runnable)
     }
 
 
@@ -178,10 +138,6 @@ open class RecyclerViewState<ITEM : AntonioModel> {
             diffAdapterDependency.currentList = currentList
             diffAdapterDependency.submitDiffResult(diffResult)
         }
-        if (threadChecker.isMainThread()) {
-            runnable.run()
-        } else {
-            mainThreadExecutor.execute(runnable)
-        }
+        mainThreadExecutor.execute(runnable)
     }
 }
