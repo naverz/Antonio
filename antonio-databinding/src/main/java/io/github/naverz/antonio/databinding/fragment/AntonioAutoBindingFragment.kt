@@ -49,8 +49,9 @@ class AntonioAutoBindingFragment :
                     view.context.resources.getResourceName(model.layoutId())
                 throw IllegalStateException(Exceptions.errorIllegalBinding(layoutIdStr, model))
             }
-            binding?.executePendingBindings()
         }
+        if (model.requireExecutePendingBindings())
+            binding?.executePendingBindings()
     }
 
 }

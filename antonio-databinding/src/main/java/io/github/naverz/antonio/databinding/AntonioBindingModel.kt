@@ -24,4 +24,13 @@ interface AntonioBindingModel : AntonioModel {
     @LayoutRes
     fun layoutId(): Int
     fun bindingVariableId(): Int?
+
+    /**
+     * Evaluates the pending bindings, updating any Views that have expressions bound to modified variables when it's binding.
+     *
+     * **It can makes your list won't be as smooth as without calling [executePendingBindings](https://developer.android.com/reference/android/databinding/ViewDataBinding#executependingbindings)`**
+     *
+     * @return If you want to execute pending bindings for every position, return true
+     */
+    fun requireExecutePendingBindings(): Boolean = false
 }

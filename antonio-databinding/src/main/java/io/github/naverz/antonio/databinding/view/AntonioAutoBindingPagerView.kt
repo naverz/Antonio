@@ -60,7 +60,8 @@ open class AntonioAutoBindingPagerView(
                 )
             }
         }
-        binding?.executePendingBindings()
+        if (antonioModel is AntonioBindingModel && antonioModel.requireExecutePendingBindings())
+            binding?.executePendingBindings()
     }
 
     override fun onDestroyedView(position: Int, antonioModel: AntonioModel) {

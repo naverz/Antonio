@@ -23,6 +23,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.Exceptions
+import io.github.naverz.antonio.databinding.AntonioBindingModel
 import io.github.naverz.antonio.databinding.BR
 
 open class AntonioAutoBindingViewHolder(
@@ -58,7 +59,8 @@ open class AntonioAutoBindingViewHolder(
         binding.setVariable(BR.bindingAdapterPosition, bindingAdapterPosition)
         binding.setVariable(BR.layoutPosition, layoutPosition)
         binding.setVariable(BR.itemPosition, position)
-        binding.executePendingBindings()
+        if (data is AntonioBindingModel && data.requireExecutePendingBindings())
+            binding.executePendingBindings()
     }
 
     override fun onViewAttachedToWindow(viewHolder: RecyclerView.ViewHolder) {
