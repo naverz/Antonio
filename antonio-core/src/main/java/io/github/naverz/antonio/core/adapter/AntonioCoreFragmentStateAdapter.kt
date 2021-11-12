@@ -124,7 +124,7 @@ abstract class AntonioCoreFragmentStateAdapter<ITEM : AntonioModel>
         this.fragmentManager = fragmentManager
     }
 
-    override var currentList: MutableList<ITEM> = mutableListOf()
+    override var currentList: List<ITEM> = mutableListOf()
 
     override fun submitDiffResult(diffResult: DiffUtil.DiffResult) {
         diffResult.dispatchUpdatesTo(this)

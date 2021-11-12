@@ -32,7 +32,7 @@ abstract class AntonioCoreAdapter<ITEM : AntonioModel>(
     open val viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer
 ) : AdapterDependency<ITEM>, RecyclerView.Adapter<TypedViewHolder<ITEM>>() {
 
-    override var currentList: MutableList<ITEM> = mutableListOf()
+    override var currentList: List<ITEM> = mutableListOf()
     override fun submitDiffResult(diffResult: DiffUtil.DiffResult) {
         diffResult.dispatchUpdatesTo(this)
     }
