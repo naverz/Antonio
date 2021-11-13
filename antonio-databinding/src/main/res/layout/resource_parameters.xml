@@ -33,6 +33,11 @@
             name="lifecycleOwner"
             type="androidx.lifecycle.LifecycleOwner"
             />
+
+        <variable
+            name="additionalVariables"
+            type="java.util.Map&lt;Integer, Object&gt;"
+            />
     </data>
 
     <FrameLayout

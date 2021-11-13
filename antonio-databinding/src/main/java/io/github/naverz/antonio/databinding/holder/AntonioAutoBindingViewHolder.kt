@@ -48,6 +48,7 @@ open class AntonioAutoBindingViewHolder(
         binding.lifecycleOwner = this
         binding.setVariable(BR.itemView, itemView)
         binding.setVariable(BR.lifecycleOwner, mLifeCycleOwner)
+        binding.setVariable(BR.additionalVariables, additionalVariables)
         additionalVariables?.let {
             for (entry in additionalVariables) {
                 binding.setVariable(entry.key, entry.value)

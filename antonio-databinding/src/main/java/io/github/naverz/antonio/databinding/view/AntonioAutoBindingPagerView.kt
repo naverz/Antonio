@@ -24,6 +24,7 @@ import androidx.lifecycle.LifecycleOwner
 import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.Exceptions
 import io.github.naverz.antonio.databinding.AntonioBindingModel
+import io.github.naverz.antonio.databinding.BR
 import io.github.naverz.antonio.findLifecycleOwner
 
 open class AntonioAutoBindingPagerView(
@@ -50,6 +51,8 @@ open class AntonioAutoBindingPagerView(
                 binding?.setVariable(entry.key, entry.value)
             }
         }
+        binding?.setVariable(BR.itemPosition, position)
+        binding?.setVariable(BR.additionalVariables, additionalVariables)
         binding?.lifecycleOwner = mLifeCycleOwner
         if (bindingVariableId != null) {
             if (binding?.setVariable(bindingVariableId, antonioModel) == false) {

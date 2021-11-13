@@ -25,6 +25,7 @@ import androidx.databinding.ViewDataBinding
 import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.Exceptions
 import io.github.naverz.antonio.databinding.AntonioBindingModel
+import io.github.naverz.antonio.databinding.BR
 
 class AntonioAutoBindingFragment :
     AntonioBindingFragment<ViewDataBinding, AntonioModel>() {
@@ -42,6 +43,7 @@ class AntonioAutoBindingFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.lifecycleOwner = viewLifecycleOwner
+        binding?.setVariable(BR.itemPosition, position)
         model?.let { bindModel(it as AntonioBindingModel) }
     }
 
