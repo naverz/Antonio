@@ -20,7 +20,6 @@ package io.github.naverz.antonio.databinding.holder
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.RecyclerView
 import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.holder.AntonioViewHolder
 
@@ -28,16 +27,4 @@ abstract class AntonioBindingViewHolder<T : ViewDataBinding, ITEM : AntonioModel
     layoutId: Int, parent: ViewGroup
 ) : AntonioViewHolder<ITEM>(layoutId, parent) {
     protected val binding: T = DataBindingUtil.bind(itemView)!!
-
-    override fun onBindViewHolder(data: ITEM, position: Int, payloads: List<Any>?) {
-    }
-
-    override fun onViewAttachedToWindow(viewHolder: RecyclerView.ViewHolder) {
-    }
-
-    override fun onViewDetachedFromWindow(viewHolder: RecyclerView.ViewHolder) {
-    }
-
-    override fun onViewRecycled() {
-    }
 }
