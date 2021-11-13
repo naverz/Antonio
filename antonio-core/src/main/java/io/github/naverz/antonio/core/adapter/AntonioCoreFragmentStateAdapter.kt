@@ -30,6 +30,9 @@ import io.github.naverz.antonio.core.container.ContainerType
 import io.github.naverz.antonio.core.container.FragmentContainer
 import io.github.naverz.antonio.core.fragment.AntonioFragment
 
+//For catching the system-initiated process death moment
+private val createdMomentOfThisProcess = System.currentTimeMillis()
+
 abstract class AntonioCoreFragmentStateAdapter<ITEM : AntonioModel>
     : FragmentStateAdapter, AdapterDependency<ITEM> {
     protected val implementedItemID: Boolean
@@ -132,20 +135,20 @@ abstract class AntonioCoreFragmentStateAdapter<ITEM : AntonioModel>
 
 
     override fun getItemId(position: Int): Long {
-        return if (implementedItemID)
+        val itemId = if (implementedItemID) {
             currentList[position].modelId
                 ?: throw IllegalStateException("If you set the implementedItemID flag true, You must implement itemId in your all of AntonioModel")
-        else {
-            super.getItemId(position)
+        } else {
+            position.toLong()
         }
+        return createdMomentOfThisProcess + itemId
     }
 
 
     override fun containsItem(itemId: Long): Boolean {
-        return if (implementedItemID) {
-            currentList.any { it.modelId == itemId }
-        } else {
-            super.containsItem(itemId)
+        return when {
+            implementedItemID -> currentList.any { it.modelId?.plus(createdMomentOfThisProcess) == itemId }
+            else -> itemId >= createdMomentOfThisProcess && itemId < itemCount + createdMomentOfThisProcess
         }
     }
 

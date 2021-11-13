@@ -34,24 +34,26 @@ class AntonioAutoBindingFragment :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(
-            (requireModel() as AntonioBindingModel).layoutId(), container, false
-        )
+        return model?.let {
+            inflater.inflate((it as AntonioBindingModel).layoutId(), container, false)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.lifecycleOwner = viewLifecycleOwner
-        val model = requireModel() as AntonioBindingModel
+        model?.let { bindModel(it as AntonioBindingModel) }
+    }
+
+    private fun bindModel(model: AntonioBindingModel) {
         model.bindingVariableId()?.let { bindingVariableId ->
             if (binding?.setVariable(bindingVariableId, model) == false) {
                 val layoutIdStr =
-                    view.context.resources.getResourceName(model.layoutId())
+                    requireContext().resources.getResourceName(model.layoutId())
                 throw IllegalStateException(Exceptions.errorIllegalBinding(layoutIdStr, model))
             }
         }
         if (model.requireExecutePendingBindings())
             binding?.executePendingBindings()
     }
-
 }

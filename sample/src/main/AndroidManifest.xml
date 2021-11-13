@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="io.github.naverz.antonio"
     >
 
@@ -11,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Antonio"
+        tools:ignore="AllowBackup"
         >
         <activity
             android:name="io.github.naverz.antonio.sample.main.MainActivity"
@@ -22,10 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="io.github.naverz.antonio.sample.fragmenthost.FragmentHostActivity"
-            android:configChanges="orientation|screenSize"
-            />
+        <activity android:name="io.github.naverz.antonio.sample.fragmenthost.FragmentHostActivity" />
     </application>
 
 </manifest>

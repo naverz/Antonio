@@ -23,15 +23,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import io.github.naverz.antonio.GenericAntonioFindable
 import io.github.naverz.antonio.core.AntonioModel
 import java.io.Serializable
 
 abstract class AntonioFragment<ITEM : AntonioModel> : Fragment(), GenericAntonioFindable {
+    class FragmentDataSaver<ITEM> : ViewModel() {
+        var savedItem: ITEM? = null
+    }
+
     companion object {
         private const val POSITION_BUNDLE_KEY = "POSITION_BUNDLE_KEY"
         private const val MODEL_BUNDLE_KEY = "MODEL_BUNDLE_KEY"
     }
+
+    private val fragmentModelSave by viewModels<FragmentDataSaver<ITEM>>()
 
     protected var position: Int? = null
         private set
@@ -81,6 +89,9 @@ abstract class AntonioFragment<ITEM : AntonioModel> : Fragment(), GenericAntonio
             this.position = requireArguments().getInt(POSITION_BUNDLE_KEY)
             this.model = requireArguments().getParcelable(MODEL_BUNDLE_KEY)
                 ?: (requireArguments().getSerializable(MODEL_BUNDLE_KEY) as? ITEM)
+                        ?: fragmentModelSave.savedItem
+        } else {
+            fragmentModelSave.savedItem = model
         }
     }
 }
