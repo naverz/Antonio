@@ -28,6 +28,7 @@ import java.util.concurrent.Executor
 open class RecyclerViewState<ITEM : AntonioModel> {
 
     var currentList = mutableListOf<ITEM>()
+    private var hasStableIdLastState: Boolean? = null
 
     @RestrictTo(RestrictTo.Scope.TESTS)
     var mainThreadExecutor: Executor = AntonioSettings.getExecutorBuilder().call()
@@ -44,11 +45,20 @@ open class RecyclerViewState<ITEM : AntonioModel> {
         mainThreadExecutor.execute(runnable)
     }
 
+    fun setHasStableIds(enable: Boolean) {
+        val runnable = Runnable {
+            hasStableIdLastState = enable
+            adapterDependency?.setHasStableIds(enable)
+        }
+        mainThreadExecutor.execute(runnable)
+    }
+
     fun setAdapterDependency(adapterDependency: AdapterDependency<ITEM>?) {
         if (adapterDependency == null) {
             this.adapterDependency?.currentList = mutableListOf()
         } else {
             strategyForStore?.let { adapterDependency.setStateRestorationPolicy(it) }
+            hasStableIdLastState?.let { adapterDependency.setHasStableIds(it) }
             adapterDependency.currentList = currentList
         }
         this.adapterDependency = adapterDependency

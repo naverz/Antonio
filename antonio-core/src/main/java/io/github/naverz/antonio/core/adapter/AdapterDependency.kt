@@ -23,6 +23,7 @@ import io.github.naverz.antonio.core.AntonioModel
 
 interface AdapterDependency<ITEM : AntonioModel> {
     var currentList: List<ITEM>
+    fun setHasStableIds(enable: Boolean)
     fun setStateRestorationPolicy(strategy: RecyclerView.Adapter.StateRestorationPolicy)
     fun notifyDataSetChanged()
     fun notifyItemChanged(position: Int, payload: Any? = null)
