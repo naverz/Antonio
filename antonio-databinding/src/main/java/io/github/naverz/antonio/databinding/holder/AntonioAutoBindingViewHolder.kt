@@ -17,27 +17,35 @@
 
 package io.github.naverz.antonio.databinding.holder
 
+import android.util.Log
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
 import androidx.recyclerview.widget.RecyclerView
+import io.github.naverz.antonio.AntonioSettings
 import io.github.naverz.antonio.core.AntonioModel
 import io.github.naverz.antonio.core.Exceptions
 import io.github.naverz.antonio.databinding.AntonioBindingModel
 import io.github.naverz.antonio.databinding.BR
+import io.github.naverz.antonio.onDestroy
 
+@Suppress("LeakingThis")
 open class AntonioAutoBindingViewHolder(
     layoutId: Int,
     parent: ViewGroup,
     private val bindingVariableId: Int?,
     private val additionalVariables: Map<Int, Any>? = null,
     private val lifecycleOwner: LifecycleOwner? = null,
-) : AntonioBindingViewHolder<ViewDataBinding, AntonioModel>(layoutId, parent) {
-    @Suppress("LeakingThis")
+) : AntonioBindingViewHolder<ViewDataBinding, AntonioModel>(layoutId, parent), LifecycleOwner {
     private val mLifeCycleOwner: LifecycleOwner? =
         this.lifecycleOwner ?: fragment?.viewLifecycleOwner ?: activity
 
+    private val lifecycleRegistry = LifecycleRegistry(this)
+
     init {
+        binding.lifecycleOwner = this
         binding.setVariable(BR.itemView, itemView)
         binding.setVariable(BR.lifecycleOwner, mLifeCycleOwner)
         additionalVariables?.let {
@@ -45,7 +53,18 @@ open class AntonioAutoBindingViewHolder(
                 binding.setVariable(entry.key, entry.value)
             }
         }
+        catchExceptionAndLog {
+            lifecycleRegistry.currentState = Lifecycle.State.INITIALIZED
+            lifecycleRegistry.currentState = Lifecycle.State.CREATED
+        }
+        mLifeCycleOwner?.onDestroy {
+            catchExceptionAndLog {
+                lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
+            }
+        }
     }
+
+    override fun getLifecycle(): Lifecycle = lifecycleRegistry
 
     override fun onBindViewHolder(data: AntonioModel, position: Int, payloads: List<Any>?) {
         bindingVariableId?.let {
@@ -64,15 +83,28 @@ open class AntonioAutoBindingViewHolder(
     }
 
     override fun onViewAttachedToWindow(viewHolder: RecyclerView.ViewHolder) {
-        binding.lifecycleOwner = mLifeCycleOwner
+        super.onViewAttachedToWindow(viewHolder)
+        catchExceptionAndLog {
+            if (lifecycleRegistry.currentState != Lifecycle.State.DESTROYED) {
+                lifecycleRegistry.currentState = Lifecycle.State.STARTED
+                lifecycleRegistry.currentState = Lifecycle.State.RESUMED
+            }
+        }
     }
 
     override fun onViewDetachedFromWindow(viewHolder: RecyclerView.ViewHolder) {
-        binding.lifecycleOwner = null
+        super.onViewDetachedFromWindow(viewHolder)
+        catchExceptionAndLog {
+            if (lifecycleRegistry.currentState != Lifecycle.State.DESTROYED)
+                lifecycleRegistry.currentState = Lifecycle.State.CREATED
+        }
     }
 
-
-    override fun onViewRecycled() {
+    private fun catchExceptionAndLog(func: () -> Unit) {
+        try {
+            func.invoke()
+        } catch (e: Exception) {
+            Log.w(AntonioSettings.LOG_TAG, e.message, e)
+        }
     }
-
 }

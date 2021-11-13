@@ -12,6 +12,9 @@ import io.github.naverz.antonio.core.container.PagerViewContainer;
 import io.github.naverz.antonio.core.etc.MainThreadExecutor;
 
 public class AntonioSettings {
+    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    public static final String LOG_TAG = "Antonio";
+
     private AntonioSettings() {
 
     }
