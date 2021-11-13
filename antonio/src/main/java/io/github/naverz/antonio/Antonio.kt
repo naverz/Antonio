@@ -73,13 +73,16 @@ fun <T : AntonioModel> SubmittableRecyclerViewState<T>.makeAdapter(
 
 //region setState for the recycler view
 fun <T : AntonioModel> RecyclerView.setState(
-    viewState: RecyclerViewState<T>, adapter: AntonioAdapter<T>
+    viewState: RecyclerViewState<T>,
+    adapter: AntonioAdapter<T>,
+    lifecycleOwner: LifecycleOwner? = null,
 ) {
-    val lifecycleOwner = findLifecycleOwner(this) ?: throw IllegalStateException(
-        "Set argument after attaching on the activity or fragment." +
-                " It's essential to prevent memory leak  "
-    )
-    lifecycleOwner.onDestroy {
+    val owner =
+        lifecycleOwner ?: findLifecycleOwner(this) ?: throw IllegalStateException(
+            "Set argument after attaching on the activity or fragment." +
+                    " It's essential to prevent memory leak  "
+        )
+    owner.onDestroy {
         this.adapter = null
         viewState.setAdapterDependency(null)
     }
@@ -88,13 +91,16 @@ fun <T : AntonioModel> RecyclerView.setState(
 }
 
 fun <T : AntonioModel> RecyclerView.setState(
-    viewState: SubmittableRecyclerViewState<T>, adapter: AntonioListAdapter<T>
+    viewState: SubmittableRecyclerViewState<T>,
+    adapter: AntonioListAdapter<T>,
+    lifecycleOwner: LifecycleOwner? = null,
 ) {
-    val lifecycleOwner = findLifecycleOwner(this) ?: throw IllegalStateException(
-        "Set argument after attaching on the activity or fragment." +
-                " It's essential to prevent memory leak  "
-    )
-    lifecycleOwner.onDestroy {
+    val owner =
+        lifecycleOwner ?: findLifecycleOwner(this) ?: throw IllegalStateException(
+            "Set argument after attaching on the activity or fragment." +
+                    " It's essential to prevent memory leak  "
+        )
+    owner.onDestroy {
         this.adapter = null
         viewState.setAdapterDependency(null)
     }
@@ -105,7 +111,8 @@ fun <T : AntonioModel> RecyclerView.setState(
 fun <T : AntonioModel> RecyclerView.setState(
     viewState: RecyclerViewState<T>?,
     viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer,
-    hasStableId: Boolean = false
+    hasStableId: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null
 ) {
     if (viewState == null) {
         adapter = null
@@ -115,14 +122,16 @@ fun <T : AntonioModel> RecyclerView.setState(
         viewState,
         AntonioAdapter<T>(
             viewHolderContainer = viewHolderContainer
-        ).apply { setHasStableIds(hasStableId) }
+        ).apply { setHasStableIds(hasStableId) },
+        lifecycleOwner
     )
 }
 
 fun <T : AntonioModel> RecyclerView.setState(
     viewState: SubmittableRecyclerViewState<T>?,
     viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer,
-    hasStableId: Boolean = false
+    hasStableId: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null
 ) {
     if (viewState == null) {
         adapter = null
@@ -132,7 +141,7 @@ fun <T : AntonioModel> RecyclerView.setState(
         viewHolderContainer = viewHolderContainer,
         diffItemCallback = viewState.itemCallback
     ).apply { setHasStableIds(hasStableId) }
-    this.setState(viewState, adapter)
+    this.setState(viewState, adapter, lifecycleOwner)
 }
 //endregion
 
@@ -156,25 +165,28 @@ fun <T : AntonioModel> ViewPagerState<T>.makeAdapter(
 fun <T : AntonioModel> ViewPager.setState(
     viewState: ViewPagerState<T>?,
     pagerViewContainer: PagerViewContainer = AntonioSettings.pagerViewContainer,
+    lifecycleOwner: LifecycleOwner? = null
 ) {
     if (viewState == null) {
         adapter = null
         return
     }
     this.setState(
-        viewState, AntonioPagerAdapter(pagerViewContainer)
+        viewState, AntonioPagerAdapter(pagerViewContainer), lifecycleOwner
     )
 }
 
 fun <T : AntonioModel> ViewPager.setState(
     viewState: ViewPagerState<T>,
-    adapter: AntonioCorePagerAdapter<T>
+    adapter: AntonioCorePagerAdapter<T>,
+    lifecycleOwner: LifecycleOwner? = null
 ) {
-    val lifecycleOwner = findLifecycleOwner(this) ?: throw IllegalStateException(
-        "Set argument after attaching on the activity or fragment." +
-                " It's essential to prevent memory leak  "
-    )
-    lifecycleOwner.onDestroy {
+    val owner =
+        lifecycleOwner ?: findLifecycleOwner(this) ?: throw IllegalStateException(
+            "Set argument after attaching on the activity or fragment." +
+                    " It's essential to prevent memory leak  "
+        )
+    owner.onDestroy {
         this.adapter = null
         viewState.setAdapterDependency(null)
     }
@@ -276,6 +288,7 @@ fun <T : AntonioModel> ViewPager2.setState(
     viewState: RecyclerViewState<T>?,
     viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer,
     hasStableId: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null
 ) {
     if (viewState == null) {
         adapter = null
@@ -286,13 +299,14 @@ fun <T : AntonioModel> ViewPager2.setState(
     ).apply {
         setHasStableIds(hasStableId)
     }
-    setState(viewState, adapter)
+    setState(viewState, adapter, lifecycleOwner)
 }
 
 fun <T : AntonioModel> ViewPager2.setState(
     viewState: SubmittableRecyclerViewState<T>?,
     viewHolderContainer: ViewHolderContainer = AntonioSettings.viewHolderContainer,
     hasStableId: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null
 ) {
     if (viewState == null) {
         adapter = null
@@ -304,7 +318,7 @@ fun <T : AntonioModel> ViewPager2.setState(
     ).apply {
         setHasStableIds(hasStableId)
     }
-    setState(viewState, adapter)
+    setState(viewState, adapter, lifecycleOwner)
 }
 
 
@@ -333,13 +347,16 @@ fun <T : AntonioModel> ViewPager2.setState(
 }
 
 fun <T : AntonioModel> ViewPager2.setState(
-    viewState: RecyclerViewState<T>, adapter: AntonioAdapter<T>
+    viewState: RecyclerViewState<T>,
+    adapter: AntonioAdapter<T>,
+    lifecycleOwner: LifecycleOwner? = null
 ) {
-    val lifecycleOwner = findLifecycleOwner(this) ?: throw IllegalStateException(
-        "Set argument after attaching on the activity or fragment." +
-                " It's essential to prevent memory leak  "
-    )
-    lifecycleOwner.onDestroy {
+    val owner =
+        lifecycleOwner ?: findLifecycleOwner(this) ?: throw IllegalStateException(
+            "Set argument after attaching on the activity or fragment." +
+                    " It's essential to prevent memory leak  "
+        )
+    owner.onDestroy {
         this.adapter = null
         viewState.setAdapterDependency(null)
     }
@@ -348,13 +365,16 @@ fun <T : AntonioModel> ViewPager2.setState(
 }
 
 fun <T : AntonioModel> ViewPager2.setState(
-    viewState: SubmittableRecyclerViewState<T>, adapter: AntonioListAdapter<T>
+    viewState: SubmittableRecyclerViewState<T>,
+    adapter: AntonioListAdapter<T>,
+    lifecycleOwner: LifecycleOwner? = null
 ) {
-    val lifecycleOwner = findLifecycleOwner(this) ?: throw IllegalStateException(
-        "Set argument after attaching on the activity or fragment." +
-                " It's essential to prevent memory leak  "
-    )
-    lifecycleOwner.onDestroy {
+    val owner =
+        lifecycleOwner ?: findLifecycleOwner(this) ?: throw IllegalStateException(
+            "Set argument after attaching on the activity or fragment." +
+                    " It's essential to prevent memory leak  "
+        )
+    owner.onDestroy {
         this.adapter = null
         viewState.setAdapterDependency(null)
     }
