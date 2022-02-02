@@ -88,3 +88,8 @@ object Processor {
     const val AUTO_SERVICE = "com.google.auto.service:auto-service:1.0"
     const val JAVA_POET = "com.squareup:javapoet:1.13.0"
 }
+
+object Incap{
+    const val INCAP = "net.ltgt.gradle.incap:incap:0.3"
+    const val PROCESSOR = "net.ltgt.gradle.incap:incap-processor:0.3"
+}

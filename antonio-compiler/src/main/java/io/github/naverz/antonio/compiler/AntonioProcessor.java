@@ -18,11 +18,15 @@
 
 package io.github.naverz.antonio.compiler;
 
+import static net.ltgt.gradle.incap.IncrementalAnnotationProcessorType.ISOLATING;
+
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
+
+import net.ltgt.gradle.incap.IncrementalAnnotationProcessor;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,6 +47,7 @@ import javax.lang.model.type.TypeMirror;
 import io.github.naverz.antonio.annotations.MappedWithViewDependency;
 
 @AutoService(Processor.class)
+@IncrementalAnnotationProcessor(ISOLATING)
 public class AntonioProcessor extends AbstractProcessor {
     private static final String CLASS_NAME = "AntonioAnnotation";
     private static final String PACKAGE_NAME = "io.github.naverz.antonio";
