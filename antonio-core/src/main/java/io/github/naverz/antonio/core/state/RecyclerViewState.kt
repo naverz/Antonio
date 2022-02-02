@@ -33,7 +33,8 @@ open class RecyclerViewState<ITEM : AntonioModel> {
     @RestrictTo(RestrictTo.Scope.TESTS)
     var mainThreadExecutor: Executor = AntonioSettings.getExecutorBuilder().call()
 
-    private var adapterDependency: AdapterDependency<ITEM>? = null
+    var adapterDependency: AdapterDependency<ITEM>? = null
+        private set
     private var strategyForStore: RecyclerView.Adapter.StateRestorationPolicy? = null
 
 

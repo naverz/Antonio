@@ -13,6 +13,9 @@ import io.github.naverz.antonio.core.container.ViewHolderContainer
 import io.github.naverz.antonio.core.state.RecyclerViewState
 import io.github.naverz.antonio.core.state.SubmittableRecyclerViewState
 import io.github.naverz.antonio.core.state.ViewPagerState
+import io.github.naverz.antonio.databinding.adapter.AntonioAdapter
+import io.github.naverz.antonio.databinding.adapter.AntonioListAdapter
+import io.github.naverz.antonio.databinding.adapter.AntonioPagerAdapter
 
 @BindingAdapter(
     value = ["antonio_recycler_view_state", "antonio_view_holder_container", "antonio_additional_variables", "antonio_has_stable_id", "antonio_lifecycle_owner"],
@@ -26,6 +29,15 @@ fun <T : AntonioModel> RecyclerView.setStateForBinding(
     hasStableId: Boolean,
     lifecycleOwner: LifecycleOwner?
 ) {
+    val prevAdapter = adapter
+    val isAlreadySetSameObject = prevAdapter == viewState?.adapterDependency
+            && prevAdapter is AntonioAdapter<*>
+            && prevAdapter.additionalVariables == additionalVariables
+            && prevAdapter.viewHolderContainer == viewHolderContainer
+            && prevAdapter.hasStableIds() == hasStableId
+            && prevAdapter.lifecycleOwner == lifecycleOwner
+    if (isAlreadySetSameObject) return
+
     setState(
         viewState,
         viewHolderContainer ?: AntonioSettings.viewHolderContainer,
@@ -47,6 +59,16 @@ fun <T : AntonioModel> RecyclerView.setStateForBinding(
     hasStableId: Boolean,
     lifecycleOwner: LifecycleOwner?
 ) {
+    val prevAdapter = adapter
+    val isAlreadySetSameObject =
+        prevAdapter == viewState?.listAdapterDependency
+                && prevAdapter is AntonioListAdapter<*>
+                && prevAdapter.additionalVariables == additionalVariables
+                && prevAdapter.viewHolderContainer == viewHolderContainer
+                && prevAdapter.hasStableIds() == hasStableId
+                && prevAdapter.lifecycleOwner == lifecycleOwner
+    if (isAlreadySetSameObject) return
+
     setState(
         viewState,
         viewHolderContainer ?: AntonioSettings.viewHolderContainer,
@@ -67,6 +89,15 @@ fun <T : AntonioModel> ViewPager.setStateForBinding(
     additionalVariables: Map<Int, Any>?,
     lifecycleOwner: LifecycleOwner?
 ) {
+    val prevAdapter = adapter
+    val isAlreadySetSameObject =
+        prevAdapter == viewState?.pagerAdapterDependency
+                && prevAdapter is AntonioPagerAdapter<*>
+                && prevAdapter.additionalVariables == additionalVariables
+                && prevAdapter.pagerViewContainer == pagerViewContainer
+                && prevAdapter.lifecycleOwner == lifecycleOwner
+    if (isAlreadySetSameObject) return
+
     setState(
         viewState,
         pagerViewContainer ?: AntonioSettings.pagerViewContainer,
@@ -87,6 +118,16 @@ fun <T : AntonioModel> ViewPager2.setStateForBinding(
     hasStableId: Boolean,
     lifecycleOwner: LifecycleOwner?
 ) {
+    val prevAdapter = adapter
+    val isAlreadySetSameObject =
+        prevAdapter == viewState?.adapterDependency
+                && prevAdapter is AntonioAdapter<*>
+                && prevAdapter.additionalVariables == additionalVariables
+                && prevAdapter.viewHolderContainer == viewHolderContainer
+                && prevAdapter.hasStableIds() == hasStableId
+                && prevAdapter.lifecycleOwner == lifecycleOwner
+    if (isAlreadySetSameObject) return
+
     setState(
         viewState,
         viewHolderContainer ?: AntonioSettings.viewHolderContainer,
@@ -108,6 +149,16 @@ fun <T : AntonioModel> ViewPager2.setStateForBinding(
     hasStableId: Boolean,
     lifecycleOwner: LifecycleOwner?
 ) {
+    val prevAdapter = adapter
+    val isAlreadySetSameObject =
+        prevAdapter == viewState?.listAdapterDependency
+                && prevAdapter is AntonioListAdapter<*>
+                && prevAdapter.additionalVariables == additionalVariables
+                && prevAdapter.viewHolderContainer == viewHolderContainer
+                && prevAdapter.hasStableIds() == hasStableId
+                && prevAdapter.lifecycleOwner == lifecycleOwner
+    if (isAlreadySetSameObject) return
+
     setState(
         viewState,
         viewHolderContainer ?: AntonioSettings.viewHolderContainer,

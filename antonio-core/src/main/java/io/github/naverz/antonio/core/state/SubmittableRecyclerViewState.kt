@@ -35,7 +35,8 @@ open class SubmittableRecyclerViewState<ITEM : AntonioModel>(val itemCallback: D
     @RestrictTo(RestrictTo.Scope.TESTS)
     var mainThreadExecutor: Executor = AntonioSettings.getExecutorBuilder().call()
 
-    private var listAdapterDependency: ListAdapterDependency<ITEM>? = null
+    var listAdapterDependency: ListAdapterDependency<ITEM>? = null
+        private set
 
     fun setStateRestorationPolicy(strategy: RecyclerView.Adapter.StateRestorationPolicy) {
         val runnable = Runnable {

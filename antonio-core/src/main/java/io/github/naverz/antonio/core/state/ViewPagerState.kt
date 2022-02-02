@@ -40,7 +40,8 @@ open class ViewPagerState<ITEM : AntonioModel> {
             pagerAdapterDependency?.isViewFromObject = value
             field = value
         }
-    private var pagerAdapterDependency: PagerAdapterDependency<ITEM>? = null
+    var pagerAdapterDependency: PagerAdapterDependency<ITEM>? = null
+        private set
 
     fun setAdapterDependency(adapterDependency: PagerAdapterDependency<ITEM>?) {
         if (adapterDependency == null) {
