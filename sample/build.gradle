@@ -46,7 +46,7 @@ dependencies {
     kaptRelease AntonioAnnotation.COMPILER
     kaptDebug project(path: ":antonio-compiler")
     releaseImplementation AntonioAnnotation.ANNOTATION
-    debugImplementation project(path: ":antonio-annotations")
+    debugImplementation project(path: ':antonio-annotation')
     releaseImplementation Antonio.DATA_BINDING
     debugImplementation project(path: ":antonio-databinding")
 

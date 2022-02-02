@@ -12,8 +12,8 @@ Android library for the adapter view (RecyclerView, ViewPager, ViewPager2)
 ## Without data binding
 ```groovy
 dependencies {
-    def antonioVersion = '1.0.5-alpha'
-    def antonioAnnotationVersion = '0.0.1-alpha'
+    def antonioVersion = '1.0.6-alpha'
+    def antonioAnnotationVersion = '0.0.4-alpha'
   
     implementation "io.github.naverz:antonio:$antonioVersion"
 
@@ -35,8 +35,8 @@ dependencies {
 ## With data binding
 ```groovy
 dependencies {
-    def antonioVersion = '1.0.5-alpha'
-    def antonioAnnotationVersion = '0.0.1-alpha'
+    def antonioVersion = '1.0.6-alpha'
+    def antonioAnnotationVersion = '0.0.4-alpha'
   
     implementation "io.github.naverz:antonio-databinding:$antonioVersion"
 
@@ -52,7 +52,7 @@ dependencies {
     implementation "io.github.naverz:antonio-databinding-paging2:$antonioVersion"
 
     //For paging3
-    implementation "io.github.naverz:antonio-databinding-paging3:$antonioVersion'
+    implementation "io.github.naverz:antonio-databinding-paging3:$antonioVersion"
 }
 ```
 # Basic Usage
@@ -83,8 +83,6 @@ data class ContentSmallModel(
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     >
     <data>
         <variable

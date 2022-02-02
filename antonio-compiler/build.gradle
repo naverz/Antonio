@@ -12,7 +12,7 @@ java {
 
 
 dependencies {
-    implementation project(path: ':antonio-annotations')
+    implementation project(path: ':antonio-annotation')
     implementation Processor.AUTO_SERVICE
     annotationProcessor Processor.AUTO_SERVICE
     implementation Processor.JAVA_POET
