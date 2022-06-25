@@ -1,5 +1,5 @@
 package io.github.naverz.antonio.compiler;
 
-enum ViewDependencyType {
+public enum ViewDependencyType {
     Fragment, PagerView, ViewHolder
 }

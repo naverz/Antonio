@@ -17,6 +17,9 @@
 
 package io.github.naverz.antonio.buildsrc
 
+const val KOTLIN_VERSION = "1.6.10"
+const val KSP_VERSION = "1.6.10-1.0.2"
+
 object Antonio {
     const val NAME = "Antonio"
     const val VERSION_NAME = "1.0.6-alpha"
@@ -40,9 +43,6 @@ object AntonioAnnotation {
     }
 }
 
-object Version {
-    const val KOTLIN_VERSION = "1.5.21"
-}
 
 object Android {
     const val PAGING2 = "androidx.paging:paging-runtime:2.1.2"
@@ -69,9 +69,9 @@ object Nav {
 }
 
 
-object Gradle {
-    const val BUILD_GRADLE = "com.android.tools.build:gradle:7.0.2"
-    const val GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.30"
+object GradleDependency {
+    const val BUILD_GRADLE = "com.android.tools.build:gradle:7.0.4"
+    const val GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${KOTLIN_VERSION}"
 }
 
 object DataBinding {
@@ -85,11 +85,8 @@ object Test {
 }
 
 object Processor {
-    const val AUTO_SERVICE = "com.google.auto.service:auto-service:1.0"
     const val JAVA_POET = "com.squareup:javapoet:1.13.0"
-}
-
-object Incap{
-    const val INCAP = "net.ltgt.gradle.incap:incap:0.3"
-    const val PROCESSOR = "net.ltgt.gradle.incap:incap-processor:0.3"
+    const val KOTLIN_POET = "com.squareup:kotlinpoet:1.11.0"
+    const val KOTLIN_POET_KSP = "com.squareup:kotlinpoet-ksp:1.11.0"
+    const val KSP = "com.google.devtools.ksp:symbol-processing-api:${KSP_VERSION}"
 }

@@ -18,15 +18,34 @@
 
 package io.github.naverz.antonio.compiler;
 
-import static net.ltgt.gradle.incap.IncrementalAnnotationProcessorType.ISOLATING;
+import static io.github.naverz.antonio.compiler.ConstantsKt.CLASS_NAME_AntonioAnnotation;
+import static io.github.naverz.antonio.compiler.ConstantsKt.CLASS_NAME_AntonioFragment;
+import static io.github.naverz.antonio.compiler.ConstantsKt.CLASS_NAME_AntonioSettings;
+import static io.github.naverz.antonio.compiler.ConstantsKt.CLASS_NAME_FragmentBuilder;
+import static io.github.naverz.antonio.compiler.ConstantsKt.CLASS_NAME_NonNull;
+import static io.github.naverz.antonio.compiler.ConstantsKt.CLASS_NAME_PagerViewDependency;
+import static io.github.naverz.antonio.compiler.ConstantsKt.CLASS_NAME_PagerViewDependencyBuilder;
+import static io.github.naverz.antonio.compiler.ConstantsKt.CLASS_NAME_TypedViewHolder;
+import static io.github.naverz.antonio.compiler.ConstantsKt.CLASS_NAME_ViewGroup;
+import static io.github.naverz.antonio.compiler.ConstantsKt.CLASS_NAME_ViewHolderBuilder;
+import static io.github.naverz.antonio.compiler.ConstantsKt.METHOD_initFragmentWithModel;
+import static io.github.naverz.antonio.compiler.ConstantsKt.METHOD_initPagerViewWithModel;
+import static io.github.naverz.antonio.compiler.ConstantsKt.METHOD_initViewHolderWithModel;
+import static io.github.naverz.antonio.compiler.ConstantsKt.PACKAGE_NAME_ANDROID_ANNOTATION;
+import static io.github.naverz.antonio.compiler.ConstantsKt.PACKAGE_NAME_ANTONIO;
+import static io.github.naverz.antonio.compiler.ConstantsKt.PACKAGE_NAME_ANTONIO_CORE;
+import static io.github.naverz.antonio.compiler.ConstantsKt.PACKAGE_NAME_ANTONIO_CORE_FRAGMENT;
+import static io.github.naverz.antonio.compiler.ConstantsKt.PACKAGE_NAME_ANTONIO_CORE_HOLDER;
+import static io.github.naverz.antonio.compiler.ConstantsKt.PACKAGE_NAME_ANTONIO_CORE_VIEW;
+import static io.github.naverz.antonio.compiler.ConstantsKt.PACKAGE_NAME_VIEW;
+import static io.github.naverz.antonio.compiler.ConstantsKt.PROPERTY_fragmentContainer;
+import static io.github.naverz.antonio.compiler.ConstantsKt.PROPERTY_pagerViewContainer;
+import static io.github.naverz.antonio.compiler.ConstantsKt.PROPERTY_viewHolderContainer;
 
-import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
-
-import net.ltgt.gradle.incap.IncrementalAnnotationProcessor;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,7 +54,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
@@ -46,11 +64,7 @@ import javax.lang.model.type.TypeMirror;
 
 import io.github.naverz.antonio.annotations.MappedWithViewDependency;
 
-@AutoService(Processor.class)
-@IncrementalAnnotationProcessor(ISOLATING)
 public class AntonioProcessor extends AbstractProcessor {
-    private static final String CLASS_NAME = "AntonioAnnotation";
-    private static final String PACKAGE_NAME = "io.github.naverz.antonio";
     private static final String ADD_FORMAT =
             "                .add(%s, new $T() {\n" +
                     "                    @$T\n" +
@@ -67,15 +81,15 @@ public class AntonioProcessor extends AbstractProcessor {
                     "                        return new %s();\n" +
                     "                    }\n" +
                     "                })";
-    private final ClassName viewGroupClass = ClassName.get("android.view", "ViewGroup");
-    private final ClassName nonNullClass = ClassName.get("androidx.annotation", "NonNull");
-    private final ClassName antonioSettingClass = ClassName.get("io.github.naverz.antonio", "AntonioSettings");
-    private final ClassName viewHolderBuilderClass = ClassName.get("io.github.naverz.antonio.core", "ViewHolderBuilder");
-    private final ClassName pagerViewBuilderClass = ClassName.get("io.github.naverz.antonio.core", "PagerViewDependencyBuilder");
-    private final ClassName fragmentBuilderClass = ClassName.get("io.github.naverz.antonio.core", "FragmentBuilder");
-    private final ClassName typedViewHolderClass = ClassName.get("io.github.naverz.antonio.core.holder", "TypedViewHolder");
-    private final ClassName pagerViewClass = ClassName.get("io.github.naverz.antonio.core.view", "PagerViewDependency");
-    private final ClassName antonioFragmentClass = ClassName.get("io.github.naverz.antonio.core.fragment", "AntonioFragment");
+    private final ClassName viewGroupClass = ClassName.get(PACKAGE_NAME_VIEW, CLASS_NAME_ViewGroup);
+    private final ClassName nonNullClass = ClassName.get(PACKAGE_NAME_ANDROID_ANNOTATION, CLASS_NAME_NonNull);
+    private final ClassName antonioSettingClass = ClassName.get(PACKAGE_NAME_ANTONIO, CLASS_NAME_AntonioSettings);
+    private final ClassName viewHolderBuilderClass = ClassName.get(PACKAGE_NAME_ANTONIO_CORE, CLASS_NAME_ViewHolderBuilder);
+    private final ClassName pagerViewBuilderClass = ClassName.get(PACKAGE_NAME_ANTONIO_CORE, CLASS_NAME_PagerViewDependencyBuilder);
+    private final ClassName fragmentBuilderClass = ClassName.get(PACKAGE_NAME_ANTONIO_CORE, CLASS_NAME_FragmentBuilder);
+    private final ClassName typedViewHolderClass = ClassName.get(PACKAGE_NAME_ANTONIO_CORE_HOLDER, CLASS_NAME_TypedViewHolder);
+    private final ClassName pagerViewClass = ClassName.get(PACKAGE_NAME_ANTONIO_CORE_VIEW, CLASS_NAME_PagerViewDependency);
+    private final ClassName antonioFragmentClass = ClassName.get(PACKAGE_NAME_ANTONIO_CORE_FRAGMENT, CLASS_NAME_AntonioFragment);
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
@@ -133,7 +147,7 @@ public class AntonioProcessor extends AbstractProcessor {
     }
 
     protected void writeFile(List<MethodSpec> specs) throws IOException {
-        final TypeSpec.Builder classBuilder = TypeSpec.classBuilder(CLASS_NAME)
+        final TypeSpec.Builder classBuilder = TypeSpec.classBuilder(CLASS_NAME_AntonioAnnotation)
                 .addModifiers(Modifier.PUBLIC);
         final MethodSpec.Builder initMethodBuilder = MethodSpec.methodBuilder("init")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
@@ -142,7 +156,7 @@ public class AntonioProcessor extends AbstractProcessor {
             initMethodBuilder.addCode(spec.name + "();\n");
         }
         classBuilder.addMethod(initMethodBuilder.build());
-        JavaFile.builder(PACKAGE_NAME, classBuilder.build())
+        JavaFile.builder(PACKAGE_NAME_ANTONIO, classBuilder.build())
                 .build().writeTo(processingEnv.getFiler());
     }
 
@@ -177,14 +191,14 @@ public class AntonioProcessor extends AbstractProcessor {
         final String methodName;
         final String containerName;
         if (type == ViewDependencyType.PagerView) {
-            methodName = "initPagerViewWithModel";
-            containerName = "viewPagerContainer";
+            methodName = METHOD_initPagerViewWithModel;
+            containerName = PROPERTY_pagerViewContainer;
         } else if (type == ViewDependencyType.Fragment) {
-            methodName = "initFragmentWithModel";
-            containerName = "fragmentContainer";
+            methodName = METHOD_initFragmentWithModel;
+            containerName = PROPERTY_fragmentContainer;
         } else {
-            methodName = "initViewHolderWithModel";
-            containerName = "viewHolderContainer";
+            methodName = METHOD_initViewHolderWithModel;
+            containerName = PROPERTY_viewHolderContainer;
         }
 
         MethodSpec.Builder builder = MethodSpec.methodBuilder(methodName)

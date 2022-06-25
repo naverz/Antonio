@@ -17,12 +17,12 @@
 
 package io.github.naverz.antonio.compiler;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 interface Error {
     String ERROR_TEXT_UNKNOWN = "An unknown error is found. Please, Issue up on Github (https://github.com/naverz/Antonio).";
 
-    static String getErrorTextClassIsNotSupportedType(@NonNull String className) {
+    String  ERROR_TEXT_WRONG_VIEW_HOLDER_PARAMETER = "You can have only one ViewParent parameter for ViewHolder's constructor to use MappedWithViewDependency annotation.";
+    String  ERROR_TEXT_WRONG_PARAMETER_FOR_VIEW_DEPENDENCIES = "You cannot have any parameter for PagerView or Fragment constructor to use MappedWithViewDependency annotation.";
+    static String getErrorTextClassIsNotSupportedType(String className) {
         return String.format("%s is not a supported class type. Antonio annotation supports only three class types [TypedViewHolder, PagerViewDependency, AntonioFragment]", className);
     }
 }
