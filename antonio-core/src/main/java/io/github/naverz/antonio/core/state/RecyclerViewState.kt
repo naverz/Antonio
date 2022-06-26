@@ -30,13 +30,16 @@ open class RecyclerViewState<ITEM : AntonioModel> {
     var currentList = mutableListOf<ITEM>()
     private var hasStableIdLastState: Boolean? = null
 
-    @RestrictTo(RestrictTo.Scope.TESTS)
-    var mainThreadExecutor: Executor = AntonioSettings.getExecutorBuilder().call()
+    private var mainThreadExecutor: Executor = AntonioSettings.getExecutorBuilder().call()
 
     var adapterDependency: AdapterDependency<ITEM>? = null
         private set
     private var strategyForStore: RecyclerView.Adapter.StateRestorationPolicy? = null
 
+    @RestrictTo(RestrictTo.Scope.TESTS)
+    fun setMainThreadExecutor(executor: Executor) {
+        mainThreadExecutor = executor
+    }
 
     fun setStateRestorationPolicy(strategy: RecyclerView.Adapter.StateRestorationPolicy) {
         val runnable = Runnable {
