@@ -33,6 +33,7 @@ import io.github.naverz.antonio.core.container.ContainerType;
 import io.github.naverz.antonio.core.container.ViewHolderContainer;
 import io.github.naverz.antonio.core.holder.TypedViewHolder;
 
+@SuppressWarnings("deprecation")
 public class AntonioCorePagedListAdapter<ITEM extends AntonioModel, VH extends TypedViewHolder<ITEM>>
         extends PagedListAdapter<ITEM, VH> {
     protected final ViewHolderContainer viewHolderContainer;
