@@ -91,6 +91,8 @@ public class AntonioProcessor extends AbstractProcessor {
     private final ClassName pagerViewClass = ClassName.get(PACKAGE_NAME_ANTONIO_CORE_VIEW, CLASS_NAME_PagerViewDependency);
     private final ClassName antonioFragmentClass = ClassName.get(PACKAGE_NAME_ANTONIO_CORE_FRAGMENT, CLASS_NAME_AntonioFragment);
 
+    private final List<MethodSpec> mMethodSpecList = new ArrayList<>();
+
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         return new LinkedHashSet<String>() {
@@ -112,7 +114,10 @@ public class AntonioProcessor extends AbstractProcessor {
         try {
             final List<MethodSpec> mapMethodSpecs = makeMethodSpec(roundEnvironment);
             if (!mapMethodSpecs.isEmpty()) {
-                writeFile(mapMethodSpecs);
+                mMethodSpecList.addAll(mapMethodSpecs);
+            }
+            if (roundEnvironment.processingOver() && !mMethodSpecList.isEmpty()) {
+                writeFile(mMethodSpecList);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
