@@ -90,3 +90,8 @@ object Processor {
     const val KOTLIN_POET_KSP = "com.squareup:kotlinpoet-ksp:1.11.0"
     const val KSP = "com.google.devtools.ksp:symbol-processing-api:${KSP_VERSION}"
 }
+
+object Incap{
+    const val INCAP = "net.ltgt.gradle.incap:incap:0.3"
+    const val PROCESSOR = "net.ltgt.gradle.incap:incap-processor:0.3"
+}

@@ -18,6 +18,7 @@
 
 package io.github.naverz.antonio.compiler;
 
+import static net.ltgt.gradle.incap.IncrementalAnnotationProcessorType.AGGREGATING;
 import static io.github.naverz.antonio.compiler.ConstantsKt.CLASS_NAME_AntonioAnnotation;
 import static io.github.naverz.antonio.compiler.ConstantsKt.CLASS_NAME_AntonioFragment;
 import static io.github.naverz.antonio.compiler.ConstantsKt.CLASS_NAME_AntonioSettings;
@@ -47,6 +48,8 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
+import net.ltgt.gradle.incap.IncrementalAnnotationProcessor;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -64,6 +67,7 @@ import javax.lang.model.type.TypeMirror;
 
 import io.github.naverz.antonio.annotations.MappedWithViewDependency;
 
+@IncrementalAnnotationProcessor(AGGREGATING)
 public class AntonioProcessor extends AbstractProcessor {
     private static final String ADD_FORMAT =
             "                .add(%s, new $T() {\n" +

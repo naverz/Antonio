@@ -22,4 +22,7 @@ dependencies {
     implementation(Processor.KSP)
     implementation(Processor.KOTLIN_POET)
     implementation(Processor.KOTLIN_POET_KSP)
+
+    compileOnly(Incap.INCAP)
+    annotationProcessor(Incap.PROCESSOR)
 }
