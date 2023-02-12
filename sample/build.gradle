@@ -11,14 +11,14 @@ android {
     lintOptions {
         abortOnError false
     }
-    compileSdk 30
+    compileSdk 33
     buildFeatures {
         dataBinding true
     }
     defaultConfig {
         applicationId "io.github.naverz.antonio"
         minSdk 16
-        targetSdk 30
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -52,8 +52,8 @@ android {
 }
 
 dependencies {
-//    kapt project(path: ":antonio-compiler")
-    ksp project(path: ":antonio-compiler")
+    kapt project(path: ":antonio-compiler")
+//    ksp project(path: ":antonio-compiler")
     releaseImplementation AntonioAnnotation.ANNOTATION
     debugImplementation project(path: ':antonio-annotation')
     releaseImplementation Antonio.DATA_BINDING
