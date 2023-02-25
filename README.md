@@ -12,7 +12,7 @@ Android library for the adapter view (RecyclerView, ViewPager, ViewPager2)
 ## Without data binding
 ```groovy
 dependencies {
-    def antonioVersion = '1.0.6-alpha'
+    def antonioVersion = '1.0.7-alpha'
   
     implementation "io.github.naverz:antonio:$antonioVersion"
 
@@ -21,12 +21,22 @@ dependencies {
 
     //For paging3
     implementation "io.github.naverz:antonio-paging3:$antonioVersion"
+  
+    // You can implement additional dependencies as bellow, if you want to use AntonioAnnotation.
+    def antonioAnnotationVersion = '0.0.6-alpha'
+    implementation "io.github.naverz:antonio-annotation:$antonioAnnotationVersion"
+    //For java (You must select only one of kapt, ksp and annotationProcessor)
+    annotationProcessor "io.github.naverz:antonio-compiler:$antonioAnnotationVersion"
+    //For kotlin kapt (You must select only one of kapt, ksp and annotationProcessor)
+    kapt "io.github.naverz:antonio-compiler:$antonioAnnotationVersion"
+    //For kotlin ksp (You must select only one of kapt, ksp and annotationProcessor)
+    ksp "io.github.naverz:antonio-compiler:$antonioAnnotationVersion"
 }
 ```
 ## With data binding
 ```groovy
 dependencies {
-    def antonioVersion = '1.0.6-alpha'
+    def antonioVersion = '1.0.7-alpha'
   
     implementation "io.github.naverz:antonio-databinding:$antonioVersion"
 
