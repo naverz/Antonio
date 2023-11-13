@@ -17,8 +17,11 @@
 
 package io.github.naverz.antonio.buildsrc
 
-const val KOTLIN_VERSION = "1.6.10"
-const val KSP_VERSION = "1.6.10-1.0.2"
+const val TARGET_SDK = 34
+const val COMPILE_SDK = 34
+
+const val KOTLIN_VERSION = "1.9.20"
+const val KSP_VERSION = "1.9.20-1.0.14"
 
 object Antonio {
     const val NAME = "Antonio"
@@ -46,31 +49,30 @@ object AntonioAnnotation {
 
 object Android {
     const val PAGING2 = "androidx.paging:paging-runtime:2.1.2"
-    const val PAGING3 = "androidx.paging:paging-runtime:3.0.1"
-    const val FRAGMENT = "androidx.fragment:fragment-ktx:1.3.6"
-    const val LIFECYCLE_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
+    const val PAGING3 = "androidx.paging:paging-runtime:3.2.1"
+    const val FRAGMENT = "androidx.fragment:fragment-ktx:1.6.2"
+    const val LIFECYCLE_LIVEDATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:2.6.2"
     const val RECYCLER_VIEW = "androidx.recyclerview:recyclerview:1.2.1"
     const val FLEX_BOX = "com.google.android.flexbox:flexbox:3.0.0"
     const val VIEW_PAGER2 = "androidx.viewpager2:viewpager2:1.0.0"
 
     // For sample module
-    const val LIFECYCLE_VIEW_MODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0-alpha03"
-    const val LIFECYCLE_LIVE_DATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0-alpha03"
-    const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.1.0"
-    const val ACTIVITY_KTX = "androidx.activity:activity-ktx:1.3.1"
-    const val MATERIAL = "com.google.android.material:material:1.4.0"
-    const val APP_COMPAT = "androidx.appcompat:appcompat:1.3.1"
-    const val CORE_KTX = "androidx.core:core-ktx:1.6.0"
+    const val LIFECYCLE_VIEW_MODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2"
+    const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.1.4"
+    const val ACTIVITY_KTX = "androidx.activity:activity-ktx:1.8.0"
+    const val MATERIAL = "com.google.android.material:material:1.10.0"
+    const val APP_COMPAT = "androidx.appcompat:appcompat:1.6.1"
+    const val CORE_KTX = "androidx.core:core-ktx:1.12.0"
 }
 
 object Nav {
-    const val FRAGMENT_KTX = "androidx.navigation:navigation-fragment-ktx:2.3.5"
-    const val UI_KTX = "androidx.navigation:navigation-ui-ktx:2.3.5"
+    const val FRAGMENT_KTX = "androidx.navigation:navigation-fragment-ktx:2.7.5"
+    const val UI_KTX = "androidx.navigation:navigation-ui-ktx:2.7.5"
 }
 
 
 object GradleDependency {
-    const val BUILD_GRADLE = "com.android.tools.build:gradle:7.0.4"
+    const val BUILD_GRADLE = "com.android.tools.build:gradle:7.4.1"
     const val GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${KOTLIN_VERSION}"
 }
 
@@ -91,7 +93,7 @@ object Processor {
     const val KSP = "com.google.devtools.ksp:symbol-processing-api:${KSP_VERSION}"
 }
 
-object Incap{
+object Incap {
     const val INCAP = "net.ltgt.gradle.incap:incap:0.3"
     const val PROCESSOR = "net.ltgt.gradle.incap:incap-processor:0.3"
 }

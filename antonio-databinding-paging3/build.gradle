@@ -9,11 +9,11 @@ android {
     lintOptions {
         abortOnError false
     }
-    compileSdk 33
+    compileSdk DependenciesKt.COMPILE_SDK
 
     defaultConfig {
         minSdk 16
-        targetSdk 33
+        targetSdk DependenciesKt.TARGET_SDK
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -31,10 +31,8 @@ android {
 }
 
 dependencies {
-    releaseApi Antonio.PAGING3_CORE
-    debugApi project(path: ":antonio-core-paging3")
-    releaseImplementation Antonio.DATA_BINDING
-    debugImplementation project(path: ":antonio-databinding")
+    api project(path: ":antonio-core-paging3")
+    implementation project(path: ":antonio-databinding")
     implementation Android.PAGING3
     testImplementation Test.JUNIT
     androidTestImplementation Test.EXT_JUNIT

@@ -27,7 +27,6 @@ import io.github.naverz.antonio.AntonioAnnotation
 import io.github.naverz.antonio.R
 import io.github.naverz.antonio.databinding.ActivityMainBinding
 import io.github.naverz.antonio.sample.fragmenthost.FragmentHostActivity
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {

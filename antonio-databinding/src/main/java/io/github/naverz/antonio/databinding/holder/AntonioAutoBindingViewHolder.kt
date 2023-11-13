@@ -43,6 +43,7 @@ open class AntonioAutoBindingViewHolder(
         this.lifecycleOwner ?: fragment?.viewLifecycleOwner ?: activity
 
     private val lifecycleRegistry = LifecycleRegistry(this)
+    override val lifecycle: Lifecycle get() = lifecycleRegistry
 
     init {
         binding.lifecycleOwner = this
@@ -65,7 +66,6 @@ open class AntonioAutoBindingViewHolder(
         }
     }
 
-    override fun getLifecycle(): Lifecycle = lifecycleRegistry
 
     override fun onBindViewHolder(data: AntonioModel, position: Int, payloads: List<Any>?) {
         bindingVariableId?.let {

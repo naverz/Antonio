@@ -9,11 +9,11 @@ android {
     lintOptions {
         abortOnError false
     }
-    compileSdk 33
+    compileSdk DependenciesKt.COMPILE_SDK
 
     defaultConfig {
         minSdk 16
-        targetSdk 33
+        targetSdk DependenciesKt.TARGET_SDK
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -33,8 +33,7 @@ android {
 dependencies {
     //noinspection GradleDependency
     implementation Android.PAGING2
-    releaseImplementation Antonio.CORE
-    debugImplementation project(path: ":antonio-core")
+    implementation project(path: ":antonio-core")
     testImplementation Test.JUNIT
     androidTestImplementation Test.EXT_JUNIT
     androidTestImplementation Test.ESPRESSO
