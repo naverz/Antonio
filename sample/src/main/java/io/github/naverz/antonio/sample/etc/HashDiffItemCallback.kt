@@ -20,7 +20,7 @@ package io.github.naverz.antonio.sample.etc
 
 import androidx.recyclerview.widget.DiffUtil
 
-open class HashDiffItemCallback<ITEM> : DiffUtil.ItemCallback<ITEM>() {
+open class HashDiffItemCallback<ITEM : Any> : DiffUtil.ItemCallback<ITEM>() {
     override fun areItemsTheSame(oldItem: ITEM, newItem: ITEM): Boolean {
         return oldItem.hashCode() == newItem.hashCode()
     }

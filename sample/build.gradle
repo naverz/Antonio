@@ -4,21 +4,21 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id "com.google.devtools.ksp" version("1.6.10-1.0.2")
+    id "com.google.devtools.ksp" version "1.9.20-1.0.14"
 }
 
 android {
     lintOptions {
         abortOnError false
     }
-    compileSdk 33
+    compileSdk DependenciesKt.COMPILE_SDK
     buildFeatures {
         dataBinding true
     }
     defaultConfig {
         applicationId "io.github.naverz.antonio"
         minSdk 16
-        targetSdk 33
+        targetSdk DependenciesKt.TARGET_SDK
         versionCode 1
         versionName "1.0"
 
@@ -71,7 +71,7 @@ dependencies {
     implementation Android.FRAGMENT
     implementation Android.CONSTRAINT_LAYOUT
     implementation Android.LIFECYCLE_VIEW_MODEL_KTX
-    implementation Android.LIFECYCLE_LIVE_DATA_KTX
+    implementation Android.LIFECYCLE_LIVEDATA_KTX
     implementation Android.VIEW_PAGER2
     implementation Android.RECYCLER_VIEW
     implementation Android.FLEX_BOX

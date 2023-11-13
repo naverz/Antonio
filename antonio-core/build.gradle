@@ -10,11 +10,11 @@ android {
     lintOptions {
         abortOnError false
     }
-    compileSdk 33
+    compileSdk DependenciesKt.COMPILE_SDK
 
     defaultConfig {
         minSdk 16
-        targetSdk 33
+        targetSdk DependenciesKt.TARGET_SDK
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -36,7 +36,7 @@ android {
 
 dependencies {
     implementation Android.FRAGMENT
-    implementation Android.LIFECYCLE_KTX
+    implementation Android.LIFECYCLE_LIVEDATA_KTX
     implementation Android.RECYCLER_VIEW
     implementation Android.VIEW_PAGER2
     testImplementation Test.JUNIT
