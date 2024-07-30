@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.DiffUtil;
 
 import java.util.Map;
 
-import io.github.lakelab.antonio.core.paging3.AntonioCorePagingDataAdapter;
+import io.github.naverz.antonio.core.paging3.AntonioCorePagingDataAdapter;
 import io.github.naverz.antonio.AntonioSettings;
 import io.github.naverz.antonio.core.AntonioModel;
 import io.github.naverz.antonio.core.container.ViewHolderContainer;

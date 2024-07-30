@@ -9,7 +9,7 @@ import io.github.naverz.antonio.sample.antonio.ContainerForSmallContents
 import java.util.*
 import kotlin.random.Random
 
-private const val ICON = R.drawable.ic_launcher_background
+private val ICON = R.drawable.ic_launcher_background
 
 class ContentBuilder {
     fun makeDummyRankingContainers(onClick: () -> Unit): List<RankingContainer.ContentRanking> {

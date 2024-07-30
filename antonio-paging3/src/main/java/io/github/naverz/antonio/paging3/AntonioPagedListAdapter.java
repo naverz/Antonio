@@ -21,7 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.DiffUtil;
 
-import io.github.lakelab.antonio.core.paging3.AntonioCorePagedListAdapter;
+import io.github.naverz.antonio.core.paging3.AntonioCorePagedListAdapter;
 
 import io.github.naverz.antonio.AntonioSettings;
 import io.github.naverz.antonio.core.AntonioModel;

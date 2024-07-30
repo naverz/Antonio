@@ -1,18 +1,15 @@
-import io.github.naverz.antonio.buildsrc.*
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import io.github.naverz.antonio.buildsrc.Incap
+import io.github.naverz.antonio.buildsrc.Processor
+
 
 plugins {
     kotlin("jvm")
+    id("com.vanniktech.maven.publish") version "0.29.0"
 }
-apply(from = "../gradle/release/release-java-lib.gradle")
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
-tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 dependencies {

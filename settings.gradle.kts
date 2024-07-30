@@ -11,3 +11,18 @@ include(":antonio-core-paging2")
 include(":antonio-core-paging3")
 include(":antonio-compiler")
 include(":antonio-annotation")
+
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}

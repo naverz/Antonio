@@ -82,7 +82,7 @@ abstract class AntonioFragment<ITEM : AntonioModel> : Fragment(), GenericAntonio
         }
     }
 
-    @Suppress("UNCHECKED_CAST")
+    @Suppress("UNCHECKED_CAST", "DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState != null) {

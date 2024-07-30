@@ -8,10 +8,9 @@ import androidx.activity.ComponentActivity
 import androidx.annotation.RestrictTo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.findFragment
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 fun findLifecycleOwner(view: View): LifecycleOwner? {
@@ -56,11 +55,11 @@ fun LifecycleOwner.onDestroy(runnable: () -> Unit) {
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 fun Lifecycle.onDestroy(runnable: () -> Unit) {
-    this.addObserver(object : LifecycleObserver {
-        @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-        fun destroy() {
+    val lifecycle = this
+    this.addObserver(object : DefaultLifecycleObserver{
+        override fun onDestroy(owner: LifecycleOwner) {
             runnable.invoke()
-            this@onDestroy.removeObserver(this)
+            lifecycle.removeObserver(this)
         }
     })
 }

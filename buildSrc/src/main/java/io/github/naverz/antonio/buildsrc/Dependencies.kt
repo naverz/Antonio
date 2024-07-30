@@ -20,32 +20,20 @@ package io.github.naverz.antonio.buildsrc
 const val TARGET_SDK = 34
 const val COMPILE_SDK = 34
 
-const val KOTLIN_VERSION = "1.9.20"
-const val KSP_VERSION = "1.9.20-1.0.14"
+const val KSP_VERSION = "1.9.25-1.0.20"
 
 object Antonio {
-    const val NAME = "Antonio"
-    const val VERSION_NAME = "1.0.8-alpha"
-    const val CORE = "io.github.naverz:antonio-core:$VERSION_NAME"
-    const val PAGING2_CORE = "io.github.naverz:antonio-core-paging2:$VERSION_NAME"
-    const val PAGING3_CORE = "io.github.naverz:antonio-core-paging3:$VERSION_NAME"
+    private const val VERSION_NAME = "1.0.9-alpha"
     const val DATA_BINDING = "io.github.naverz:antonio-databinding:$VERSION_NAME"
     const val DATA_BINDING_PAGING3 = "io.github.naverz:antonio-databinding-paging3:$VERSION_NAME"
     const val NORMAL = "io.github.naverz:antonio:$VERSION_NAME"
-    fun getVersionName(moduleName: String): String {
-        return VERSION_NAME
-    }
 }
 
 object AntonioAnnotation {
-    const val VERSION_NAME = "0.0.7-alpha"
+    const val VERSION_NAME = "0.0.8-alpha"
     const val COMPILER = "io.github.naverz:antonio-compiler:${VERSION_NAME}"
     const val ANNOTATION = "io.github.naverz:antonio-annotation:${VERSION_NAME}"
-    fun getVersionName(moduleName: String): String {
-        return VERSION_NAME
-    }
 }
-
 
 object Android {
     const val PAGING2 = "androidx.paging:paging-runtime:2.1.2"
@@ -70,17 +58,7 @@ object Nav {
     const val UI_KTX = "androidx.navigation:navigation-ui-ktx:2.7.5"
 }
 
-
-object GradleDependency {
-    const val BUILD_GRADLE = "com.android.tools.build:gradle:7.4.1"
-    const val GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${KOTLIN_VERSION}"
-}
-
-object DataBinding {
-    const val COMPILER = "com.android.databinding:compiler:3.5.0"
-}
-
-object Test {
+object TestDep {
     const val JUNIT = "junit:junit:4.13.2"
     const val EXT_JUNIT = "androidx.test.ext:junit:1.1.3"
     const val ESPRESSO = "androidx.test.espresso:espresso-core:3.4.0"

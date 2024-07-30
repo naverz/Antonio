@@ -20,7 +20,7 @@ package io.github.naverz.antonio.paging3;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 
-import io.github.lakelab.antonio.core.paging3.AntonioCorePagingDataAdapter;
+import io.github.naverz.antonio.core.paging3.AntonioCorePagingDataAdapter;
 
 import io.github.naverz.antonio.AntonioSettings;
 import io.github.naverz.antonio.core.AntonioModel;
